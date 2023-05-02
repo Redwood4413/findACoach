@@ -14,5 +14,14 @@ export default {
 </template>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 
+#app {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 2000px;
+  text-align: center;
+}
 </style>
