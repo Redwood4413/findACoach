@@ -1,69 +1,77 @@
 <script lang="ts">
 import BaseButton from '../UI/BaseButton.vue';
-import TheHeaderSidebar from './TheHeaderSidebar.vue';
-import HamburgerIcon from '../icons/HamburgerIcon.vue'
+import TheHeaderMenu from './TheHeaderMenu.vue';
+import HamburgerIcon from '../icons/HamburgerIcon.vue';
+import TheHeaderLinks from './TheHeaderLinks.vue';
 
 export default {
-    name: "TheHeader",
-    data: () => ({
-        small: false as boolean,
-        isVisible: true as boolean,
-    }),
-    methods: {
-        handleScroll(event: any) {
-            if (event.currentTarget.scrollY > 50) {
-                if (!this.small) {
-                    this.small = true;
-                }
-            }
-            else {
-                if (this.small) {
-                    this.small = false;
-                }
-            }
-        },
-        handleResize(event: any) {
-          if (window.innerWidth <= 500) {
-            this.isVisible = false;
-          } else {
-            this.isVisible = true;
-          }
-        }
+  name: 'TheHeader',
+  components: {
+    BaseButton, TheHeaderMenu, HamburgerIcon, TheHeaderLinks,
+  },
+  data: () => ({
+    screen: {
+      width: window.innerWidth as number,
+      scrollY: window.scrollY as number,
     },
-    computed: {
-        isSmall(): string {
-            return this.small ? "small" : "";
-        }
+    isExpanded: false as boolean,
+  }),
+  computed: {
+    small() {
+      return this.screen.scrollY >= 100 ? 'small' : '';
     },
-    mounted() {
-        window.addEventListener("scroll", this.handleScroll);
-        window.addEventListener("resize", this.handleResize);
+  },
+  methods: {
+    handleScroll(event) {
+      this.screen.scrollY = event.currentTarget.scrollY;
     },
-    unmounted() {
-        window.removeEventListener("scroll", this.handleScroll);
+    handleResize() {
+      this.screen.width = window.innerWidth;
     },
-    components: { BaseButton, TheHeaderSidebar, HamburgerIcon }
+    expandMenu() {
+      this.isExpanded = !this.isExpanded;
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
+  },
+  watch: {
+    $route() {
+      this.isExpanded = false;
+    },
+  },
 };
 </script>
 
 <template>
-  <header :class="`header ${isSmall}`">
+  <header :class="`header ${small}`">
     <RouterLink :to="{ name: 'home' }">
       <h2>Find a Coach</h2>
     </RouterLink>
-    <div class="buttons" v-if="isVisible">
-      <RouterLink :to="{ name: 'coaches' }">Coaches</RouterLink>
-      <RouterLink :to="{ name: 'requests' }">Requests</RouterLink>
-      <RouterLink :to="{ name: 'register' }">Register</RouterLink>
-    </div>
-    <BaseButton mode="flat" v-else>
-      <HamburgerIcon></HamburgerIcon>
+    <TheHeaderLinks
+      :expanded="false"
+      v-if="screen.width > 500"
+    />
+    <BaseButton
+      mode="flat"
+      v-if="screen.width <= 500"
+      @click="expandMenu"
+    >
+      <HamburgerIcon />
     </BaseButton>
+    <Transition>
+      <TheHeaderMenu
+        v-if="isExpanded && screen.width <= 500"
+        :expanded="isExpanded"
+      />
+    </Transition>
   </header>
-  <TheSidebar v-if="!isVisible"></TheSidebar>
 </template>
 
 <style lang="scss" scoped>
+@use '@/colors.scss';
+
   .header {
     width:100%;
     display:flex;
@@ -71,35 +79,23 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-    border-bottom: 2px solid white;
-    background: rgb(255,255,255, 0.2);
+    border-bottom: 2px solid colors.$gray;
+    background: colors.$background-1;
     backdrop-filter: blur(3px);
     transition: all .3s ease-in-out;
     &.small {
       font-size: small;
       padding:0 1rem;
     }
-      .buttons {
-      display:flex;
-      height:100%;
-      a {
-        padding:0.8rem;
-        transition: background .1s ease-in-out;
-        &:hover:not(.router-link-exact-active) {
-          background: rgb(0,0,0, 0.3);
-        }
-      }
-    }
   }
-
-  .router-link-exact-active {
-    background: rgb(32, 114, 54);
-    border-bottom: 2px solid rgb(51, 161, 80);
-  }
-
-  @media (width < 500px) {
-    .buttons {
-      
-    }
-  }
+  .v-enter-active, .v-leave-active {
+  transition: opacity .3s ease;
+}
+.v-enter-to, .v-leave-from {
+  opacity: 1;
+}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
