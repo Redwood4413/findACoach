@@ -13,9 +13,22 @@ export default {
   <TheMain />
 </template>
 
-<style>
+<style lang="scss">
+@use './colors.scss';
+
+:root {
+  background-color: colors.$background-0;
+  color: colors.$foreground-0;
+}
+
 * {
   box-sizing: border-box;
+}
+
+a {
+  font-weight: 500;
+  color: colors.$foreground-0;
+  text-decoration: inherit;
 }
 
 #app {
