@@ -37,4 +37,8 @@ a {
   min-height: 2000px;
   text-align: center;
 }
+
+.underline {
+  text-decoration: underline colors.$foreground-0;
+}
 </style>
