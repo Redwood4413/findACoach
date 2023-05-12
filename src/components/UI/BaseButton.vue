@@ -2,36 +2,48 @@
 export default {
   name: 'BaseButton',
   props: {
-    mode: String
+    mode: {
+      type: String,
+      default() {
+        return '';
+      },
+    },
   },
   computed: {
-    buttonClass(): string {
+    flatClass(): string {
       return this.mode === 'flat' ? 'flat' : '';
+    },
+    roundedClass(): string {
+      return this.mode === 'rounded' ? 'rounded' : '';
     },
   },
 };
 </script>
 
 <template>
-  <button type="button" :class="buttonClass">
+  <button type="button" :class="`${flatClass} ${roundedClass}`">
     <slot />
   </button>
 </template>
 
 <style lang="scss" scoped>
+@use '@/colors.scss';
+
 button{
-  background: rgb(59, 59, 59);
+  background: colors.$strong-gray;
   display:flex;
   justify-content: center;
   align-items: center;
+  padding:10px;
+  max-height:50px;
 }
   .flat{
     border-radius: 0;
     background: none;
     border: 0;
     transition: background 300ms ease-in-out;
-    &:hover{
-      background: rgba(0,0,0,0.3);
-    }
+  }
+  .rounded {
+    border-radius:5rem;
   }
 </style>
