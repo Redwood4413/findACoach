@@ -36,6 +36,10 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
   },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+  },
   watch: {
     $route() {
       this.isExpanded = false;
@@ -71,6 +75,7 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+@import '@/variables.scss';
 
   .header {
     width:100%;
@@ -83,6 +88,7 @@ export default {
     background: colors.$background-1;
     backdrop-filter: blur(3px);
     transition: all .3s ease-in-out;
+    z-index: map-get($header-map, zIndex);
     &.small {
       font-size: small;
       padding:0 1rem;
