@@ -12,10 +12,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import "@/variables.scss";
+@use '@/variables.scss';
 
 main {
-  padding: $main-padding;
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+  gap:2rem;
+  padding: variables.$main-padding 0 0 0;
 }
 
 </style>
