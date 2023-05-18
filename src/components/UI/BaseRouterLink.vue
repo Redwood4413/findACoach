@@ -54,6 +54,7 @@ export default {
   max-height:50px;
   transition: filter .1s ease-in-out;
   font-size: small;
+  white-space: nowrap;
   &.flat{
     border-radius: 0;
     background: none;
@@ -62,9 +63,7 @@ export default {
   &.rounded {
     border-radius:5rem;
   }
-  &.sharp {
-    border-radius:0;
-  }
+
   &.orange {
     background: colors.$orange;
   }
