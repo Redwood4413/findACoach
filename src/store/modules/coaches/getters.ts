@@ -12,4 +12,8 @@ export default {
     const uniqueAreas = Array.from(new Set(allAreas));
     return uniqueAreas;
   },
+  coach: (state: State) => (id: string) => {
+    const index = state.coaches.findIndex((coach) => coach.id === id);
+    return state.coaches[index];
+  },
 };
