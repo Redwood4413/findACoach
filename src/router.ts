@@ -16,17 +16,20 @@ const routes = [
     name: 'coaches',
     path: '/coaches',
     component: CoachList,
+    children: [{
+      path: ':id',
+      component: CoachDetails,
+      props: true,
+    },
+    {
+      name: 'contact',
+      path: ':id/contact',
+      component: ContactCoach,
+      props: true,
+
+    }],
   },
-  {
-    path: '/coaches/:id',
-    component: CoachDetails,
-    children: [
-      {
-        name: 'contact',
-        path: 'contact',
-        component: ContactCoach,
-      }],
-  },
+
   {
     name: 'register',
     path: '/register',
