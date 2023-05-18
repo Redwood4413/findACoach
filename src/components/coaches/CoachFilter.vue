@@ -70,7 +70,6 @@ export default {
           :value="area"
           v-model="checked"
           @change="emitEvent"
-
         />
         <label :for="area">{{ formattedText(index) }}</label>
       </div>
