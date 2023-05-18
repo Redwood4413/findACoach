@@ -29,6 +29,7 @@ export default {
 </script>
 
 <template>
+  <RouterView />
   <CoachFilter @check="filterCoaches" />
   <BaseWrapper>
     <div class="controls">
@@ -75,7 +76,7 @@ export default {
     transform: scale(1);
   }
   .v-enter-active, .v-leave-active, .v-move {
-    transition: all 0.2s ease;
+    transition: all .2s ease;
   }
 
 </style>
