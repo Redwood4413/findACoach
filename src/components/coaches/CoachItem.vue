@@ -2,11 +2,15 @@
 import BaseRouterLink from '../UI/BaseRouterLink.vue';
 import AvatarIcon from '../icons/AvatarIcon.vue';
 import BadgeItem from './BadgeItem.vue';
+import CoachAvatar from './CoachAvatar.vue';
 
 export default {
   name: 'CoachItem',
   components: {
-    AvatarIcon, BadgeItem, BaseRouterLink,
+    AvatarIcon,
+    BadgeItem,
+    BaseRouterLink,
+    CoachAvatar,
   },
   props: {
     coach: {
@@ -32,9 +36,7 @@ export default {
       <span class="rate">${{ coach.hourlyRate }} / hour</span>
     </div>
     <div class="details">
-      <div class="avatar">
-        <AvatarIcon />
-      </div>
+      <CoachAvatar />
       <span class="description">
         <span class="section-title">description:</span>
         {{ coach.description }}
@@ -54,7 +56,7 @@ export default {
       <span class="section-title">controls:</span>
       <div class="controls-wrapper">
         <BaseRouterLink mode="rounded" color="orange" :path="`/coaches/${coach.id}`">View Details</BaseRouterLink>
-        <BaseRouterLink mode="rounded" :path="`/coaches/${coach.id}`">Contact</BaseRouterLink>
+        <BaseRouterLink mode="rounded" :path="`/coaches/${coach.id}/contact`">Contact</BaseRouterLink>
       </div>
     </div>
   </li>
@@ -96,15 +98,6 @@ export default {
       display:flex;
       gap:20px;
 
-      .avatar{
-        background: colors.$aqua;
-        padding:20px;
-        height:80px;
-        width:80px;
-        align-self: center;
-        border-radius: 50%;
-      }
-
       .description {
         display:flex;
         flex-direction: column;
@@ -128,6 +121,7 @@ export default {
       flex-direction: column;
       .controls-wrapper {
         display:flex;
+        flex-wrap: wrap;
         gap: 5px;
       }
     }
