@@ -22,6 +22,7 @@ export default {
     height:80px;
     width:80px;
     align-self: center;
+    aspect-ratio: 1/1;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
