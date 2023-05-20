@@ -3,7 +3,8 @@ import CoachDetails from './components/coaches/CoachDetails.vue';
 import CoachList from './components/coaches/CoachList.vue';
 import CoachRegistration from './components/coaches/CoachRegistration.vue';
 import NotFound from './components/NotFound.vue';
-import ContactCoach from './components/requests/ContactCoach.vue';
+import CoachContact from './components/coaches/CoachContact.vue';
+import ContactReview from './components/coaches/CoachReview.vue';
 import RequestsReceived from './components/requests/RequestsReceived.vue';
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
     path: '/coaches',
     component: CoachList,
     children: [{
+      name: 'details',
       path: ':id',
       component: CoachDetails,
       props: true,
@@ -24,9 +26,14 @@ const routes = [
     {
       name: 'contact',
       path: ':id/contact',
-      component: ContactCoach,
+      component: CoachContact,
       props: true,
-
+    },
+    {
+      name: 'review',
+      path: ':id/review',
+      component: ContactReview,
+      props: true,
     }],
   },
 
@@ -43,6 +50,7 @@ const routes = [
   {
     path: '/:notFound(.*)',
     component: NotFound,
+    props: { element: 'Page' },
   },
 ];
 
