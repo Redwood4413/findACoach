@@ -6,10 +6,6 @@ export default {
       type: String,
       default: '',
     },
-    routeName: {
-      type: String,
-      default: null,
-    },
   },
   computed: {
     flatClass(): string {
@@ -27,23 +23,12 @@ export default {
       const found = regex.test(this.mode);
       return found ? 'square' : '';
     },
-    routerObject() {
-      return { name: this.routeName };
-    },
   },
 };
 </script>
 
 <template>
-  <RouterLink
-    v-if="routeName"
-    type="button"
-    :to="routerObject"
-    :class="`${flatClass} ${squareClass} ${roundedClass}`">
-    <slot />
-  </RouterLink>
   <button
-    v-else
     type="button"
     :class="`${flatClass} ${roundedClass} ${squareClass}`">
     <slot />
@@ -52,18 +37,13 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-a {
-  &.flat {
-    text-decoration: underline;
-  }
-}
+
 button{
   background: colors.$strong-gray;
   display:flex;
   justify-content: center;
   align-items: center;
   padding:0.5rem 1rem;
-  padding:10px;
   max-height:50px;
   transition: background .1s ease-in-out;
   &.flat{
@@ -80,6 +60,7 @@ button{
   &.square {
     aspect-ratio: 1/1;
     height:50px;
+    padding:0;
   }
   &.sharp {
     border-radius:0;

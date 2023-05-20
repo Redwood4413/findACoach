@@ -4,19 +4,15 @@ export default {
   props: {
     mode: {
       type: String,
-      default() {
-        return '';
-      },
+      default: '',
     },
     color: {
       type: String,
-      default() {
-        return '';
-      },
+      default: '',
     },
-    path: {
-      type: String,
-      required: true,
+    to: {
+      type: [String, Object],
+      default: '',
     },
   },
   computed: {
@@ -33,12 +29,13 @@ export default {
       return this.color === 'orange' ? 'orange' : '';
     },
   },
+
 };
 </script>
 
 <template>
   <RouterLink
-    :to="path"
+    :to="to"
     :class="`${flatClass} ${roundedClass} ${sharpClass} ${orangeClass}`">
     <slot />
   </RouterLink>
@@ -59,6 +56,9 @@ export default {
     border-radius: 0;
     background: none;
     border: 0;
+    font-size: medium;
+    text-decoration: underline;
+    padding:0;
   }
   &.rounded {
     border-radius:5rem;

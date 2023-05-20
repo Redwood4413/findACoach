@@ -1,5 +1,4 @@
 <script lang="ts">
-import BaseButton from '../UI/BaseButton.vue';
 
 export default {
   name: 'TheHeaderLinks',
@@ -14,15 +13,14 @@ export default {
       return this.expanded ? 'expanded' : '';
     },
   },
-  components: { BaseButton },
 };
 </script>
 
 <template>
   <div :class="`buttons ${expandedClass}`">
-    <BaseButton routeName="coaches">Coaches</BaseButton>
-    <BaseButton routeName="requests">Requests</BaseButton>
-    <BaseButton routeName="register">Register</BaseButton>
+    <BaseRouterLink :to="{ name: 'coaches' }">Coaches</BaseRouterLink>
+    <BaseRouterLink :to="{ name: 'requests' }">Requests</BaseRouterLink>
+    <BaseRouterLink :to="{ name: 'register' }">Register</BaseRouterLink>
   </div>
 </template>
 
@@ -40,6 +38,7 @@ export default {
     padding:0.5rem 0.8rem;
     border-radius: 20px;
     max-width:200px;
+    background: none;
     transition: background .1s ease-in-out;
     &:hover:not(.router-link-exact-active) {
       background: colors.$background-4;
