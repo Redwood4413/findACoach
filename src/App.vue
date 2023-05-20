@@ -26,12 +26,17 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  &.hiden-overflow {
+  &.hidden-overflow {
     overflow: hidden;
     margin: 0 variables.$scrollbar-width 0 0;
   }
 }
-
+.section-title {
+  color: colors.$strong-gray;
+  padding:0.5rem 0;
+  font-size: x-small;
+  text-transform: uppercase;
+}
 * {
   box-sizing: border-box;
   scrollbar-width: auto;
@@ -40,6 +45,8 @@ body {
 
 *::-webkit-scrollbar {
   width: variables.$scrollbar-width;
+  height: variables.$scrollbar-width;
+
 }
 
 *::-webkit-scrollbar-track {
