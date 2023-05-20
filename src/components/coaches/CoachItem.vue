@@ -1,16 +1,12 @@
 <script lang="ts">
-import BaseRouterLink from '../UI/BaseRouterLink.vue';
-import AvatarIcon from '../icons/AvatarIcon.vue';
-import BadgeItem from './BadgeItem.vue';
+import CoachAreasList from './CoachAreasList.vue';
 import CoachAvatar from './CoachAvatar.vue';
 
 export default {
   name: 'CoachItem',
   components: {
-    AvatarIcon,
-    BadgeItem,
-    BaseRouterLink,
     CoachAvatar,
+    CoachAreasList,
   },
   props: {
     coach: {
@@ -41,22 +37,13 @@ export default {
         <span class="section-title">description:</span>
         {{ coach.description }}
       </span>
-      <ul class="areas-list">
-        <span class="section-title">areas:</span>
-        <div class="list-wrapper">
-          <BadgeItem
-            v-for="area in coach.areas"
-            :key="area.id"
-            :area="area"
-          />
-        </div>
-      </ul>
+      <CoachAreasList :areas="coach.areas" />
     </div>
     <div class="controls">
       <span class="section-title">controls:</span>
       <div class="controls-wrapper">
-        <BaseRouterLink mode="rounded" color="orange" :path="`/coaches/${coach.id}`">View Details</BaseRouterLink>
-        <BaseRouterLink mode="rounded" :path="`/coaches/${coach.id}/contact`">Contact</BaseRouterLink>
+        <BaseRouterLink :to="`/coaches/${coach.id}`" mode="rounded" color="orange">View Details</BaseRouterLink>
+        <BaseRouterLink mode="rounded" :to="`/coaches/${coach.id}/contact`">Contact</BaseRouterLink>
       </div>
     </div>
   </li>
@@ -72,12 +59,6 @@ export default {
     flex-direction: column;
     border-bottom: colors.$strong-gray 1px solid;
     text-align: left;
-    .section-title {
-      color: colors.$foreground-4;
-      padding:0.5rem 0;
-      font-size: x-small;
-      text-transform: uppercase;
-    }
     .header {
       display:flex;
       width:100%;
@@ -102,19 +83,7 @@ export default {
         display:flex;
         flex-direction: column;
       }
-      .areas-list {
-        display:flex;
-        flex-direction: column;
-        min-width:200px;
-        padding:0;
-        .list-wrapper {
-          display:flex;
-          place-items: center;
-          flex-wrap: wrap;
-          gap:5px;
-          padding:5px 0;
-        }
-      }
+
     }
     .controls {
       display:flex;
