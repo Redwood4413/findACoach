@@ -1,16 +1,20 @@
 <script lang="ts">
+import CloseIcon from '../icons/CloseIcon.vue';
 
 export default {
   name: 'BaseDialog',
+  components: {
+    CloseIcon,
+  },
   props: {
     returnTo: {
-      type: String,
+      type: [String, Object],
       required: true,
     },
   },
   methods: {
     backdropClick(e: MouseEvent) {
-      const dialogDimensions = this.dialogRef.getBoundingClientRect();
+      const dialogDimensions = this.dialog.getBoundingClientRect();
       if (
         e.clientX < dialogDimensions.left
         || e.clientX > dialogDimensions.right
@@ -20,17 +24,15 @@ export default {
       }
     },
     hideDialog() {
-      this.dialogRef.close();
-      this.body.classList.remove('hiden-overflow');
-      this.$router.push({ name: this.returnTo });
+      this.$router.push(this.returnTo);
+      this.dialog.close();
     },
     showDialog() {
-      this.body.classList.add('hiden-overflow');
-      this.dialogRef.showModal();
+      this.dialog.showModal();
     },
   },
   computed: {
-    dialogRef() {
+    dialog() {
       return this.$refs.dialog as HTMLDialogElement;
     },
     body() {
@@ -40,10 +42,12 @@ export default {
   mounted() {
     this.showDialog();
 
-    this.dialogRef.addEventListener('mouseup', this.backdropClick);
+    this.body.classList.add('hidden-overflow');
+    this.dialog.addEventListener('mouseup', this.backdropClick);
+    this.dialog.addEventListener('close', this.hideDialog);
   },
   unmounted() {
-    this.body.classList.remove('hide-overflow');
+    this.body.classList.remove('hidden-overflow');
   },
 };
 </script>
@@ -51,6 +55,11 @@ export default {
 <template>
   <Teleport to="body">
     <dialog ref="dialog" class="base-dialog">
+      <div class="nav">
+        <BaseButton mode="flat rounded square" @click="hideDialog" title="Close">
+          <CloseIcon />
+        </BaseButton>
+      </div>
       <slot />
     </dialog>
   </Teleport>
@@ -67,6 +76,7 @@ export default {
     outline: 0;
     width: 600px;
     min-height: 400px;
+    max-height: 90vh;
     border-radius: 5px;
     overflow-y: auto;
     -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
@@ -77,6 +87,14 @@ export default {
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       cursor: pointer;
+    }
+    .nav {
+      display:flex;
+      justify-content: flex-end;
+      width: 100%;
+      position: absolute;
+      padding:0.5rem;
+      background: linear-gradient(to bottom, colors.$background-0 0%, transparent 80%);
     }
   }
   @media (width <= 600px) {
