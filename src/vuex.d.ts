@@ -4,6 +4,7 @@ declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
     coaches: CoachesState[],
+    selectedCoach: CoachesState,
     filterArray: string[],
     areas: Areas,
   }
@@ -14,6 +15,8 @@ declare module '@vue/runtime-core' {
     areas: string[]
     description: string,
     hourlyRate: number,
+    coachRate: number,
+    reviews: object[]
   }
   interface Areas {
     areas: string[];
