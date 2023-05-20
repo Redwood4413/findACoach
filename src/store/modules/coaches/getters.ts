@@ -12,8 +12,19 @@ export default {
     const uniqueAreas = Array.from(new Set(allAreas));
     return uniqueAreas;
   },
-  coach: (state: State) => (id: string) => {
+  getCoach: (state: State) => (id: string) => {
     const index = state.coaches.findIndex((coach) => coach.id === id);
+
     return state.coaches[index];
   },
+  getRate: (state: State) => (id: string) => {
+    const index = state.coaches.findIndex((coach) => coach.id === id);
+
+    return state.coaches[index].coachRate;
+  },
+  getReviews: (state: State) => (id: string): object[] => {
+    const index = state.coaches.findIndex((coach) => coach.id === id);
+    return state.coaches[index].reviews;
+  },
+  reviewsQuantity: (state: State, getters) => (id: string) => getters.getReviews(id).length,
 };
