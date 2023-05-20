@@ -33,7 +33,7 @@ export default {
   <CoachFilter @check="filterCoaches" />
   <BaseWrapper>
     <div class="controls">
-      <BaseButton title="Refresh">
+      <BaseButton title="Refresh" mode="flat square rounded">
         <RefreshIcon />
       </BaseButton>
     </div>
