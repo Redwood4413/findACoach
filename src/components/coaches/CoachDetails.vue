@@ -1,17 +1,20 @@
 <script lang="ts">
 import { mapGetters } from 'vuex';
-import BaseButton from '../UI/BaseButton.vue';
-import BaseDialog from '../UI/BaseDialog.vue';
-import CloseIcon from '../icons/CloseIcon.vue';
+import { CoachesState } from 'vue';
 import CoachAvatar from './CoachAvatar.vue';
+import NotFound from '../NotFound.vue';
+import BaseRouterLink from '../UI/BaseRouterLink.vue';
+import CoachRate from './CoachRate.vue';
+import CoachAreasList from './CoachAreasList.vue';
 
 export default {
   name: 'CoachDetails',
   components: {
-    BaseDialog,
-    BaseButton,
-    CloseIcon,
     CoachAvatar,
+    NotFound,
+    BaseRouterLink,
+    CoachRate,
+    CoachAreasList,
   },
 
   props: {
@@ -22,29 +25,25 @@ export default {
   },
   methods: {
     hideDialog() {
-      this.$router.push({ name: this.returnTo });
+      this.$router.push({ name: 'home' });
     },
   },
   computed: {
-    returnTo(): string {
-      return 'home';
-    },
-    ...mapGetters('coaches', ['coach']),
+    ...mapGetters('coaches', ['getCoach']),
     selectedCoach() {
-      return this.coach(this.id);
+      const coach = this.getCoach(this.id);
+      if (!coach) {
+        return null;
+      }
+      return coach;
     },
   },
 };
 </script>
 
 <template>
-  <BaseDialog :returnTo="returnTo">
+  <BaseDialog :returnTo="{ name: 'home' }" v-if="selectedCoach">
     <div class="header">
-      <div class="nav">
-        <BaseButton mode="flat rounded-corners" @click="hideDialog" title="Close">
-          <CloseIcon />
-        </BaseButton>
-      </div>
       <div class="coach-header">
         <CoachAvatar />
         <h2>
@@ -54,23 +53,43 @@ export default {
       </div>
     </div>
     <div class="coach-details">
-      <span class="section-title">description:</span>
-      <span class="description">{{ selectedCoach.description }}
-        If you are intersted, then <BaseButton routeName="contact" mode="flat">contact me.</BaseButton>
+      <div class="details-header">
+        <span class="section-title">description:</span>
+        <span class="rate">
+
+          ${{ selectedCoach.hourlyRate }} per hour
+        </span>
+
+      </div>
+      <span class="description">
+        {{ selectedCoach.description }}
+        If you are intersted, then fell free to <BaseRouterLink :to="{ name: 'contact' }" mode="flat">contact me.</BaseRouterLink>
       </span>
-      <div class="controls">
-        <span class="section-title">controls:</span>
-        <div class="controls-wrapper">
-          <BaseButton mode="rounded" routeName="contact">Contact</BaseButton>
-          <BaseButton mode="rounded" routeName="contact">Contact</BaseButton>
+      <CoachAreasList :areas="selectedCoach.areas" />
+      <div class="footer">
+        <div class="wrapper">
+          <span class="section-title">rate:</span>
+          <CoachRate :id="id" />
+        </div>
+        <div class="wrapper">
+          <span class="section-title">controls:</span>
+          <div class="controls">
+            <BaseRouterLink mode="rounded" :to="{ name: 'review' }">Reviews</BaseRouterLink>
+            <BaseRouterLink mode="rounded" :to="{ name: 'review' }">Make a review</BaseRouterLink>
+            <BaseRouterLink mode="rounded" color="orange" :to="{ name: 'contact' }">Contact</BaseRouterLink>
+          </div>
         </div>
       </div>
     </div>
+  </BaseDialog>
+  <BaseDialog :returnTo="{ name: 'home' }" v-else>
+    <NotFound element="Coach" />
   </BaseDialog>
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+
   .header {
     display:flex;
     align-items: center;
@@ -78,21 +97,8 @@ export default {
     height:250px;
     background: url(@/assets/coach-backgrounds/swirlbox.jpg), colors.$background-soft;
     background-size: cover;
-    background-position: center;
-    transition: background .3s ease-in-out;
+    animation: bgAnimation 30s infinite alternate ease-out;
     border-bottom: 2px solid colors.$gray;
-    &:hover {
-      .nav {
-        background: linear-gradient(180deg, colors.$background-0 0%, rgba(41,7,10,0) 100%);
-      }
-    }
-    .nav {
-      display:flex;
-      justify-content: flex-end;
-      width: 100%;
-      position: absolute;
-      padding:0.5rem;
-    }
     .coach-header {
       display:flex;
       justify-content: center;
@@ -110,15 +116,43 @@ export default {
     display:flex;
     flex-direction: column;
     padding:1rem;
-    .section-title {
-      color: colors.$strong-gray;
-      padding:0.5rem 0;
-      font-size: x-small;
-      text-transform: uppercase;
-    }
-    .controls {
+    .details-header {
       display:flex;
-      flex-direction: column;
+      justify-content: space-between;
+      .rate {
+        font-size: smaller;
+      }
+    }
+    .description {
+      font-weight: 400;
+    }
+    .footer {
+      display:flex;
+      justify-content: space-between;
+      .wrapper {
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        &:last-child {
+          text-align: end;
+        }
+        .controls {
+          display:flex;
+          gap: 5px;
+          flex-wrap: wrap;
+        }
+        .controls {
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+  @keyframes bgAnimation {
+    from {
+    background-position: top left;
+    }
+    to {
+    background-position: bottom right;
     }
   }
 </style>
