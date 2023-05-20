@@ -1,7 +1,7 @@
 <script lang="ts">
 
 export default {
-  name: 'BadgeItem',
+  name: 'CoachAreasItem',
   props: {
     area: {
       type: String,
