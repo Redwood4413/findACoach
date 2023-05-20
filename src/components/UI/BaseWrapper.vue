@@ -24,7 +24,7 @@ export default {
   box-shadow: 5px 5px 0px 0px colors.$background-1;
 }
 
-@media (width <= 800px) {
+@media (width <= 825px) {
   .base-wrapper {
     width:97vw;
   }
