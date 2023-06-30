@@ -1,5 +1,5 @@
 <script lang="ts">
-import { mapGetters } from 'vuex';
+import { useCoachesStore } from '@/stores/CoachesStore';
 import BaseButton from '../UI/BaseButton.vue';
 import BaseWrapper from '../UI/BaseWrapper.vue';
 import RefreshIcon from '../icons/RefreshIcon.vue';
@@ -9,6 +9,11 @@ import CoachesListNothingFound from './CoachesListNothingFound.vue';
 
 export default {
   name: 'CoachList',
+  setup() {
+    const coachesStore = useCoachesStore();
+
+    return { coachesStore };
+  },
   components: {
     BaseButton,
     RefreshIcon,
@@ -18,11 +23,13 @@ export default {
     CoachesListNothingFound,
   },
   computed: {
-    ...mapGetters('coaches', ['coaches']),
+    coaches() {
+      return this.coachesStore.getFilteredCoaches;
+    },
   },
   methods: {
     filterCoaches(checked: string[]) {
-      this.$store.commit('coaches/setFilter', checked);
+      this.coachesStore.setFilter(checked);
     },
   },
 };

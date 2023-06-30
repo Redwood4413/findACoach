@@ -1,8 +1,12 @@
 <script lang="ts">
-import { mapGetters } from 'vuex';
+import { useCoachesStore } from '@/stores/CoachesStore';
 
 export default {
   name: 'CoachReview',
+  setup() {
+    const coachesStore = useCoachesStore();
+    return { coachesStore };
+  },
   props: {
     id: {
       type: String,
@@ -15,37 +19,40 @@ export default {
   }),
   methods: {
     isFilled(index: number): boolean {
-      if (index - 1 < this.points) {
+      if (index - 1 < this.rate) {
         return true;
       }
       return false;
     },
   },
   computed: {
-    ...mapGetters({
-      getRate: 'coaches/getRate',
-      getReviews: 'coaches/getReviews',
-      reviewsQuantity: 'coaches/reviewsQuantity',
-    }),
+    rate() {
+      return this.coachesStore.getRate(this.id);
+    },
+    reviews() {
+      return this.coachesStore.getReviews(this.id);
+    },
+    reviewsQuantity() {
+      return this.coachesStore.getReviewsQuantity(this.id);
+    },
     filled(): Function {
       return (index: number): string => (this.isFilled(index) ? 'filled' : '');
     },
     reviewString(): string {
       // eslint-disable-next-line no-nested-ternary
-      return this.reviewsCount === 0 ? 'No reviews yet.'
-        : this.reviewsCount === 1 ? `Based on ${this.reviewsCount} review.`
-          : `Based on ${this.reviewsCount} reviews.`;
+      return this.reviewsQuantity === 0 ? 'No reviews yet.'
+        : this.reviewsQuantity === 1 ? `Based on ${this.reviewsQuantity} review.`
+          : `Based on ${this.reviewsQuantity} reviews.`;
     },
-  },
-  mounted() {
-    this.points = this.getRate(this.id);
-    this.reviewsCount = this.reviewsQuantity(this.id);
+    pointsString(): string {
+      return this.reviewsCount ? `Rate ${this.points}/5` : 'No reviews yet.';
+    },
   },
 };
 </script>
 
 <template>
-  <div class="coach-rate">
+  <div class="coach-rate" :title="pointsString">
     <div class="rate">
       <span :class="`point ${filled(index)}`" v-for="(index) in 5" :key="index" />
     </div>

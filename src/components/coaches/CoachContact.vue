@@ -1,5 +1,6 @@
 <script lang="ts">
-import { mapGetters } from 'vuex';
+import { useCoachesStore } from '@/stores/CoachesStore';
+import NotFound from '../NotFound.vue';
 
 export default {
   name: 'CoachContact',
@@ -9,17 +10,28 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const coachesStore = useCoachesStore();
+    return { coachesStore };
+  },
   computed: {
-    ...mapGetters('coaches', ['getCoach']),
+    coach() {
+      const coach = this.coachesStore.getCoach(this.id);
+      return coach;
+    },
+    isFound(): boolean {
+      return !!this.coach;
+    },
   },
-  mounted() {
-
-  },
+  components: { NotFound },
 };
 </script>
 
 <template>
   <BaseDialog returnTo="contact">
-    <h2 />
+    <template v-if="isFound">
+      <h2>{{ coach.firstName }}</h2>
+    </template>
+    <NotFound element="Coach" v-else />
   </BaseDialog>
 </template>

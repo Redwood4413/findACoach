@@ -1,6 +1,5 @@
 <script lang="ts">
-import { mapGetters } from 'vuex';
-import { CoachesState } from 'vue';
+import { useCoachesStore } from '@/stores/CoachesStore';
 import CoachAvatar from './CoachAvatar.vue';
 import NotFound from '../NotFound.vue';
 import BaseRouterLink from '../UI/BaseRouterLink.vue';
@@ -9,6 +8,10 @@ import CoachAreasList from './CoachAreasList.vue';
 
 export default {
   name: 'CoachDetails',
+  setup() {
+    const coachesStore = useCoachesStore();
+    return { coachesStore };
+  },
   components: {
     CoachAvatar,
     NotFound,
@@ -29,12 +32,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('coaches', ['getCoach']),
     selectedCoach() {
-      const coach = this.getCoach(this.id);
-      if (!coach) {
-        return null;
-      }
+      const coach = this.coachesStore.getCoach(this.id);
+      if (!coach) return null;
       return coach;
     },
   },
@@ -119,6 +119,7 @@ export default {
     .details-header {
       display:flex;
       justify-content: space-between;
+      align-items: center;
       .rate {
         font-size: smaller;
       }

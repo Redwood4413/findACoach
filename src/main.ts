@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import './style.scss';
 import App from './App.vue';
 import router from './router';
-import store from './store/index';
+import store from './stores';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseDialog from './components/UI/BaseDialog.vue';
 import BaseWrapper from './components/UI/BaseWrapper.vue';

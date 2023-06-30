@@ -1,10 +1,14 @@
 <script lang="ts">
-import { mapGetters } from 'vuex';
+import { useCoachesStore } from '@/stores/CoachesStore';
 import BaseWrapper from '../UI/BaseWrapper.vue';
 
 export default {
   name: 'CoachFilter',
-  components: { BaseWrapper },
+  setup() {
+    const coachesStore = useCoachesStore();
+
+    return { coachesStore };
+  },
   data: () => ({
     checked: [] as string[],
     isAllChecked: true as boolean,
@@ -35,7 +39,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('coaches', ['areas']),
+    areas() {
+      return this.coachesStore.getUniqueAreas;
+    },
     formattedText() {
       return (index: number): string => {
         const firstChar = this.areas[index].charAt(0);
@@ -45,9 +51,10 @@ export default {
     },
   },
   beforeMount() {
-    this.checked = this.$store.getters['coaches/areas'];
+    this.checked = this.areas;
     this.emitEvent();
   },
+  components: { BaseWrapper },
 };
 </script>
 
