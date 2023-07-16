@@ -4,8 +4,9 @@ import CoachList from './components/coaches/CoachList.vue';
 import CoachRegistration from './components/coaches/CoachRegistration.vue';
 import NotFound from './components/NotFound.vue';
 import CoachContact from './components/coaches/CoachContact.vue';
-import ContactReview from './components/coaches/CoachReview.vue';
+import ContactReviews from './components/coaches/CoachReviews.vue';
 import RequestsReceived from './components/requests/RequestsReceived.vue';
+import CoachWrapper from './components/coaches/CoachWrapper.vue';
 
 const routes = [
   {
@@ -18,27 +19,36 @@ const routes = [
     path: '/coaches',
     component: CoachList,
     children: [{
-      name: 'details',
-      path: ':id',
-      component: CoachDetails,
-      props: true,
+      name: 'coach',
+      path: '/coach',
+      redirect: '/coaches',
+      component: CoachWrapper,
+      children: [{
+        name: 'details',
+        path: ':id',
+        component: CoachDetails,
+        props: true,
+        meta: { transition: 'slide' },
+      },
+      {
+        name: 'contact',
+        path: ':id/contact',
+        component: CoachContact,
+        props: true,
+        meta: { transition: 'slide' },
+      },
+      {
+        name: 'review',
+        path: ':id/review',
+        component: ContactReviews,
+        props: true,
+      }],
     },
-    {
-      name: 'contact',
-      path: ':id/contact',
-      component: CoachContact,
-      props: true,
-    },
-    {
-      name: 'review',
-      path: ':id/review',
-      component: ContactReview,
-      props: true,
-    }],
+    ],
   },
 
   {
-    name: 'register',
+    name: 'register-coach',
     path: '/register',
     component: CoachRegistration,
   },
@@ -55,7 +65,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('findACoach'),
   routes,
 });
 
