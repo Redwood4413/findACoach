@@ -33,5 +33,10 @@ export default {
       width:130px;
       height:130px;
     }
+    &.small {
+      width:50px;
+      padding:10px;
+      height:50px;
+    }
   }
 </style>
