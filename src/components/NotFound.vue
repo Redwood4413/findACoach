@@ -24,6 +24,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height:300px;
     height:100%;
     width:100%;
   }
