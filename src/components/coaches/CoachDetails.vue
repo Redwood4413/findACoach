@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <BaseDialog :returnTo="{ name: 'home' }" v-if="selectedCoach">
+  <div class="coach-details" v-if="selectedCoach">
     <div class="header">
       <div class="coach-header">
         <CoachAvatar />
@@ -52,8 +52,8 @@ export default {
         </h2>
       </div>
     </div>
-    <div class="coach-details">
-      <div class="details-header">
+    <div class="info">
+      <div class="info-header">
         <span class="section-title">description:</span>
         <span class="rate">
 
@@ -81,69 +81,68 @@ export default {
         </div>
       </div>
     </div>
-  </BaseDialog>
-  <BaseDialog :returnTo="{ name: 'home' }" v-else>
-    <NotFound element="Coach" />
-  </BaseDialog>
+  </div>
+  <NotFound element="Coach" v-else />
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-
-  .header {
-    display:flex;
-    align-items: center;
-    flex-direction: column;
-    height:250px;
-    background: url(@/assets/coach-backgrounds/swirlbox.jpg), colors.$background-soft;
-    background-size: cover;
-    animation: bgAnimation 30s infinite alternate ease-out;
-    border-bottom: 2px solid colors.$gray;
-    .coach-header {
-      display:flex;
-      justify-content: center;
-      align-items: center;
-      gap:20px;
-      height:100%;
-      width:100%;
-      h2 {
-        display:flex;
-        flex-direction: column;
-      }
-    }
-  }
   .coach-details {
-    display:flex;
-    flex-direction: column;
-    padding:1rem;
-    .details-header {
+    .header {
       display:flex;
-      justify-content: space-between;
       align-items: center;
-      .rate {
-        font-size: smaller;
+      flex-direction: column;
+      height:250px;
+      background: url(@/assets/coach-backgrounds/swirlbox.jpg), colors.$background-soft;
+      background-size: cover;
+      animation: bgAnimation 30s infinite alternate ease-out;
+      border-bottom: 2px solid colors.$gray;
+      .coach-header {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        gap:20px;
+        height:100%;
+        width:100%;
+        h2 {
+          display:flex;
+          flex-direction: column;
+        }
       }
     }
-    .description {
-      font-weight: 400;
-    }
-    .footer {
+    .info {
       display:flex;
-      justify-content: space-between;
-      .wrapper {
+      flex-direction: column;
+      padding:1rem;
+      .info-header {
         display:flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        &:last-child {
-          text-align: end;
+        justify-content: space-between;
+        align-items: center;
+        .rate {
+          font-size: smaller;
         }
-        .controls {
+      }
+      .description {
+        font-weight: 400;
+      }
+      .footer {
+        display:flex;
+        justify-content: space-between;
+        .wrapper {
           display:flex;
-          gap: 5px;
-          flex-wrap: wrap;
-        }
-        .controls {
+          flex-direction: column;
           justify-content: flex-end;
+          &:last-child {
+            text-align: end;
+          }
+          .controls {
+            display:flex;
+            gap: 5px;
+            flex-wrap: wrap;
+          }
+          .controls {
+            justify-content: flex-end;
+          }
         }
       }
     }
