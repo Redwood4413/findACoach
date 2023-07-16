@@ -62,6 +62,9 @@ button{
     height:50px;
     padding:0;
   }
+  &.icon {
+    padding:0;
+  }
   &.sharp {
     border-radius:0;
   }
