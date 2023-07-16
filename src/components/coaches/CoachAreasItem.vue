@@ -21,7 +21,7 @@ export default {
 @use '@/colors.scss';
 .badge {
   display:flex;
-  background: colors.$strong-red;
+  background: colors.$strong-blue;
   padding:0 0.5rem;
   border-radius: 5rem;
   text-transform: capitalize;
