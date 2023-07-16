@@ -73,7 +73,12 @@ a {
   text-decoration: inherit;
 }
 
-img, svg, video {
+input, textarea, button, select {
+  font: inherit;
+  color: inherit;
+}
+
+img, svg, video, picture {
   max-width: 100%;
   display:block;
 }
