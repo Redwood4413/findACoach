@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
-interface Review {
+export interface Review {
+  authorId: number,
   review: string,
   rate: number,
 }
@@ -27,14 +28,15 @@ export const useCoachesStore = defineStore('CoachesStore', {
         description:
           "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well! ",
         hourlyRate: 30,
-        coachRate: 3,
         reviews: [{
+          authorId: 1,
           review: 'Coach with a great knowledge.',
           rate: 5,
         },
         {
+          authorId: 2,
           review: 'Coach with a great knowledge.',
-          rate: 3,
+          rate: 4,
         }],
       },
       {
@@ -45,7 +47,6 @@ export const useCoachesStore = defineStore('CoachesStore', {
         description:
           'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
         hourlyRate: 30,
-        coachRate: 0,
         reviews: [],
       },
     ] as Coach[],
@@ -69,15 +70,6 @@ export const useCoachesStore = defineStore('CoachesStore', {
 
       return found;
     },
-    getRate() {
-      return (id: string): number => {
-        const coach = this.getCoach(id);
-
-        if (!coach) return 0;
-
-        return coach.coachRate;
-      };
-    },
     getReviews() {
       return (id: string): Review[] => {
         const coach = this.getCoach(id);
@@ -86,11 +78,6 @@ export const useCoachesStore = defineStore('CoachesStore', {
 
         return coach.reviews;
       };
-    },
-    getReviewsQuantity() {
-      const quantity = (id: string) => this.getReviews(id).length;
-
-      return quantity;
     },
   },
   actions: {
