@@ -20,7 +20,7 @@ export default {
   <div :class="`buttons ${expandedClass}`">
     <BaseRouterLink :to="{ name: 'coaches' }">Coaches</BaseRouterLink>
     <BaseRouterLink :to="{ name: 'requests' }">Requests</BaseRouterLink>
-    <BaseRouterLink :to="{ name: 'register' }">Register</BaseRouterLink>
+    <BaseRouterLink :to="{ name: 'register-coach' }">Become a coach</BaseRouterLink>
   </div>
 </template>
 
