@@ -4,10 +4,16 @@ import TheHeaderMenu from './TheHeaderMenu.vue';
 import HamburgerIcon from '../icons/HamburgerIcon.vue';
 import TheHeaderLinks from './TheHeaderLinks.vue';
 
+import BaseDropdownMenu from '../UI/BaseDropdownMenu.vue';
+
 export default {
   name: 'TheHeader',
   components: {
-    BaseButton, TheHeaderMenu, HamburgerIcon, TheHeaderLinks,
+    BaseButton,
+    TheHeaderMenu,
+    HamburgerIcon,
+    TheHeaderLinks,
+    BaseDropdownMenu,
   },
   data: () => ({
     screen: {
@@ -65,10 +71,13 @@ export default {
       <HamburgerIcon />
     </BaseButton>
     <Transition>
-      <TheHeaderMenu
+      <BaseDropdownMenu
         v-if="isExpanded && screen.width <= 500"
-        :expanded="isExpanded"
-      />
+      >
+        <div class="links-wrapper">
+          <TheHeaderLinks :expanded="isExpanded" />
+        </div>
+      </BaseDropdownMenu>
     </Transition>
   </header>
 </template>
@@ -96,6 +105,9 @@ export default {
   }
   .v-enter-active, .v-leave-active {
   transition: opacity .3s ease;
+}
+.links-wrapper {
+  padding:1em;
 }
 .v-enter-to, .v-leave-from {
   opacity: 1;
