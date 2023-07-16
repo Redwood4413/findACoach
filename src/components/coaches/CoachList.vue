@@ -11,7 +11,6 @@ export default {
   name: 'CoachList',
   setup() {
     const coachesStore = useCoachesStore();
-
     return { coachesStore };
   },
   components: {
@@ -36,6 +35,11 @@ export default {
 </script>
 
 <template>
+  <!-- <RouterView v-slot="{ Component, route }">
+    <Transition :name="route.meta.transition || 'fade'">
+      <Component :is="Component" />
+    </Transition>
+  </RouterView> -->
   <RouterView />
   <CoachFilter @check="filterCoaches" />
   <BaseWrapper>
@@ -86,4 +90,13 @@ export default {
     transition: all .2s ease;
   }
 
+  .slide-enter-active,
+.slide-leave-active {
+  transition: opacity 5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+}
 </style>
