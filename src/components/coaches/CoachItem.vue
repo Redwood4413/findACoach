@@ -42,8 +42,10 @@ export default {
     <div class="controls">
       <span class="section-title">controls:</span>
       <div class="controls-wrapper">
-        <BaseRouterLink :to="`/coaches/${coach.id}`" mode="rounded" color="orange">View Details</BaseRouterLink>
-        <BaseRouterLink mode="rounded" :to="`/coaches/${coach.id}/contact`">Contact</BaseRouterLink>
+        <BaseRouterLink :to="{ name: 'details', params: { id: coach.id } }" mode="rounded" color="orange">View Details</BaseRouterLink>
+        <BaseRouterLink
+          mode="rounded"
+          :to="{ name: 'contact', params: { id: coach.id } }">Contact</BaseRouterLink>
       </div>
     </div>
   </li>
@@ -82,6 +84,7 @@ export default {
       .description {
         display:flex;
         flex-direction: column;
+        font-weight: 400;
       }
 
     }
