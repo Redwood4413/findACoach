@@ -13,10 +13,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    points: 0 as number,
-    reviewsCount: 0 as number,
-  }),
   methods: {
     isFilled(index: number): boolean {
       if (index - 1 < this.rate) {
@@ -27,15 +23,22 @@ export default {
   },
   computed: {
     rate() {
-      return this.coachesStore.getRate(this.id);
+      let total = 0;
+      this.reviews.forEach((review) => {
+        if (!review) return;
+
+        total += review.rate;
+      });
+
+      return total / this.reviewsQuantity;
     },
     reviews() {
       return this.coachesStore.getReviews(this.id);
     },
     reviewsQuantity() {
-      return this.coachesStore.getReviewsQuantity(this.id);
+      return this.reviews.length;
     },
-    filled(): Function {
+    filled() {
       return (index: number): string => (this.isFilled(index) ? 'filled' : '');
     },
     reviewString(): string {
@@ -45,7 +48,7 @@ export default {
           : `Based on ${this.reviewsQuantity} reviews.`;
     },
     pointsString(): string {
-      return this.reviewsCount ? `Rate ${this.points}/5` : 'No reviews yet.';
+      return this.reviewsQuantity ? `Rate ${this.rate}/5` : 'No reviews yet.';
     },
   },
 };
