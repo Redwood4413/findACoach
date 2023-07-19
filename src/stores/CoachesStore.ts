@@ -1,10 +1,5 @@
 import { defineStore } from 'pinia';
 
-export interface Review {
-  authorId: number,
-  review: string,
-  rate: number,
-}
 interface Coach {
   id: string,
   firstName: string,
@@ -13,11 +8,10 @@ interface Coach {
   description: string,
   hourlyRate: number,
   coachRate: number,
-  reviews: Review[],
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export const useCoachesStore = defineStore('CoachesStore', {
+export const useCoachesStore = defineStore('coachesStore', {
   state: () => ({
     coaches: [
       {
@@ -28,16 +22,6 @@ export const useCoachesStore = defineStore('CoachesStore', {
         description:
           "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well! ",
         hourlyRate: 30,
-        reviews: [{
-          authorId: 1,
-          review: 'Coach with a great knowledge.',
-          rate: 5,
-        },
-        {
-          authorId: 2,
-          review: 'Coach with a great knowledge.',
-          rate: 4,
-        }],
       },
       {
         id: 'c2',
@@ -69,15 +53,6 @@ export const useCoachesStore = defineStore('CoachesStore', {
       if (!found) return null;
 
       return found;
-    },
-    getReviews() {
-      return (id: string): Review[] => {
-        const coach = this.getCoach(id);
-
-        if (!coach) return [];
-
-        return coach.reviews;
-      };
     },
   },
   actions: {
