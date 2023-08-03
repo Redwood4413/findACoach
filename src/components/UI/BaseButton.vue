@@ -46,6 +46,10 @@ button{
   padding:0.5rem 1rem;
   max-height:50px;
   transition: background .1s ease-in-out;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
   &.flat{
     border-radius: 0;
     background: none;
@@ -56,6 +60,9 @@ button{
   }
   &.rounded {
     border-radius:1rem;
+  }
+  &.circle {
+    border-radius: 50%;
   }
   &.square {
     aspect-ratio: 1/1;
@@ -68,9 +75,19 @@ button{
   &.sharp {
     border-radius:0;
   }
-  &:hover {
+  &.bg-none {
+    background: none;
+  }
+  &:not(:disabled):hover {
     filter: brightness(90%);
   }
 }
-
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
