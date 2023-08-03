@@ -6,7 +6,6 @@ export default {
   name: 'CoachFilter',
   setup() {
     const coachesStore = useCoachesStore();
-
     return { coachesStore };
   },
   data: () => ({
@@ -18,18 +17,23 @@ export default {
       if (this.isAllChecked) {
         this.checked = [];
         this.isAllChecked = false;
-        this.emitEvent();
       } else {
         this.checked = this.areas;
         this.isAllChecked = true;
-        this.emitEvent();
       }
+      this.filterCoaches();
     },
-    emitEvent() {
-      this.$emit('check', this.checked);
+    filterCoaches() {
+      this.coachesStore.setFilter(this.checked);
     },
   },
   watch: {
+    'coachesStore.stateMachine': function checkState(state) {
+      if (state.value !== 'loaded') return;
+
+      this.checked = this.areas;
+      this.filterCoaches();
+    },
     checked() {
       if (this.checked.length !== this.areas.length) {
         this.isAllChecked = false;
@@ -42,17 +46,8 @@ export default {
     areas() {
       return this.coachesStore.getUniqueAreas;
     },
-    formattedText() {
-      return (index: number): string => {
-        const firstChar = this.areas[index].charAt(0);
-        const rest = this.areas[index].slice(1);
-        return firstChar.toUpperCase() + rest.toLowerCase();
-      };
-    },
   },
-  beforeMount() {
-    this.checked = this.areas;
-    this.emitEvent();
+  mounted() {
   },
   components: { BaseWrapper },
 };
@@ -76,9 +71,9 @@ export default {
           :id="area"
           :value="area"
           v-model="checked"
-          @change="emitEvent"
+          @change="filterCoaches"
         />
-        <label :for="area">{{ formattedText(index) }}</label>
+        <label :for="area">{{ area }}</label>
       </div>
     </div>
   </BaseWrapper>
@@ -107,11 +102,12 @@ export default {
       cursor: pointer;
       border-radius: 5rem;
       padding:0.3rem 0.8rem;
+      text-transform: capitalize;
       transition: background .1s ease-in-out;
       border: 2px solid colors.$strong-green;
       font-size: small;
       &:hover {
-        background: colors.$strong-gray;
+        background: colors.$background-4;
       }
     }
     input {
