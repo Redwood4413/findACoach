@@ -3,7 +3,7 @@ import { useCoachesStore } from '@/stores/CoachesStore';
 import NotFound from '../NotFound.vue';
 import CoachContactForm from '../UI/CoachContactForm.vue';
 
-import CoachAvatar from './CoachAvatar.vue';
+import CoachWrapperHeader from './CoachWrapperHeader.vue';
 
 export default {
   name: 'CoachContact',
@@ -43,17 +43,14 @@ export default {
   components: {
     NotFound,
     CoachContactForm,
-    CoachAvatar,
+    CoachWrapperHeader,
   },
 };
 </script>
 
 <template>
   <div class="coach-contact" v-if="isFound">
-    <div class="coach">
-      <CoachAvatar class="small" />
-      <span class="name">{{ fullName }}</span>
-    </div>
+    <CoachWrapperHeader :id="id" />
     <CoachContactForm @send="submitData" />
   </div>
   <NotFound element="Coach" v-else />
@@ -63,16 +60,6 @@ export default {
 @use '@/colors.scss';
 .coach-contact {
   padding:1.5em;
-  .coach {
-    display:flex;
-    align-items: center;
-    gap:1em;
-    padding: 0 0 1em 0;
-    border-bottom: 2px solid colors.$background-4;
-    .name {
-      font-size: large;
-      font-weight: 500;
-    }
-  }
+
 }
 </style>
