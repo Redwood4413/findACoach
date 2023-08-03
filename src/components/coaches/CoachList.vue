@@ -6,13 +6,20 @@ import RefreshIcon from '../icons/RefreshIcon.vue';
 import CoachItem from './CoachItem.vue';
 import CoachFilter from './CoachFilter.vue';
 import CoachesListNothingFound from './CoachesListNothingFound.vue';
+import CoachListLoading from './CoachListLoading.vue';
+import CoachListError from './CoachListError.vue';
 
 export default {
   name: 'CoachList',
   setup() {
     const coachesStore = useCoachesStore();
-    return { coachesStore };
+    return {
+      coachesStore,
+    };
   },
+  data: () => ({
+    isAbleToReload: true,
+  }),
   components: {
     BaseButton,
     RefreshIcon,
@@ -20,16 +27,34 @@ export default {
     CoachItem,
     CoachFilter,
     CoachesListNothingFound,
+    CoachListLoading,
+    CoachListError,
   },
   computed: {
     coaches() {
       return this.coachesStore.getFilteredCoaches;
     },
+    stateMachine() {
+      return this.coachesStore.stateMachine;
+    },
   },
   methods: {
-    filterCoaches(checked: string[]) {
-      this.coachesStore.setFilter(checked);
+    reloadCoaches() {
+      if (!this.isAbleToReload) return;
+      this.throttleCall();
+
+      this.coachesStore.reloadCoaches();
     },
+    throttleCall() {
+      this.isAbleToReload = false;
+
+      setTimeout(() => {
+        this.isAbleToReload = true;
+      }, 2000);
+    },
+  },
+  mounted() {
+    this.coachesStore.fetchCoaches();
   },
 };
 </script>
@@ -41,22 +66,37 @@ export default {
     </Transition>
   </RouterView> -->
   <RouterView />
-  <CoachFilter @check="filterCoaches" />
+  <CoachFilter />
   <BaseWrapper>
     <div class="controls">
-      <BaseButton title="Refresh" mode="flat square rounded">
+      <BaseButton
+        class="circle"
+        title="Reload"
+        mode="flat square rounded"
+        @click="reloadCoaches"
+        :disabled="!isAbleToReload"
+      >
         <RefreshIcon />
       </BaseButton>
     </div>
     <Transition mode="out-in">
-      <TransitionGroup tag="ul" class="coach-list" v-if="coaches.length > 0">
-        <CoachItem
-          v-for="coach in coaches"
-          :key="coach.id"
-          :coach="coach"
-        />
-      </TransitionGroup>
-      <CoachesListNothingFound v-else />
+      <CoachListLoading
+        v-if="stateMachine.matches('loading')"
+      />
+      <CoachListError
+        v-else-if="stateMachine.matches('error')"
+        :errorMsg="coachesStore.getErrorMsg"
+      />
+      <Transition mode="out-in" v-else-if="stateMachine.matches('loaded')">
+        <TransitionGroup tag="ul" class="coach-list" v-if="coaches.length > 0">
+          <CoachItem
+            v-for="coach in coaches"
+            :key="coach.id"
+            :coach="coach"
+          />
+        </TransitionGroup>
+        <CoachesListNothingFound v-else />
+      </Transition>
     </Transition>
   </BaseWrapper>
 
