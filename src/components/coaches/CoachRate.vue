@@ -1,11 +1,13 @@
 <script lang="ts">
-import { useCoachesStore } from '@/stores/CoachesStore';
+import { useReviewsStore } from '@/stores/ReviewsStore';
+
+import CoachRatePoint from './CoachRatePoint.vue';
 
 export default {
-  name: 'CoachReview',
+  name: 'CoachRate',
   setup() {
-    const coachesStore = useCoachesStore();
-    return { coachesStore };
+    const reviewsStore = useReviewsStore();
+    return { reviewsStore };
   },
   props: {
     id: {
@@ -13,33 +15,15 @@ export default {
       required: true,
     },
   },
-  methods: {
-    isFilled(index: number): boolean {
-      if (index - 1 < this.rate) {
-        return true;
-      }
-      return false;
-    },
-  },
   computed: {
     rate() {
-      let total = 0;
-      this.reviews.forEach((review) => {
-        if (!review) return;
-
-        total += review.rate;
-      });
-
-      return total / this.reviewsQuantity;
+      return this.reviewsStore.getRate(this.id);
     },
     reviews() {
-      return this.coachesStore.getReviews(this.id);
+      return this.reviewsStore.getReviews(this.id);
     },
     reviewsQuantity() {
       return this.reviews.length;
-    },
-    filled() {
-      return (index: number): string => (this.isFilled(index) ? 'filled' : '');
     },
     reviewString(): string {
       // eslint-disable-next-line no-nested-ternary
@@ -51,17 +35,17 @@ export default {
       return this.reviewsQuantity ? `Rate ${this.rate}/5` : 'No reviews yet.';
     },
   },
+  components: { CoachRatePoint },
 };
 </script>
 
 <template>
-  <div class="coach-rate" :title="pointsString">
-    <div class="rate">
-      <span :class="`point ${filled(index)}`" v-for="(index) in 5" :key="index" />
+  <div class="coach-rate">
+    <div class="rate" :title="pointsString">
+      <CoachRatePoint v-for="(index) in 5" :key="index" :index="index" :rate="rate" />
     </div>
     <span class="stats">{{ reviewString }}</span>
   </div>
-
 </template>
 
 <style lang="scss" scoped>
@@ -74,15 +58,6 @@ export default {
     display:flex;
     align-items: center;
     gap:5px;
-    .point {
-      background: colors.$foreground-1;
-      height:13px;
-      width:13px;
-      border-radius: 50%;
-      &.filled {
-        background: colors.$red;
-      }
-    }
   }
   .stats {
     font-size: small;
