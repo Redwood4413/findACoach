@@ -14,7 +14,7 @@ export default {
 <template>
   <div class="nothing-found">
     <h2>{{ element }} not found.</h2>
-    <BaseRouterLink mode="rounded" :to="{ name: 'home' }">Return</BaseRouterLink>
+    <BaseRouterLink mode="rounded" :to="{ name: 'home' }">Home</BaseRouterLink>
   </div>
 </template>
 
