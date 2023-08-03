@@ -13,9 +13,11 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+@import '@/variables.scss';
   .dropdown-menu {
     position: absolute;
     top:100%;
+    z-index: map-get($header-map, zIndex);
     left:50%;
     width:100%;
     overflow: hidden;
