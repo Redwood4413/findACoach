@@ -29,7 +29,13 @@ export default {
   background-color: colors.$background-0;
   color: colors.$foreground-0;
 }
+::-moz-selection { /* Code for Firefox */
+  background: rgb(77, 152, 196);
+}
 
+::selection {
+  background: rgb(77, 152, 196);
+}
 body {
   margin: 0;
   min-width: 320px;
@@ -40,9 +46,10 @@ body {
   }
 }
 .section-title {
-  color: colors.$strong-gray;
+  color: colors.$foreground-4;
   padding:0.5rem 0;
   font-size: x-small;
+  font-weight: 600;
   text-transform: uppercase;
 }
 * {
@@ -94,3 +101,4 @@ img, svg, video, picture {
   text-decoration: underline colors.$foreground-0;
 }
 </style>
+./stores/CoachesStore
