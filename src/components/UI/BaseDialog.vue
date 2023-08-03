@@ -1,15 +1,25 @@
 <script lang="ts">
+import { PropType } from 'vue';
 import CloseIcon from '../icons/CloseIcon.vue';
+
+import MaterialSymbolsReturn from '../icons/material-symbols/MaterialSymbolsReturn.vue';
+
+type Icon = 'close' | 'return';
 
 export default {
   name: 'BaseDialog',
   components: {
     CloseIcon,
+    MaterialSymbolsReturn,
   },
   props: {
     returnTo: {
       type: [String, Object],
       required: true,
+    },
+    iconType: {
+      type: String as PropType<Icon>,
+      default: 'close',
     },
   },
   methods: {
@@ -22,10 +32,14 @@ export default {
         || e.clientY > dialogDimensions.bottom) {
         this.hideDialog();
       }
+      // console.log(this.$route);
     },
     hideDialog() {
       this.$router.push(this.returnTo);
       this.dialog.close();
+    },
+    historyBack() {
+      this.$router.go(-1);
     },
     showDialog() {
       this.dialog.showModal();
@@ -38,12 +52,19 @@ export default {
     body() {
       return document.querySelector('body')!;
     },
+    closeIcon() {
+      return this.iconType === 'close';
+    },
+    returnIcon() {
+      return this.iconType === 'return';
+    },
   },
+
   mounted() {
     this.showDialog();
 
     this.body.classList.add('hidden-overflow');
-    this.dialog.addEventListener('mouseup', this.backdropClick);
+    this.dialog.addEventListener('mousedown', this.backdropClick);
     this.dialog.addEventListener('close', this.hideDialog);
   },
   unmounted() {
@@ -56,8 +77,11 @@ export default {
   <Teleport to="body">
     <dialog ref="dialog" class="base-dialog">
       <div class="nav">
-        <BaseButton mode="flat rounded square" @click="hideDialog" title="Close">
+        <BaseButton v-if="closeIcon" mode="flat rounded square" @click="hideDialog">
           <CloseIcon />
+        </BaseButton>
+        <BaseButton v-else-if="returnIcon" mode="flat rounded square" @click="historyBack">
+          <MaterialSymbolsReturn />
         </BaseButton>
       </div>
       <slot />
@@ -67,7 +91,13 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-@import '@/colors.scss';
+.nav {
+  position: absolute;
+  padding:0.5rem;
+  svg {
+    stroke: #FBF1C7
+  }
+}
   .base-dialog {
     background: colors.$background-3;
     color: colors.$foreground-0;
@@ -78,7 +108,7 @@ export default {
     min-height: 400px;
     max-height: 90vh;
     border-radius: 5px;
-    overflow-y: auto;
+    overflow-y:auto;
     -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
     -moz-box-shadow: 5px 5px 0px 0px colors.$background-0;
     box-shadow: 5px 5px 0px 0px colors.$background-0;
@@ -87,14 +117,6 @@ export default {
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       cursor: pointer;
-    }
-    .nav {
-      display:flex;
-      justify-content: flex-end;
-      width: 100%;
-      position: absolute;
-      padding:0.5rem;
-      background: linear-gradient(to bottom, colors.$background-0 0%, transparent 80%);
     }
   }
   @media (width <= 600px) {
