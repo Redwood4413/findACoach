@@ -1,63 +1,100 @@
+import { coachesMachine } from '@/machines/coachesMachine';
+import { useMachine } from '@xstate/vue';
 import { defineStore } from 'pinia';
-
-interface Coach {
-  id: string,
-  firstName: string,
-  lastName: string,
-  areas: string[],
-  description: string,
-  hourlyRate: number,
-  coachRate: number,
-}
+import { computed, ref } from 'vue';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useCoachesStore = defineStore('coachesStore', {
-  state: () => ({
-    coaches: [
-      {
-        id: 'c1',
-        firstName: 'Maximilian',
-        lastName: 'Schwarzmüller',
-        areas: ['frontend', 'backend', 'career'],
-        description:
-          "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well! ",
-        hourlyRate: 30,
-      },
-      {
-        id: 'c2',
-        firstName: 'Julie',
-        lastName: 'Jones',
-        areas: ['frontend', 'career', 'frontendd'],
-        description:
-          'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
-        hourlyRate: 30,
-        reviews: [],
-      },
-    ] as Coach[],
+export const useCoachesStore = defineStore('coachesStore', () => {
+  const { state: stateMachine, send } = useMachine(coachesMachine);
+
+  const state = ref({
+    coaches: [] as Coach[],
     filterArray: [] as string[],
-  }),
-  getters: {
-    getFilteredCoaches(state) {
-      const filter = state.filterArray;
-      // eslint-disable-next-line vue/max-len
-      return state.coaches.filter((coach) => coach.areas.some((area: string) => filter.includes(area)));
-    },
-    getUniqueAreas(state) {
-      const allAreas = state.coaches.flatMap((coach) => coach.areas);
-      const uniqueAreas = Array.from(new Set(allAreas));
-      return uniqueAreas;
-    },
-    getCoach: (state) => (id: string): Coach | null => {
-      const found = state.coaches.find((coach) => coach.id === id);
+    errorMsg: '',
+  });
 
-      if (!found) return null;
+  const getFilteredCoaches = computed(() => {
+    const filter = state.value.filterArray;
+    // eslint-disable-next-line vue/max-len
+    return state.value.coaches.filter((coach) => coach.areas.some((area: string) => filter.includes(area)));
+  });
 
-      return found;
-    },
-  },
-  actions: {
-    setFilter(checked: string[]) {
-      this.filterArray = checked;
-    },
-  },
+  const getUniqueAreas = computed(() => {
+    const allAreas = state.value.coaches.flatMap((coach) => coach.areas);
+    const uniqueAreas = Array.from(new Set(allAreas));
+    return uniqueAreas;
+  });
+
+  const getCoach = computed(() => (id: string): Coach | null => {
+    const found = state.value.coaches.find((coach) => coach.id === id);
+
+    if (!found) return null;
+
+    return found;
+  });
+  const getFilterArray = computed(() => state.value.filterArray);
+
+  function setFilter(checked: string[]) {
+    state.value.filterArray = checked;
+  }
+  const getErrorMsg = computed(() => state.value.errorMsg || 'Something went wrong, please again later.');
+
+  async function addCoach(coach: Coach) {
+    const fetchUrl = `${import.meta.env.VITE_FIREBASE_URL}coaches/${coach.id}.json`;
+    const fetchOptions: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(coach),
+    };
+
+    const response = await fetch(fetchUrl, fetchOptions);
+
+    return response;
+  }
+  function setCoach(coach: Coach) {
+    state.value.coaches.push(coach);
+  }
+  async function fetchCoaches() {
+    if (stateMachine.value.matches('loaded')) return;
+    send('LOAD');
+
+    const fetchUrl = `${import.meta.env.VITE_FIREBASE_URL}coaches.json`;
+    try {
+      const rawResponse = await fetch(fetchUrl);
+      if (!rawResponse.ok) {
+        send('ERROR');
+        throw new Error(rawResponse.statusText);
+      }
+      const parsedResponse = await rawResponse.json();
+      Object.keys(parsedResponse).forEach((id) => {
+        Object.keys(parsedResponse[id]).forEach((key) => {
+          setCoach(parsedResponse[id][key]);
+        });
+      });
+
+      send('SUCCESS');
+    } catch (error) {
+      state.value.errorMsg = error as string;
+    }
+  }
+  function reloadCoaches() {
+    send('LOAD');
+    state.value.coaches = [];
+    console.log(stateMachine.value);
+    fetchCoaches();
+  }
+
+  return {
+    stateMachine,
+    send,
+    getFilteredCoaches,
+    getUniqueAreas,
+    getCoach,
+    reloadCoaches,
+    getFilterArray,
+    setFilter,
+    addCoach,
+    setCoach,
+    fetchCoaches,
+    getErrorMsg,
+  };
 });
