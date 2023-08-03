@@ -7,6 +7,7 @@ import CoachContact from './components/coaches/CoachContact.vue';
 import ContactReviews from './components/coaches/CoachReviews.vue';
 import RequestsReceived from './components/requests/RequestsReceived.vue';
 import CoachWrapper from './components/coaches/CoachWrapper.vue';
+import CoachAddReview from './components/coaches/CoachAddReview.vue';
 
 const routes = [
   {
@@ -38,9 +39,15 @@ const routes = [
         meta: { transition: 'slide' },
       },
       {
-        name: 'review',
-        path: ':id/review',
+        name: 'reviews',
+        path: ':id/reviews',
         component: ContactReviews,
+        props: true,
+      },
+      {
+        name: 'add-review',
+        path: ':id/add-review',
+        component: CoachAddReview,
         props: true,
       }],
     },
@@ -67,6 +74,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory('findACoach'),
   routes,
+  // scrollBehavior(to) {
+
+  //   return {
+  //     top: 0,
+  //     behavior: 'smooth',
+  //   };
+  // },
+
 });
 
 export default router;
