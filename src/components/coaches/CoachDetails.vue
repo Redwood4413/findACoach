@@ -1,16 +1,20 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
+import { useReviewsStore } from '@/stores/ReviewsStore';
+
 import CoachAvatar from './CoachAvatar.vue';
 import NotFound from '../NotFound.vue';
 import BaseRouterLink from '../UI/BaseRouterLink.vue';
 import CoachRate from './CoachRate.vue';
 import CoachAreasList from './CoachAreasList.vue';
+import CoachRateLoading from './CoachRateLoading.vue';
 
 export default {
   name: 'CoachDetails',
   setup() {
     const coachesStore = useCoachesStore();
-    return { coachesStore };
+    const reviewsStore = useReviewsStore();
+    return { coachesStore, reviewsStore };
   },
   components: {
     CoachAvatar,
@@ -18,6 +22,7 @@ export default {
     BaseRouterLink,
     CoachRate,
     CoachAreasList,
+    CoachRateLoading,
   },
 
   props: {
@@ -37,6 +42,13 @@ export default {
       if (!coach) return null;
       return coach;
     },
+    reviewsQuantity() {
+      return this.reviewsStore.getReviewsQuantity(this.id);
+    },
+  },
+  created() {
+    console.log(this.id);
+    this.reviewsStore.fetchReviews(this.id);
   },
 };
 </script>
@@ -69,13 +81,18 @@ export default {
       <div class="footer">
         <div class="wrapper">
           <span class="section-title">rate:</span>
-          <CoachRate :id="id" />
+          <CoachRate :id="id" v-if="false" />
+          <CoachRateLoading v-else />
         </div>
         <div class="wrapper">
           <span class="section-title">controls:</span>
           <div class="controls">
-            <BaseRouterLink mode="rounded" :to="{ name: 'review' }">Reviews</BaseRouterLink>
-            <BaseRouterLink mode="rounded" :to="{ name: 'review' }">Make a review</BaseRouterLink>
+            <BaseRouterLink
+              mode="rounded"
+              :to="{ name: 'reviews' }"
+              v-if="reviewsQuantity > 0"
+            >Reviews</BaseRouterLink>
+            <BaseRouterLink mode="rounded" :to="{ name: 'add-review' }">Make a review</BaseRouterLink>
             <BaseRouterLink mode="rounded" color="orange" :to="{ name: 'contact' }">Contact</BaseRouterLink>
           </div>
         </div>
