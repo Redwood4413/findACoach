@@ -3,13 +3,6 @@ import { useCoachesStore } from '@/stores/CoachesStore';
 import { PropType } from 'vue';
 import BaseDropdownMenu from '../UI/BaseDropdownMenu.vue';
 
-interface Input {
-  data: string,
-  isValid: boolean,
-  minLen: number,
-  maxLen: number
-}
-
 export default {
   name: 'CoachRegistrationFormInputWithSuggests',
   components: { BaseDropdownMenu },
@@ -18,7 +11,7 @@ export default {
 
     return { coachesStore };
   },
-  emits: ['set-expertise'],
+  emits: ['set-expertise', 'error'],
   props: {
     title: {
       type: String,
@@ -34,14 +27,13 @@ export default {
       data: [] as string[],
       isVisible: false,
       selectedId: -1,
-      maxVisible: 5,
     },
     input: {
       data: '',
       isValid: true,
-      minLen: 2,
+      errorMsg: '',
       maxLen: 24,
-    } as Input,
+    },
     word: {
       matching: '',
       rest: '',
@@ -51,10 +43,18 @@ export default {
     submitData(input: string) {
       this.input.data = input;
       if (!this.input.isValid) return;
-
+      if (this.checkIfIncludes(input)) {
+        this.setError(`${input} already exists!`);
+        this.input.isValid = false;
+        return;
+      }
+      this.input.errorMsg = '';
       this.input.data = '';
       this.$emit('set-expertise', input);
       this.searchSuggestion();
+    },
+    setError(error: string) {
+      this.input.errorMsg = error;
     },
     searchSuggestion() {
       const input = this.input.data;
@@ -64,7 +64,9 @@ export default {
       this.expertises.forEach((expertise) => {
         const found = regex.test(expertise);
         if (found) {
-          if (!this.checkIfIncludes(expertise)) this.suggestions.data.push(expertise);
+          if (!this.checkIfIncludes(expertise)) {
+            this.suggestions.data.push(expertise);
+          }
         }
       });
       if (this.suggestions.data.length > 0) {
@@ -135,7 +137,7 @@ export default {
     isValid(): boolean {
       const { input } = this;
 
-      if (input.data.length > input.maxLen || input.data.length < input.minLen) {
+      if (input.data.length > input.maxLen) {
         this.input.isValid = false;
         return false;
       }
@@ -177,9 +179,9 @@ export default {
         autocomplete="off"
         required
       >
-      <label for="expertise">{{ title }}<sup>*</sup></label>
+      <label for="expertise">{{ title }}</label>
       <div class="validation">
-        <span class="invalid" v-if="!input.isValid">Your expertise is invalid!</span>
+        <span class="invalid" v-if="!input.isValid">{{ input.errorMsg}}</span>
         <span class="counter">{{ input.data.length }} / {{ input.maxLen }}</span>
       </div>
       <BaseDropdownMenu
@@ -219,6 +221,8 @@ export default {
         .list {
           display:flex;
           flex-direction: column;
+          max-height: 230px;
+          overflow: auto;
           button {
             transition: background .1s ease-in-out;
             font-weight: 300;
@@ -229,6 +233,9 @@ export default {
             border-radius: 0;
             padding:0.3em;
             outline: none;
+            &:not(:last-child) {
+              border-bottom: 2px solid colors.$gray;
+            }
             &.selected {
               background: colors.$background-3;
             }

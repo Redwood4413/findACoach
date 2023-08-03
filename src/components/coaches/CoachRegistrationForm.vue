@@ -1,5 +1,7 @@
 <script lang="ts">
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDelete.vue';
+import { useCoachesStore } from '@/stores/CoachesStore';
+import { useAuthStore } from '@/stores/AuthStore';
 import CoachRegistrationFormInputWithSuggests from './CoachRegistrationFormInputWithSuggests.vue';
 import CoachRegistrationFormExpertiseBadge from './CoachRegistrationFormExpertiseBadge.vue';
 import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
@@ -24,6 +26,13 @@ export default {
       isValid: true,
       maxLen: 300,
     },
+    cost: {
+      data: 1,
+      isValid: true,
+      errorMsg: '',
+      max: 1000,
+      min: 1,
+    },
     expertise: {
       data: '',
       isValid: true,
@@ -36,8 +45,30 @@ export default {
     },
     formIsValid: false,
   }),
+  setup() {
+    const coachesStore = useCoachesStore();
+    const authStore = useAuthStore();
+    return { coachesStore, authStore };
+  },
   methods: {
-    submit() {
+    async submitData() {
+      const coach: Coach = {
+        id: this.authStore.loggedId,
+        firstName: this.firstName.data,
+        lastName: this.lastName.data,
+        description: this.description.data,
+        areas: this.expertises.data,
+        hourlyRate: this.cost.data,
+      };
+      try {
+        const response = await this.coachesStore.addCoach(coach);
+
+        if (!response.ok) {
+          throw new Error(`${response.statusText}` || 'Something went wrong!');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     addExpertise(payload: string) {
       if (!payload) return;
@@ -73,6 +104,22 @@ export default {
         this.description.isValid = true;
       }
     },
+    costValidation() {
+      const { cost } = this;
+      if (typeof cost.data !== 'number') {
+        this.cost.isValid = false;
+        this.cost.errorMsg = 'Your cost must be a number!';
+        return;
+      }
+
+      if (cost.data > cost.max) {
+        this.cost.data = cost.max;
+      }
+      if (cost.data < cost.min) {
+        this.cost.data = cost.min;
+      }
+      this.cost.isValid = true;
+    },
     expertisesValidation() {
       const { expertises } = this;
 
@@ -93,6 +140,9 @@ export default {
     'description.data': function valid() {
       this.descriptionValidation();
     },
+    'cost.data': function valid() {
+      this.costValidation();
+    },
     'expertises.data.length': function valid() {
       this.expertisesValidation();
     },
@@ -108,7 +158,7 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="submit" class="form" novalidate>
+  <form @submit.prevent="submitData" class="form" novalidate>
     <div class="basic">
       <div class="input-wrapper">
         <input
@@ -134,6 +184,20 @@ export default {
           <span class="counter">{{ lastName.data.length }} / {{ lastName.maxLen }}</span>
         </div>
       </div>
+      <div class="input-wrapper">
+        <input
+          type="number"
+          id="cost"
+          v-model="cost.data"
+          :min="cost.min"
+          :max="cost.max"
+          required>
+        <label for="cost">Cost (rate)<sup>*</sup></label>
+        <div class="validation">
+          <span class="invalid" v-if="!cost.isValid">{{ cost.errorMsg }}</span>
+          <span class="counter">{{ cost.min }} - {{ cost.max }}</span>
+        </div>
+      </div>
     </div>
     <div class="details">
       <div class="input-wrapper">
@@ -150,14 +214,13 @@ export default {
         </div>
       </div>
     </div>
-
     <div class="expertises">
       <CoachRegistrationFormInputWithSuggests
         :existingItems="expertises.data"
         title="type your expertises"
         @set-expertise="addExpertise" />
       <div class="expertises-wrapper">
-        <span class="section-title">your expertises:</span>
+        <span class="section-title">your expertises:<sup>*</sup></span>
         <TransitionGroup
           tag="ul"
           class="expertise-list"
@@ -202,6 +265,10 @@ export default {
   transition: all .3s ease-in-out;
 }
 
+sup {
+  color:colors.$red;
+  font-weight: 800;
+}
 .form {
   display:flex;
   flex-direction: column;
@@ -211,8 +278,7 @@ export default {
   & > *, :deep(> *) {
     display:flex;
     gap:1em;
-    justify-content: center;
-    align-items: center;
+    place-content: center;
     .input-wrapper, .expertises-wrapper {
       display:flex;
       flex-direction: column;
@@ -244,10 +310,6 @@ export default {
         position:absolute;
         color: colors.$foreground-2;
         font-weight: 400;
-        sup {
-          color:colors.$red;
-          font-weight: 800;
-        }
       }
       input, label, textarea {
         padding:0.3em;
@@ -309,6 +371,9 @@ export default {
   }
 @media (width <= 500px) {
   .form {
+    .basic {
+      flex-wrap: wrap;
+    }
     .expertises {
       flex-direction: column;
     }
