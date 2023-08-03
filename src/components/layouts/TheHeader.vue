@@ -102,6 +102,9 @@ export default {
       font-size: small;
       padding:0 1rem;
     }
+    h2 {
+      white-space: nowrap;
+    }
   }
   .v-enter-active, .v-leave-active {
   transition: opacity .3s ease;
