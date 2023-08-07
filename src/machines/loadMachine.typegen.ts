@@ -1,9 +1,10 @@
+
 // This file was automatically generated. Edits will be overwritten
 
 export interface Typegen0 {
   '@@xstate/typegen': true;
   internalEvents: {
-    'xstate.init': { type: 'xstate.init' };
+    "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {
 
@@ -26,6 +27,6 @@ export interface Typegen0 {
   eventsCausingServices: {
 
   };
-  matchesStates: 'empty' | 'error' | 'loaded' | 'loading';
+  matchesStates: "empty" | "error" | "loaded" | "loading";
   tags: never;
 }
