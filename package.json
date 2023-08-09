@@ -19,6 +19,7 @@
     "pinia": "^2.1.4",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
+    "short-unique-id": "^4.4.4",
     "vue": "^3.2.47",
     "vue-router": "^4.2.4",
     "xstate": "^4.38.2"
