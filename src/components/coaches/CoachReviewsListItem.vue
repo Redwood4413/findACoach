@@ -1,9 +1,11 @@
 <script lang="ts">
 import { PropType } from 'vue';
-import { useUsersStore } from '@/stores/UsersStore';
+import { useReviewsStore } from '@/stores/ReviewsStore';
+import { useAuthStore } from '@/stores/AuthStore';
 import CoachRatePoint from './CoachRatePoint.vue';
-
 import UserAvatar from '../users/UserAvatar.vue';
+import BaseRouterLink from '../UI/BaseRouterLink.vue';
+import BaseButton from '../UI/BaseButton.vue';
 
 export default {
   name: 'CoachReviewsItem',
@@ -18,27 +20,30 @@ export default {
     },
   },
   setup() {
-    const usersStore = useUsersStore();
-    return { usersStore };
+    const reviewsStore = useReviewsStore();
+    const authStore = useAuthStore();
+    return { reviewsStore, authStore };
   },
   computed: {
     reviewRate() {
       return this.review.rate;
     },
     fullName(): string {
-      return this.usersStore.getFullName(this.review.authorId);
+      return this.reviewsStore.getAuthorFullName(this.review.reviewId);
     },
-    timeAdded(): string {
+    createdAt(): string {
       const options: Intl.DateTimeFormatOptions = {
         dateStyle: 'short',
         timeStyle: 'short',
       };
 
       const formatter = new Intl.DateTimeFormat(undefined, options);
-      return formatter.format(this.review.addedAt);
+      return formatter.format(this.review.createdAt);
     },
   },
-  components: { CoachRatePoint, UserAvatar },
+  components: {
+    CoachRatePoint, UserAvatar, BaseRouterLink, BaseButton,
+  },
 };
 </script>
 
@@ -73,9 +78,16 @@ export default {
       <div class="section-title">description:</div>
       {{ review.description }}
     </div>
-    <div class="time-added">
-      <div class="section-title">Added:</div>
-      <span>{{ timeAdded }}</span>
+
+    <div class="bottom">
+      <div class="controls" v-if="review.authorId === authStore.getUserId">
+        <BaseRouterLink class="rounded" :to="{ name: 'edit-review', params: { reviewId: review.reviewId } }">Edit</BaseRouterLink>
+        <BaseButton @click="reviewsStore.deleteReview(review.reviewId)" class="rounded red">Delete</BaseButton>
+      </div>
+      <div class="time-added">
+        <div class="section-title">Added:</div>
+        <span>{{ createdAt }}</span>
+      </div>
     </div>
   </li>
 
@@ -87,8 +99,11 @@ export default {
   .coach-review {
     display:flex;
     flex:1;
+    word-break: break-all;
+
     flex-direction: column;
     padding:1em 0;
+    gap:1em;
     border-bottom: colors.$strong-gray 1px solid;
     .header{
       display:flex;
@@ -126,17 +141,26 @@ export default {
 
     .description {
       display:flex;
+      flex-wrap:wrap;
       flex-direction: column;
       font-weight: 300;
       font-size: 0.9em;
     }
-    .time-added {
-      color: colors.$foreground-2;
-      font-size: smaller;
-      margin-left: auto;
-      font-style: italic;
-      text-align: right;
-      font-family: 'Open Sans';
+    .bottom {
+      display:flex;
+      .controls {
+        display:flex;
+        gap:0.5em;
+        align-items: center;
+      }
+      .time-added {
+        color: colors.$foreground-2;
+        font-size: smaller;
+        margin-left: auto;
+        font-style: italic;
+        text-align: right;
+        font-family: 'Open Sans';
+      }
     }
   }
     // .controls {
