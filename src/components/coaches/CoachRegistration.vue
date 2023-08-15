@@ -1,9 +1,23 @@
 <script lang="ts">
+import supabase from '@/lib/supabaseClient';
 import CoachRegistrationForm from './CoachRegistrationForm.vue';
 
 export default {
   name: 'CoachRegistration',
   components: { CoachRegistrationForm },
+  methods: {
+    async registerCoach(coach: Coach) {
+      try {
+        const { error } = await supabase.from('coaches').insert(coach);
+
+        if (error) {
+          throw new Error(`Failed! ${error.message}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
 
@@ -13,8 +27,11 @@ export default {
       <h2>Become a Coach</h2>
       <h3>Register and help others thrive in the IT Industry!</h3>
     </div>
-    <CoachRegistrationForm />
   </BaseWrapper>
+  <BaseWrapper>
+    <CoachRegistrationForm @submit="registerCoach" />
+  </BaseWrapper>
+
 </template>
 
 <style lang="scss" scoped>
