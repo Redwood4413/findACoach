@@ -10,6 +10,7 @@ import BaseButton from '../UI/BaseButton.vue';
 
 export default {
   name: 'CoachRegistrationForm',
+  emits: ['submit'],
   data: () => ({
     firstName: {
       data: '',
@@ -51,24 +52,17 @@ export default {
     return { coachesStore, authStore };
   },
   methods: {
-    async submitData() {
+    submit() {
+      // validate
+
       const coach: Coach = {
-        id: this.authStore.loggedId,
-        firstName: this.firstName.data,
-        lastName: this.lastName.data,
+        userId: this.authStore.getUserId,
         description: this.description.data,
         areas: this.expertises.data,
         hourlyRate: this.cost.data,
       };
-      try {
-        const response = await this.coachesStore.addCoach(coach);
 
-        if (!response.ok) {
-          throw new Error(`${response.statusText}` || 'Something went wrong!');
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      this.$emit('submit', coach);
     },
     addExpertise(payload: string) {
       if (!payload) return;
@@ -158,7 +152,7 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="submitData" class="form" novalidate>
+  <form @submit.prevent="submit" class="form" novalidate>
     <div class="basic">
       <div class="input-wrapper">
         <input
