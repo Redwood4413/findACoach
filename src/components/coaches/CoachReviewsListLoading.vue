@@ -2,21 +2,22 @@
 import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
 
 export default {
-  name: 'CoachRateLoading',
+  name: 'CoachReviewsListLoading',
   components: { SvgSpinnersRingResize },
 };
 </script>
 
 <template>
   <div class="loading">
-    <SvgSpinnersRingResize />
+    <SvgSpinnersRingResize class="big" />
   </div>
 </template>
 
 <style lang="scss" scoped>
   .loading {
     display:flex;
-    flex-direction: column;
-    place-items: center;
+    min-height: inherit;
+    align-items: center;
+    justify-content: center;
   }
 </style>

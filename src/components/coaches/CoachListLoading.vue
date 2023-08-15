@@ -8,13 +8,13 @@ export default {
 </script>
 
 <template>
-  <div class="info">
+  <div class="loading">
     <SvgSpinnersRingResize />
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .info {
+  .loading {
     padding:1em;
     display:flex;
     flex-direction: column;
