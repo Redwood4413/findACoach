@@ -1,63 +1,123 @@
+import supabase from '@/lib/supabaseClient';
+import { loadingMachine } from '@/machines/loadingMachine';
+import { useMachine } from '@xstate/vue';
 import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { useAuthStore } from './AuthStore';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useReviewsStore = defineStore('reviewsStore', {
-  state: () => ({
+export const useReviewsStore = defineStore('reviewsStore', () => {
+  const { state: stateMachine, send } = useMachine(loadingMachine);
+  const state = ref({
     reviews: [] as Review[],
-  }),
-  getters: {
-    getReviews() {
-      return (coachId: string): Review[] => {
-        const reviews = this.reviews.filter((review) => review.coachId === coachId);
+    lastCoachId: '' as string,
+  });
+  const getReviews = computed(() => state.value.reviews);
 
-        return reviews;
-      };
-    },
-    getAuthorReviews() {
-      return (authorId: string): Review[] => {
-        const reviews = this.reviews.filter((review) => review.authorId === authorId);
+  const getAuthorReviews = computed(() => (authorId: string): Review[] => {
+    const reviews = state.value.reviews.filter((review) => review.authorId === authorId);
 
-        return reviews;
-      };
-    },
-    getRate() {
-      return (coachId: string): number => {
-        let total = 0;
-        const reviews = this.getReviews(coachId);
+    return reviews;
+  });
 
-        if (!reviews.length) return 0;
-        reviews.forEach((review) => {
-          total += review.rate;
-        });
-        const average = total / reviews.length;
-        return Math.round(average);
-      };
-    },
-    getReviewsQuantity() {
-      return (coachId: string): number => this.getReviews(coachId).length;
-    },
-  },
-  actions: {
-    async fetchReviews(coachId: string) {
-      const url = `${import.meta.env.VITE_FIREBASE_URL}/reviews/${coachId}.json`;
-      try {
-        const response = await fetch(url);
-        const parsedResponse = await response.json();
-        console.log(parsedResponse);
+  const getRate = computed(() => {
+    let total = 0;
+    const reviews = getReviews.value;
 
-        if (!response.ok) {
-          throw new Error('Error');
-        }
+    if (!reviews.length) return 0;
+    reviews.forEach((review) => {
+      total += review.rate;
+    });
+    const average = total / reviews.length;
+    return Math.round(average);
+  });
 
-        Object.keys(parsedResponse).forEach((key) => {
-          this.setReview(parsedResponse[key]);
-        });
-      } catch (error) {
-        console.log(error);
+  function setReview(review: Review) {
+    state.value.reviews.unshift(review);
+  }
+  function clearReviews() {
+    state.value.reviews = [];
+  }
+  function assignNewCoachId(coachId: string) {
+    state.value.lastCoachId = coachId;
+  }
+  async function deleteReview(reviewId: string) {
+    const authStore = useAuthStore();
+
+    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
+    if (authStore.getUserId !== found?.authorId) return;
+
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .delete()
+        .eq('reviewId', reviewId);
+
+      reloadReviews();
+      if (error) {
+        throw new Error(`Failed! ${error.message}`);
       }
-    },
-    setReview(review: Review) {
-      this.reviews.push(review);
-    },
-  },
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const shouldFetchNewData = computed(() => (currentCoachId: string) => {
+    if (state.value.lastCoachId !== currentCoachId) {
+      assignNewCoachId(currentCoachId);
+      return true;
+    }
+    return false;
+  });
+
+  const getAuthorFullName = computed(() => (reviewId: string) => {
+    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
+    return `${found?.firstName} ${found?.lastName}`;
+  });
+
+  const getReviewById = computed(() => (reviewId: string) => {
+    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
+    return found;
+  });
+  async function fetchReviews(coachId: string) {
+    if (shouldFetchNewData.value(coachId)) {
+      clearReviews();
+      send('LOAD');
+    }
+    if (stateMachine.value.matches('loaded')) return;
+    try {
+      send('LOAD');
+      const { data: reviews, error } = await supabase.from('reviews_list_view').select('*').eq('userId', coachId);
+
+      if (error) {
+        send('ERROR');
+        throw new Error('Error');
+      }
+
+      reviews.forEach((review: Review) => {
+        setReview(review);
+      });
+
+      send('SUCCESS');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function reloadReviews() {
+    send('LOAD');
+    clearReviews();
+    fetchReviews(state.value.lastCoachId);
+  }
+  return {
+    getAuthorReviews,
+    getAuthorFullName,
+    getRate,
+    getReviews,
+    fetchReviews,
+    setReview,
+    getReviewById,
+    reloadReviews,
+    stateMachine,
+    deleteReview,
+  };
 });
