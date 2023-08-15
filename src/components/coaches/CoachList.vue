@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
-import BaseButton from '../UI/BaseButton.vue';
 import BaseWrapper from '../UI/BaseWrapper.vue';
 import RefreshIcon from '../icons/RefreshIcon.vue';
 import CoachItem from './CoachItem.vue';
@@ -17,11 +16,7 @@ export default {
       coachesStore,
     };
   },
-  data: () => ({
-    isAbleToReload: true,
-  }),
   components: {
-    BaseButton,
     RefreshIcon,
     BaseWrapper,
     CoachItem,
@@ -36,21 +31,6 @@ export default {
     },
     stateMachine() {
       return this.coachesStore.stateMachine;
-    },
-  },
-  methods: {
-    reloadCoaches() {
-      if (!this.isAbleToReload) return;
-      this.throttleCall();
-
-      this.coachesStore.reloadCoaches();
-    },
-    throttleCall() {
-      this.isAbleToReload = false;
-
-      setTimeout(() => {
-        this.isAbleToReload = true;
-      }, 2000);
     },
   },
   mounted() {
@@ -69,15 +49,13 @@ export default {
   <CoachFilter />
   <BaseWrapper>
     <div class="controls">
-      <BaseButton
-        class="circle"
+      <BaseThrottleButton
         title="Reload"
         mode="flat square rounded"
-        @click="reloadCoaches"
-        :disabled="!isAbleToReload"
+        @click="coachesStore.reloadCoaches"
       >
         <RefreshIcon />
-      </BaseButton>
+      </BaseThrottleButton>
     </div>
     <Transition mode="out-in">
       <CoachListLoading
@@ -91,7 +69,7 @@ export default {
         <TransitionGroup tag="ul" class="coach-list" v-if="coaches.length > 0">
           <CoachItem
             v-for="coach in coaches"
-            :key="coach.id"
+            :key="coach.userId"
             :coach="coach"
           />
         </TransitionGroup>
