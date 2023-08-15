@@ -100,7 +100,6 @@ export default {
     display:flex;
     flex:1;
     word-break: break-all;
-
     flex-direction: column;
     padding:1em 0;
     gap:1em;
