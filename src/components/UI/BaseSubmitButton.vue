@@ -1,4 +1,6 @@
 <script lang="ts">
+import SendIcon from '../icons/SendIcon.vue';
+import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
 
 export default {
   name: 'BaseSubmitButton',
@@ -8,6 +10,7 @@ export default {
       required: true,
     },
   },
+  inject: ['state'],
   data: () => ({
     shake: false as boolean,
     timing: 300 as number, // ms
@@ -24,11 +27,15 @@ export default {
       });
     },
   },
+  mounted() {
+    // console.log(this.state);
+  },
   computed: {
     shakeClass() {
       return this.shake ? 'shake' : '';
     },
   },
+  components: { SendIcon, SvgSpinnersRingResize },
 };
 </script>
 
@@ -39,7 +46,11 @@ export default {
     :class="`submit ${shakeClass}`"
     :style="{ animationDuration: timing + 'ms' }"
   >
-    <slot />
+    <template v-if="true">
+      <span>Send</span>
+      <SendIcon />
+    </template>
+    <SvgSpinnersRingResize v-else-if="true" />
   </button>
 
 </template>

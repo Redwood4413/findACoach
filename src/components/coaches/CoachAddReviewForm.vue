@@ -2,7 +2,6 @@
 
 import { useCoachesStore } from '@/stores/CoachesStore';
 import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
-import SendIcon from '../icons/SendIcon.vue';
 import CoachAddReviewFormRate from './CoachAddReviewFormRate.vue';
 
 export default {
@@ -79,7 +78,7 @@ export default {
   },
   computed: {},
   components: {
-    BaseSubmitButton, SendIcon, CoachAddReviewFormRate,
+    BaseSubmitButton, CoachAddReviewFormRate,
   },
 };
 </script>
@@ -117,10 +116,8 @@ export default {
 
     <div class="buttons">
       <BaseSubmitButton
-        :isValid="formIsValid">
-        <span>Send</span>
-        <SendIcon />
-      </BaseSubmitButton>
+        :isValid="formIsValid"
+      />
     </div>
   </form>
 </template>
