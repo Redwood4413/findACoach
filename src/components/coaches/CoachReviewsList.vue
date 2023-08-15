@@ -1,9 +1,10 @@
 <script lang="ts">
 
 import { useReviewsStore } from '@/stores/ReviewsStore';
-import CoachReviewsItem from './CoachReviewsItem.vue';
+import CoachReviewsListItem from './CoachReviewsListItem.vue';
 
 import NotFound from '../NotFound.vue';
+import CoachReviewsListLoading from './CoachReviewsListLoading.vue';
 
 export default {
   name: 'CoachReviewsList',
@@ -19,7 +20,7 @@ export default {
   },
   computed: {
     reviews() {
-      return this.reviewsStore.getReviews(this.coachId);
+      return this.reviewsStore.getReviews;
     },
     reviewsQuantity() {
       return this.reviews.length;
@@ -30,24 +31,39 @@ export default {
       return this.reviewsStore.getAuthorReviews(authorId).length;
     },
   },
-  components: { CoachReviewsItem, NotFound },
+  components: { CoachReviewsListItem, NotFound, CoachReviewsListLoading },
 };
 </script>
 
 <template>
-  <ul class="reviews-list" v-if="reviews.length > 0">
-    <CoachReviewsItem
-      v-for="(review, index) in reviews"
-      :key="index"
-      :review="review"
-      :quantity="userReviewsQuantity(review.authorId)"
-    />
-  </ul>
-  <NotFound element="Reviews" v-else />
+  <Transition mode="out-in">
+    <ul
+      class="reviews-list"
+      v-if="reviewsQuantity && reviewsStore.stateMachine.matches('loaded')"
+    >
+      <CoachReviewsListItem
+        v-for="(review, index) in reviews"
+        :key="index"
+        :review="review"
+        :quantity="userReviewsQuantity(review.authorId)"
+      />
+    </ul>
+    <CoachReviewsListLoading v-else-if="reviewsStore.stateMachine.matches('loading')" />
+    <NotFound element="Reviews" v-else />
+  </Transition>
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 
 .reviews-list {
   display:flex;
