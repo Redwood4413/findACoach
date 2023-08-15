@@ -1,10 +1,18 @@
 <script lang="ts">
 import TheHeader from './components/layouts/TheHeader.vue';
 import TheMain from './components/layouts/TheMain.vue';
+import { useCoachesStore } from './stores/CoachesStore';
+import { useReviewsStore } from './stores/ReviewsStore';
 
 export default {
   name: 'App',
   components: { TheHeader, TheMain },
+  setup() {
+    const reviewsStore = useReviewsStore();
+    const coachesStore = useCoachesStore();
+
+    return { reviewsStore, coachesStore };
+  },
 };
 </script>
 
