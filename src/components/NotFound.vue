@@ -5,7 +5,7 @@ export default {
   props: {
     element: {
       type: String,
-      required: true,
+      default: 'Element',
     },
   },
 };
