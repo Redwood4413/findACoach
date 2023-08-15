@@ -1,11 +1,12 @@
 <script lang="ts">
+import { PropType } from 'vue';
 import CoachAreasItem from './CoachAreasItem.vue';
 
 export default {
   name: 'CoachAreasList',
   props: {
     areas: {
-      type: Array,
+      type: Array as PropType<string[]>,
       required: true,
     },
   },
