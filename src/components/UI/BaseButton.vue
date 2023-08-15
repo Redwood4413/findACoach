@@ -45,11 +45,8 @@ button{
   align-items: center;
   padding:0.5rem 1rem;
   max-height:50px;
+  font-size: small;
   transition: background .1s ease-in-out;
-  &:disabled {
-    cursor: not-allowed;
-    opacity: .5;
-  }
   &.flat{
     border-radius: 0;
     background: none;
@@ -58,8 +55,11 @@ button{
       background: rgba(0,0,0,0.2);
     }
   }
+  &.red {
+    background: colors.$strong-red;
+  }
   &.rounded {
-    border-radius:1rem;
+    border-radius:5rem;
   }
   &.circle {
     border-radius: 50%;
@@ -82,12 +82,5 @@ button{
     filter: brightness(90%);
   }
 }
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+
 </style>
