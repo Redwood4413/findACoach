@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import BaseSubmitButton from './BaseSubmitButton.vue';
+import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
 import SendIcon from '../icons/SendIcon.vue';
 
 export default {
