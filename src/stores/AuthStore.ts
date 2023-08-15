@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useAuthStore = defineStore('authStore', {
-  state: () => ({
+export const useAuthStore = defineStore('authStore', () => {
+  const state = ref({
     isLoggedIn: true,
-    loggedId: 'VSLZSMV2RQ',
-  }),
-  getters: {
-    getLoggedId: (state) => state.loggedId,
-  },
+    userId: 'teeeeeeeeest',
+  });
+
+  const getUserId = computed(() => state.value.userId);
+
+  return {
+    getUserId,
+  };
 });
