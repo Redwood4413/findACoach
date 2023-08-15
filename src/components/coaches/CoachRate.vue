@@ -17,10 +17,10 @@ export default {
   },
   computed: {
     rate() {
-      return this.reviewsStore.getRate(this.id);
+      return this.reviewsStore.getRate;
     },
     reviews() {
-      return this.reviewsStore.getReviews(this.id);
+      return this.reviewsStore.getReviews;
     },
     reviewsQuantity() {
       return this.reviews.length;
