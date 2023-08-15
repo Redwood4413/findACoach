@@ -48,6 +48,7 @@ export default {
     },
   },
   mounted() {
+    this.checked = this.coachesStore.getFilterArray;
   },
   components: { BaseWrapper },
 };
