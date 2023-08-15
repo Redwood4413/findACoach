@@ -1,9 +1,15 @@
 <script lang="ts">
+import { useReviewsStore } from '@/stores/ReviewsStore';
 import CoachAreasList from './CoachAreasList.vue';
 import CoachAvatar from './CoachAvatar.vue';
 
 export default {
   name: 'CoachItem',
+  setup() {
+    const reviewsStore = useReviewsStore();
+
+    return { reviewsStore };
+  },
   components: {
     CoachAvatar,
     CoachAreasList,
@@ -42,10 +48,13 @@ export default {
     <div class="controls">
       <span class="section-title">controls:</span>
       <div class="controls-wrapper">
-        <BaseRouterLink :to="{ name: 'details', params: { id: coach.id } }" mode="rounded" color="orange">View Details</BaseRouterLink>
+        <BaseRouterLink
+          :to="{ name: 'details', params: { id: coach.userId } }"
+          mode="rounded"
+          color="orange">View Details</BaseRouterLink>
         <BaseRouterLink
           mode="rounded"
-          :to="{ name: 'contact', params: { id: coach.id } }">Contact</BaseRouterLink>
+          :to="{ name: 'contact', params: { id: coach.userId } }">Contact</BaseRouterLink>
       </div>
     </div>
   </li>
@@ -78,9 +87,9 @@ export default {
     }
 
     .details {
-      display:flex;
-      gap:20px;
-
+      display:grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      gap:2em;
       .description {
         display:flex;
         flex-direction: column;
@@ -102,7 +111,7 @@ export default {
   @media (width <= 650px) {
     .coach-item {
       .details {
-        flex-direction: column;
+        grid-template-columns: 1fr;
       }
     }
   }
