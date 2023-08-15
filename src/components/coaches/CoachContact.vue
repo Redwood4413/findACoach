@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
 import NotFound from '../NotFound.vue';
-import CoachContactForm from '../UI/CoachContactForm.vue';
+import CoachContactForm from './CoachContactForm.vue';
 
 import CoachWrapperHeader from './CoachWrapperHeader.vue';
 
@@ -60,6 +60,6 @@ export default {
 @use '@/colors.scss';
 .coach-contact {
   padding:1.5em;
-
+  width:100%;
 }
 </style>
