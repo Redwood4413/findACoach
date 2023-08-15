@@ -93,20 +93,24 @@ export default {
 @use '@/colors.scss';
 .nav {
   position: absolute;
+  top:0;
+  left:0;
   padding:0.5rem;
   svg {
     stroke: #FBF1C7
   }
 }
   .base-dialog {
+    display:flex;
+    justify-content: center;
+    min-height: 400px;
+    max-height: 90vh;
+    width: 600px;
     background: colors.$background-3;
     color: colors.$foreground-0;
     padding:0;
     border:0;
     outline: 0;
-    width: 600px;
-    min-height: 400px;
-    max-height: 90vh;
     border-radius: 5px;
     overflow-y:auto;
     -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
