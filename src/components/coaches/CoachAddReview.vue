@@ -2,15 +2,16 @@
 
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
+import supabase from '@/lib/supabaseClient';
+import ShortUniqueId from 'short-unique-id';
+import { useReviewsStore } from '@/stores/ReviewsStore';
+import { useMachine } from '@xstate/vue';
+import sendingMachine from '@/machines/sendingMachine';
 import CoachWrapperHeader from './CoachWrapperHeader.vue';
 import NotFound from '../NotFound.vue';
-
 import CoachAddReviewForm from './CoachAddReviewForm.vue';
-
-interface Data {
-  description: string,
-  rate: number,
-}
+import BaseSuccess from '../UI/BaseSuccess.vue';
+import BaseError from '../UI/BaseError.vue';
 
 export default {
   name: 'CoachAddReview',
@@ -20,34 +21,48 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    errorMsg: '',
+  }),
   setup() {
     const coachesStore = useCoachesStore();
     const authStore = useAuthStore();
-    return { coachesStore, authStore };
+    const reviewsStore = useReviewsStore();
+    const { state, send } = useMachine(sendingMachine);
+
+    return {
+      coachesStore, authStore, reviewsStore, state, send,
+    };
   },
   methods: {
-    async sendData(data: Data) {
-      const url = `${import.meta.env.VITE_FIREBASE_URL}reviews/${this.id}.json`;
+    async sendData(data: Review) {
+      this.send('SEND');
+      const uid = new ShortUniqueId({ length: 8 });
 
       const review: Review = {
-        authorId: this.authStore.getLoggedId,
-        coachId: this.id,
+        reviewId: uid(),
+        userId: this.id,
+        authorId: this.authStore.getUserId,
         description: data.description,
         rate: data.rate,
-        addedAt: Date.now(),
-      };
-      const options: RequestInit = {
-        method: 'POST',
-        body: JSON.stringify(review),
+        createdAt: Date.now(),
       };
 
       try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          throw new Error(`Failed! ${response.statusText}`);
+        const { error } = await supabase.from('reviews').insert(review);
+        if (error) {
+          console.log(error);
+          throw new Error(error.message);
         }
+        this.send('SUCCESS');
+        await this.reviewsStore.reloadReviews();
+
+        setTimeout(() => {
+          this.$router.replace({ name: 'reviews' });
+        }, this.state.context.timing);
       } catch (error) {
-        console.log(error);
+        this.errorMsg = error as string;
+        this.send('ERROR');
       }
     },
   },
@@ -59,21 +74,51 @@ export default {
       return !!this.coach;
     },
   },
-  components: { CoachWrapperHeader, NotFound, CoachAddReviewForm },
+  provide() {
+    return { state: this.state.value };
+  },
+  components: {
+    CoachWrapperHeader,
+    NotFound,
+    CoachAddReviewForm,
+    BaseSuccess,
+    BaseError,
+  },
 };
 </script>
 
 <template>
   <div class="add-review" v-if="isFound">
     <CoachWrapperHeader :id="id" />
-    <CoachAddReviewForm @add-review="sendData" />
+    <Transition mode="out-in">
+      <CoachAddReviewForm
+        @add-review="sendData"
+        v-if="state.matches('empty')"
+      />
+      <BaseSuccess v-else-if="state.matches('sent')">
+        <h3>Your review has been added.</h3>
+      </BaseSuccess>
+      <BaseError v-else-if="state.matches('error')">
+        Error! {{ errorMsg }}
+      </BaseError>
+    </Transition>
   </div>
   <NotFound v-else element="Coach" />
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 .add-review {
   padding: 1.5em;
+  width:100%;
 }
 </style>
