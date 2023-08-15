@@ -8,6 +8,7 @@ import BaseRouterLink from '../UI/BaseRouterLink.vue';
 import CoachRate from './CoachRate.vue';
 import CoachAreasList from './CoachAreasList.vue';
 import CoachRateLoading from './CoachRateLoading.vue';
+import CoachDetailsLoading from './CoachDetailsLoading.vue';
 
 export default {
   name: 'CoachDetails',
@@ -23,17 +24,13 @@ export default {
     CoachRate,
     CoachAreasList,
     CoachRateLoading,
+    CoachDetailsLoading,
   },
 
   props: {
     id: {
       type: String,
       required: true,
-    },
-  },
-  methods: {
-    hideDialog() {
-      this.$router.push({ name: 'home' });
     },
   },
   computed: {
@@ -43,18 +40,15 @@ export default {
       return coach;
     },
     reviewsQuantity() {
-      return this.reviewsStore.getReviewsQuantity(this.id);
+      return this.reviewsStore.getReviews.length;
     },
-  },
-  created() {
-    console.log(this.id);
-    this.reviewsStore.fetchReviews(this.id);
   },
 };
 </script>
 
 <template>
-  <div class="coach-details" v-if="selectedCoach">
+  <CoachDetailsLoading v-if="coachesStore.stateMachine.matches('loading')" />
+  <div class="coach-details" v-else-if="selectedCoach">
     <div class="header">
       <div class="coach-header">
         <CoachAvatar />
@@ -73,16 +67,19 @@ export default {
         </span>
 
       </div>
-      <span class="description">
+      <div class="description">
         {{ selectedCoach.description }}
-        If you are intersted, then fell free to <BaseRouterLink :to="{ name: 'contact' }" mode="flat">contact me.</BaseRouterLink>
-      </span>
+        <p>If you are intersted, then fell free to <BaseRouterLink :to="{ name: 'contact' }" mode="flat">contact me.</BaseRouterLink>
+        </p>
+      </div>
       <CoachAreasList :areas="selectedCoach.areas" />
       <div class="footer">
         <div class="wrapper">
           <span class="section-title">rate:</span>
-          <CoachRate :id="id" v-if="false" />
-          <CoachRateLoading v-else />
+          <Transition mode="out-in">
+            <CoachRate :id="id" v-if="reviewsStore.stateMachine.matches('loaded')" />
+            <CoachRateLoading v-else />
+          </Transition>
         </div>
         <div class="wrapper">
           <span class="section-title">controls:</span>
@@ -104,7 +101,17 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
   .coach-details {
+    width:100%;
     .header {
       display:flex;
       align-items: center;
@@ -141,6 +148,10 @@ export default {
       }
       .description {
         font-weight: 400;
+        p, p > a {
+          font-weight: 200;
+          font-size: small;
+        }
       }
       .footer {
         display:flex;
