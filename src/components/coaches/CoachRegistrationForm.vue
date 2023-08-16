@@ -2,7 +2,9 @@
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDelete.vue';
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
-import CoachRegistrationFormInputWithSuggests from './CoachRegistrationFormInputWithSuggests.vue';
+import vSelect from 'vue-select';
+// import CoachRegistrationFormInputWithSuggests from './CoachRegistrationFormInputWithSuggests.vue';
+import 'vue-select/dist/vue-select.css';
 import CoachRegistrationFormExpertiseBadge from './CoachRegistrationFormExpertiseBadge.vue';
 import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
 
@@ -142,11 +144,11 @@ export default {
     },
   },
   components: {
-    CoachRegistrationFormInputWithSuggests,
     BaseSubmitButton,
     CoachRegistrationFormExpertiseBadge,
     BaseButton,
     MaterialSymbolsDeleteForeverRounded,
+    vSelect,
   },
 };
 </script>
@@ -209,10 +211,11 @@ export default {
       </div>
     </div>
     <div class="expertises">
-      <CoachRegistrationFormInputWithSuggests
+      <!-- <CoachRegistrationFormInputWithSuggests
         :existingItems="expertises.data"
         title="type your expertises"
-        @set-expertise="addExpertise" />
+        @set-expertise="addExpertise" /> -->
+      <vSelect :options="coachesStore.getUniqueAreas" />
       <div class="expertises-wrapper">
         <span class="section-title">your expertises:<sup>*</sup></span>
         <TransitionGroup
@@ -269,10 +272,18 @@ sup {
   gap:2em;
   justify-content: center;
   text-align:left;
+  .expertises {
+    justify-content: center;
+    align-items: center;
+    .v-select {
+      flex-shrink:1;
+    }
+  }
   & > *, :deep(> *) {
     display:flex;
     gap:1em;
     place-content: center;
+
     .input-wrapper, .expertises-wrapper {
       display:flex;
       flex-direction: column;
