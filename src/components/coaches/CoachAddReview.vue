@@ -10,8 +10,6 @@ import sendingMachine from '@/machines/sendingMachine';
 import CoachWrapperHeader from './CoachWrapperHeader.vue';
 import NotFound from '../NotFound.vue';
 import CoachAddReviewForm from './CoachAddReviewForm.vue';
-import BaseSuccess from '../UI/BaseSuccess.vue';
-import BaseError from '../UI/BaseError.vue';
 
 export default {
   name: 'CoachAddReview',
@@ -31,7 +29,11 @@ export default {
     const { state, send } = useMachine(sendingMachine);
 
     return {
-      coachesStore, authStore, reviewsStore, state, send,
+      coachesStore,
+      authStore,
+      reviewsStore,
+      state,
+      send,
     };
   },
   methods: {
@@ -51,13 +53,13 @@ export default {
       try {
         const { error } = await supabase.from('reviews').insert(review);
         if (error) {
-          console.log(error);
           throw new Error(error.message);
         }
         this.send('SUCCESS');
         await this.reviewsStore.reloadReviews();
 
         setTimeout(() => {
+          if (this.$route.name !== 'reviews') return;
           this.$router.replace({ name: 'reviews' });
         }, this.state.context.timing);
       } catch (error) {
@@ -74,15 +76,10 @@ export default {
       return !!this.coach;
     },
   },
-  provide() {
-    return { state: this.state.value };
-  },
   components: {
     CoachWrapperHeader,
     NotFound,
     CoachAddReviewForm,
-    BaseSuccess,
-    BaseError,
   },
 };
 </script>
@@ -93,15 +90,17 @@ export default {
     <Transition mode="out-in">
       <CoachAddReviewForm
         @add-review="sendData"
+        :state="state.value"
         v-if="state.matches('empty')"
       />
       <BaseSuccess v-else-if="state.matches('sent')">
         <h3>Your review has been added.</h3>
       </BaseSuccess>
       <BaseError v-else-if="state.matches('error')">
-        Error! {{ errorMsg }}
+        {{ errorMsg }}
       </BaseError>
     </Transition>
+
   </div>
   <NotFound v-else element="Coach" />
 </template>
