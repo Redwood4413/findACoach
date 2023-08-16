@@ -1,6 +1,7 @@
 <script lang="ts">
 
 import { useCoachesStore } from '@/stores/CoachesStore';
+import { PropType } from 'vue';
 import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
 import CoachAddReviewFormRate from './CoachAddReviewFormRate.vue';
 
@@ -10,6 +11,12 @@ export default {
   setup() {
     const coachesStore = useCoachesStore();
     return { coachesStore };
+  },
+  props: {
+    state: {
+      type: String as PropType<SendEvents>,
+      required: true,
+    },
   },
   data: () => ({
     description: {
@@ -36,6 +43,8 @@ export default {
       } else {
         this.formIsValid = true;
       }
+
+      if (!this.formIsValid) return;
       const payload = {
         description: description.data,
         rate: rate.data,
@@ -62,9 +71,14 @@ export default {
       if (this.rate.data === 0) {
         this.rate.isValid = false;
         this.rate.errorMsg = 'You must set rate before continuing!';
-      } else {
-        this.rate.isValid = true;
+        return;
       }
+      if (this.rate.data > this.rate.max) {
+        this.rate.isValid = false;
+        this.rate.errorMsg = 'Your set rate is too high!';
+        return;
+      }
+      this.rate.isValid = true;
     },
   },
 
@@ -76,7 +90,6 @@ export default {
       this.rateValidation();
     },
   },
-  computed: {},
   components: {
     BaseSubmitButton, CoachAddReviewFormRate,
   },
