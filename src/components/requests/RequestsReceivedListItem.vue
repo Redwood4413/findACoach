@@ -1,5 +1,4 @@
 <script lang="ts">
-import { useUsersStore } from '@/stores/UsersStore';
 import { PropType } from 'vue';
 
 import UserAvatar from '../users/UserAvatar.vue';
@@ -12,22 +11,9 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const usersStore = useUsersStore();
-    return { usersStore };
-  },
   computed: {
-    userId() {
-      return this.request.userId;
-    },
-    userName() {
-      return this.usersStore.getFullName(this.userId);
-    },
-    userEmail() {
-      return this.usersStore.getEmail(this.userId);
-    },
     formattedEmail() {
-      return `mailto:${this.userEmail}`;
+      return `mailto:${this.request.email}`;
     },
     sentAbout() {
       const options: Intl.DateTimeFormatOptions = {
@@ -37,6 +23,9 @@ export default {
 
       const formatter = new Intl.DateTimeFormat(undefined, options);
       return formatter.format(this.request.sentAbout);
+    },
+    fullName() {
+      return `${this.request.firstName} ${this.request.lastName}`;
     },
   },
   components: { UserAvatar },
@@ -50,12 +39,12 @@ export default {
         <UserAvatar class="small" />
         <div class="user-info">
           <span class="user-name">
-            {{ userName }}
+            {{ fullName }}
           </span>
           <a
             class="user-email"
             :href="formattedEmail">
-            {{ userEmail }}
+            {{ request.email }}
           </a>
         </div>
       </div>

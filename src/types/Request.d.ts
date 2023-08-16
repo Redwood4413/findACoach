@@ -1,7 +1,10 @@
 interface Request {
-  id: string,
+  requestId: string,
   coachId: string,
   userId: string,
   message: string,
-  sentAbout: number,
+  firstName?: string,
+  lastName?: string,
+  email?: string,
+  sentAbout: EpochTimeStamp,
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { useRequestsStore } from '@/stores/RequestsStore';
+import { PropType } from 'vue';
 import RequestsReceivedListItem from './RequestsReceivedListItem.vue';
 
 import NotFound from '../NotFound.vue';
@@ -8,18 +8,9 @@ import NotFound from '../NotFound.vue';
 export default {
   name: 'RequestsReceivedList',
   props: {
-    id: {
-      type: String,
+    requests: {
+      type: Array as PropType<Request[]>,
       required: true,
-    },
-  },
-  setup() {
-    const requestsStore = useRequestsStore();
-    return { requestsStore };
-  },
-  computed: {
-    requests() {
-      return this.requestsStore.getRequestsByCoach(this.id);
     },
   },
   components: { RequestsReceivedListItem, NotFound },
@@ -30,7 +21,7 @@ export default {
   <ul class="request-list" v-if="requests.length > 0">
     <RequestsReceivedListItem
       v-for="request in requests"
-      :key="request.id"
+      :key="request.requestId"
       :request="request"
     />
   </ul>

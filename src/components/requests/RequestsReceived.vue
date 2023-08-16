@@ -7,19 +7,21 @@ export default {
   name: 'RequestsReceived',
   components: { RequestsReceivedList },
   setup() {
-    const RequestsStore = useRequestsStore();
-    return { RequestsStore };
+    const requestsStore = useRequestsStore();
+    return { requestsStore };
   },
-  data: () => ({
-    coachId: 'c3',
-  }),
+  computed: {
+    requests() {
+      return this.requestsStore.getRequests;
+    },
+  },
 };
 </script>
 
 <template>
   <BaseWrapper>
     <h2>Your received requests:</h2>
-    <RequestsReceivedList :id="coachId" />
+    <RequestsReceivedList :requests="requests" />
   </BaseWrapper>
 </template>
 
