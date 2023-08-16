@@ -7,4 +7,5 @@ interface Review {
   description: string,
   rate: number,
   createdAt: EpochTimeStamp,
+  editedAt?: EpochTimeStamp,
 }
