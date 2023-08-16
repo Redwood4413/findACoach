@@ -4,6 +4,8 @@ import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
 import supabase from '@/lib/supabaseClient';
 import { useReviewsStore } from '@/stores/ReviewsStore';
+import { useMachine } from '@xstate/vue';
+import sendingMachine from '@/machines/sendingMachine';
 import CoachWrapperHeader from './CoachWrapperHeader.vue';
 import NotFound from '../NotFound.vue';
 import CoachAddReviewForm from './CoachAddReviewForm.vue';
@@ -20,31 +22,47 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    errorMsg: '',
+  }),
   setup() {
     const coachesStore = useCoachesStore();
     const authStore = useAuthStore();
     const reviewsStore = useReviewsStore();
-    return { coachesStore, authStore, reviewsStore };
+    const { state, send } = useMachine(sendingMachine);
+
+    return {
+      coachesStore,
+      authStore,
+      reviewsStore,
+      state,
+      send,
+    };
   },
   methods: {
     async sendData(data: Review) {
+      this.send('SEND');
       const review = {
         description: data.description,
         rate: data.rate,
-        createdAt: Date.now(),
+        editedAt: Date.now(),
       };
       try {
         const { error } = await supabase.from('reviews')
           .update(review)
           .eq('reviewId', this.reviewId);
-
         if (error) {
-          throw new Error(`Failed! ${error.message}`);
+          throw new Error(error.message);
         }
+        this.send('SUCCESS');
         await this.reviewsStore.reloadReviews();
-        this.$router.replace({ name: 'reviews' });
+        setTimeout(() => {
+          if (this.$route.name !== 'edit-review') return;
+          this.$router.replace({ name: 'reviews' });
+        }, this.state.context.timing);
       } catch (error) {
-        console.log(error);
+        this.errorMsg = error as string;
+        this.send('ERROR');
       }
     },
   },
@@ -66,13 +84,35 @@ export default {
 <template>
   <div class="edit-review" v-if="isFound">
     <CoachWrapperHeader :id="id" />
-    <CoachAddReviewForm :review="review" @add-review="sendData" />
+    <Transition mode="out-in">
+      <CoachAddReviewForm
+        :review="review"
+        @add-review="sendData"
+        v-if="state.matches('empty')"
+        :state="state.value"
+      />
+      <BaseSuccess v-else-if="state.matches('sent')">
+        <h3>Your review has been edited.</h3>
+      </BaseSuccess>
+      <BaseError v-else-if="state.matches('error')">
+        {{ errorMsg }}
+      </BaseError>
+    </Transition>
   </div>
   <NotFound v-else element="Coach" />
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 .edit-review {
   padding: 1.5em;
   width:100%;
