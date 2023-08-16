@@ -2,6 +2,7 @@
 import TheHeader from './components/layouts/TheHeader.vue';
 import TheMain from './components/layouts/TheMain.vue';
 import { useCoachesStore } from './stores/CoachesStore';
+import { useRequestsStore } from './stores/RequestsStore';
 import { useReviewsStore } from './stores/ReviewsStore';
 
 export default {
@@ -10,8 +11,8 @@ export default {
   setup() {
     const reviewsStore = useReviewsStore();
     const coachesStore = useCoachesStore();
-
-    return { reviewsStore, coachesStore };
+    const requestsStore = useRequestsStore();
+    return { reviewsStore, coachesStore, requestsStore };
   },
 };
 </script>
