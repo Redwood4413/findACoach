@@ -1,4 +1,5 @@
 <script lang="ts">
+import { PropType } from 'vue';
 import SendIcon from '../icons/SendIcon.vue';
 import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
 
@@ -9,11 +10,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    state: {
+      type: String as PropType<SendEvents>,
+      default: 'empty',
+    },
   },
-  inject: ['state'],
   data: () => ({
-    shake: false as boolean,
-    timing: 300 as number, // ms
+    shake: false,
+    timing: 300, // ms
   }),
   methods: {
     toggleShake() {
@@ -26,9 +30,6 @@ export default {
         }, this.timing);
       });
     },
-  },
-  mounted() {
-    // console.log(this.state);
   },
   computed: {
     shakeClass() {
@@ -46,11 +47,11 @@ export default {
     :class="`submit ${shakeClass}`"
     :style="{ animationDuration: timing + 'ms' }"
   >
-    <template v-if="true">
+    <template v-if="state === 'empty'">
       <span>Send</span>
       <SendIcon />
     </template>
-    <SvgSpinnersRingResize v-else-if="true" />
+    <SvgSpinnersRingResize v-else-if="state === 'sending'" />
   </button>
 
 </template>
@@ -62,6 +63,7 @@ export default {
   justify-content: center;
   align-items: center;
   gap:0.3em;
+  width:6.5em;
   border-radius: 5em;
   padding:0.5em 1em;
   background: rgb(207,111,30);
