@@ -14,6 +14,7 @@ import CoachAddReview from './components/coaches/CoachAddReview.vue';
 import CoachEditReview from './components/coaches/CoachEditReview.vue';
 import { useReviewsStore } from './stores/ReviewsStore';
 import { useAuthStore } from './stores/AuthStore';
+import { useRequestsStore } from './stores/RequestsStore';
 
 const routes = [
   {
@@ -107,6 +108,13 @@ const routes = [
     name: 'requests',
     path: '/requests',
     component: RequestsReceived,
+    beforeEnter: (to, from, next) => {
+      const requestsStore = useRequestsStore();
+      const authStore = useAuthStore();
+
+      requestsStore.fetchRequests(authStore.getUserId);
+      next();
+    },
   },
   {
     name: 'no-permissions',
