@@ -170,6 +170,7 @@ export default {
     ref="form"
     novalidate
   >
+    <!-- <vSelect /> -->
     <div class="input-wrapper">
       <input
         type="text"
@@ -188,6 +189,7 @@ export default {
         v-if="suggestions.isVisible"
       >
         <li class="list">
+
           <button
             type="submit"
             v-for="(suggestion, index) in suggestions.data"
