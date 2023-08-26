@@ -1,5 +1,5 @@
 import {
-  createWebHistory, createRouter, RouteLocationNormalized, NavigationGuardNext,
+  createWebHistory, createRouter, RouteRecordRaw,
 } from 'vue-router';
 import CoachDetails from './components/coaches/CoachDetails.vue';
 import CoachList from './components/coaches/CoachList.vue';
@@ -16,7 +16,7 @@ import { useReviewsStore } from './stores/ReviewsStore';
 import { useAuthStore } from './stores/AuthStore';
 import { useRequestsStore } from './stores/RequestsStore';
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     name: 'home',
     path: '/',
@@ -32,9 +32,9 @@ const routes = [
       redirect: '/coaches',
       component: CoachWrapper,
       beforeEnter: (
-        to: RouteLocationNormalized,
-        _: RouteLocationNormalized,
-        next: NavigationGuardNext,
+        to,
+        _,
+        next,
       ) => {
         const reviewsStore = useReviewsStore();
         reviewsStore.fetchReviews(to.params.id as string);
@@ -65,10 +65,11 @@ const routes = [
         name: 'edit-review',
         path: ':id/reviews/edit-review/:reviewId',
         component: CoachEditReview,
+        props: true,
         beforeEnter: async (
-          to: RouteLocationNormalized,
-          _: RouteLocationNormalized,
-          next: NavigationGuardNext,
+          to,
+          _,
+          next,
         ) => {
           const reviewsStore = useReviewsStore();
           const authStore = useAuthStore();
@@ -87,13 +88,29 @@ const routes = [
             next({ name: 'no-permissions' });
           }
         },
-        props: true,
       },
       {
         name: 'add-review',
         path: ':id/add-review',
         component: CoachAddReview,
         props: true,
+        beforeEnter: async (
+          to,
+          _,
+          next,
+        ) => {
+          const reviewsStore = useReviewsStore();
+          const authStore = useAuthStore();
+
+          await reviewsStore.fetchReviews(to.params.id as string);
+          const isFound = reviewsStore.reviewIsFound(authStore.getUserId);
+
+          if (isFound) {
+            next({ name: 'no-permissions' });
+            return;
+          }
+          next();
+        },
       }],
     },
     ],
@@ -108,7 +125,11 @@ const routes = [
     name: 'requests',
     path: '/requests',
     component: RequestsReceived,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (
+      to,
+      from,
+      next,
+    ) => {
       const requestsStore = useRequestsStore();
       const authStore = useAuthStore();
 
