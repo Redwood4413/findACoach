@@ -1,7 +1,7 @@
 import { createMachine } from 'xstate';
 
 interface Events {
-  type: 'LOAD' | 'SUCCESS' | 'ERROR' | 'EMPTY',
+  type: 'LOAD' | 'SUCCESS' | 'ERROR' | 'EMPTY';
 }
 // eslint-disable-next-line import/prefer-default-export
 export const loadingMachine = createMachine({

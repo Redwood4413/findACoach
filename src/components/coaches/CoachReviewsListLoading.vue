@@ -14,10 +14,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  .loading {
-    display:flex;
-    min-height: inherit;
-    align-items: center;
-    justify-content: center;
-  }
+.loading {
+  display: flex;
+  min-height: inherit;
+  align-items: center;
+  justify-content: center;
+}
 </style>

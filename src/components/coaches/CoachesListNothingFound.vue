@@ -19,7 +19,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap');
 .nothing-found {
   font-family: 'Cabin Sketch', cursive;
-  display:flex;
+  display: flex;
   font-size: larger;
   flex-direction: column;
   align-items: center;

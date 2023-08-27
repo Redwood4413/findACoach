@@ -28,9 +28,7 @@ export default {
 </script>
 
 <template>
-  <button
-    type="button"
-    :class="`${flatClass} ${roundedClass} ${squareClass}`">
+  <button type="button" :class="`${flatClass} ${roundedClass} ${squareClass}`">
     <slot />
   </button>
 </template>
@@ -38,42 +36,42 @@ export default {
 <style lang="scss" scoped>
 @use '@/colors.scss';
 
-button{
+button {
   background: colors.$strong-gray;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  padding:0.5rem 1rem;
-  max-height:50px;
+  padding: 0.5rem 1rem;
+  max-height: 50px;
   font-size: small;
-  transition: background .1s ease-in-out;
-  &.flat{
+  transition: background 0.1s ease-in-out;
+  &.flat {
     border-radius: 0;
     background: none;
     border: 0;
     &:hover {
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.2);
     }
   }
   &.red {
     background: colors.$strong-red;
   }
   &.rounded {
-    border-radius:5rem;
+    border-radius: 5rem;
   }
   &.circle {
     border-radius: 50%;
   }
   &.square {
     aspect-ratio: 1/1;
-    height:50px;
-    padding:0;
+    height: 50px;
+    padding: 0;
   }
   &.icon {
-    padding:0;
+    padding: 0;
   }
   &.sharp {
-    border-radius:0;
+    border-radius: 0;
   }
   &.bg-none {
     background: none;
@@ -82,5 +80,4 @@ button{
     filter: brightness(90%);
   }
 }
-
 </style>

@@ -17,9 +17,7 @@ export default {
     const coachesStore = useCoachesStore();
     return { coachesStore };
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
   methods: {
     submitData(data) {
       console.log(data);
@@ -59,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 @use '@/colors.scss';
 .coach-contact {
-  padding:1.5em;
-  width:100%;
+  padding: 1.5em;
+  width: 100%;
 }
 </style>

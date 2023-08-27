@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { PropType } from 'vue';
 import RequestsReceivedListItem from './RequestsReceivedListItem.vue';
 
@@ -29,8 +28,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  .request-list {
-    margin:0;
-    padding:0;
-  }
+.request-list {
+  margin: 0;
+  padding: 0;
+}
 </style>

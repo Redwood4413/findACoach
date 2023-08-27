@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { useCoachesStore } from '@/stores/CoachesStore';
 import CoachAvatar from './CoachAvatar.vue';
 
@@ -37,10 +36,10 @@ export default {
 <style lang="scss" scoped>
 @use '@/colors.scss';
 .coach-header {
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap:1em;
+  gap: 1em;
   padding: 0 0 1em 0;
   border-bottom: 2px solid colors.$background-4;
   .name {

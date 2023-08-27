@@ -13,12 +13,16 @@ export const useUsersStore = defineStore('usersStore', () => {
 
   const { state: stateMachine, send } = useMachine(loadingMachine);
 
-  const getUserIds = computed(() => state.value.users.map((user) => user.userId));
+  const getUserIds = computed(() =>
+    state.value.users.map((user) => user.userId),
+  );
 
   const getFilteredIds = computed(() => {
     const ids = getUserIds.value;
 
-    return state.value.users.map((user) => ids.filter((id) => user.userId.includes(id)));
+    return state.value.users.map((user) =>
+      ids.filter((id) => user.userId.includes(id)),
+    );
   });
 
   async function fetchUsers() {
@@ -26,13 +30,14 @@ export const useUsersStore = defineStore('usersStore', () => {
 
     send('LOAD');
     try {
-      const { data: users, error } = await supabase.from('users').select('*').not('userId', 'in', existingUsersId);
+      const { data: users, error } = await supabase
+        .from('users')
+        .select('*')
+        .not('userId', 'in', existingUsersId);
 
       if (error) throw new Error(`Failed! ${error.message}`);
 
-      users.forEach((user) => {
-
-      });
+      users.forEach((user) => {});
       send('LOADED');
     } catch (error) {
       send('ERROR');

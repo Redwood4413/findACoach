@@ -39,15 +39,18 @@ export default {
     <CoachWrapperHeader :id="id" />
     <CoachReviewsList :coachId="id" />
   </div>
-  <NotFound element="Coach" v-else-if="coachesStore.stateMachine.matches('loaded') && !isFound" />
+  <NotFound
+    element="Coach"
+    v-else-if="coachesStore.stateMachine.matches('loaded') && !isFound"
+  />
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
 
 .coach-reviews {
-  padding:1.5em;
-  width:100%;
+  padding: 1.5em;
+  width: 100%;
   min-height: inherit;
 }
 </style>

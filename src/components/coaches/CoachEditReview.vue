@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
 import supabase from '@/lib/supabaseClient';
@@ -30,7 +29,6 @@ export default {
     const authStore = useAuthStore();
     const reviewsStore = useReviewsStore();
     const { state, send } = useMachine(sendingMachine);
-
     return {
       coachesStore,
       authStore,
@@ -48,9 +46,12 @@ export default {
         editedAt: Date.now(),
       };
       try {
-        const { error } = await supabase.from('reviews')
+        const { error, data: dataa } = await supabase
+          .from('reviews')
           .update(review)
-          .eq('reviewId', this.reviewId);
+          .eq('reviewId', this.reviewId)
+          .select();
+        console.log(dataa);
         if (error) {
           throw new Error(error.message);
         }
@@ -106,7 +107,7 @@ export default {
 @use '@/colors.scss';
 .v-enter-active,
 .v-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .v-enter-from,
@@ -115,6 +116,6 @@ export default {
 }
 .edit-review {
   padding: 1.5em;
-  width:100%;
+  width: 100%;
 }
 </style>

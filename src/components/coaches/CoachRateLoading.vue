@@ -14,9 +14,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  .loading {
-    display:flex;
-    flex-direction: column;
-    place-items: center;
-  }
+.loading {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
 </style>

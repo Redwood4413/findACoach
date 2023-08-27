@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import BaseButton from '../UI/BaseButton.vue';
 
 export default {
@@ -34,35 +33,29 @@ export default {
       <span class="info">{{ rate }}/{{ max }}</span>
     </div>
     <ul class="buttons" id="rate">
-      <li
-        class="item"
-        v-for="i in max"
-        :key="i">
+      <li class="item" v-for="i in max" :key="i">
         <BaseButton
           :title="`${i}/${max}`"
           @click="emitRate(i)"
           :class="`flat ${filledClass(i)}`"
         />
-
       </li>
     </ul>
-
   </div>
-
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
 .rate {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  width:fit-content;
-  gap:0.3em;
+  width: fit-content;
+  gap: 0.3em;
   .wrapper {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    width:100%;
+    width: 100%;
     & > * {
       font-weight: 200;
     }
@@ -71,20 +64,19 @@ export default {
     }
   }
   .buttons {
-    display:flex;
-    padding:0;
-    margin:0;
-    gap:0.5em;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
     .item {
-      display:flex;
+      display: flex;
       button {
         border-radius: 50%;
-        padding:0.6em;
+        padding: 0.6em;
         outline-offset: 0.3em;
         background: colors.$foreground-1;
         &.filled {
           background: colors.$strong-green;
-
         }
       }
     }

@@ -124,12 +124,13 @@ export default {
       this.input.data = this.suggestions.data[id];
     },
     preventScrolling(event: KeyboardEvent) {
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') event.preventDefault();
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp')
+        event.preventDefault();
     },
     selectedClass(index: number) {
       return index === this.suggestions.selectedId ? 'selected' : '';
     },
-    formatString(input: string): { matching: string, rest: string } {
+    formatString(input: string): { matching: string; rest: string } {
       const matching = input.slice(0, this.input.data.length);
       const rest = input.slice(this.input.data.length);
       return { matching, rest };
@@ -179,17 +180,16 @@ export default {
         @focus="searchSuggestion"
         autocomplete="off"
         required
-      >
+      />
       <label for="expertise">{{ title }}</label>
       <div class="validation">
-        <span class="invalid" v-if="!input.isValid">{{ input.errorMsg}}</span>
-        <span class="counter">{{ input.data.length }} / {{ input.maxLen }}</span>
+        <span class="invalid" v-if="!input.isValid">{{ input.errorMsg }}</span>
+        <span class="counter"
+          >{{ input.data.length }} / {{ input.maxLen }}</span
+        >
       </div>
-      <BaseDropdownMenu
-        v-if="suggestions.isVisible"
-      >
+      <BaseDropdownMenu v-if="suggestions.isVisible">
         <li class="list">
-
           <button
             type="submit"
             v-for="(suggestion, index) in suggestions.data"
@@ -202,7 +202,9 @@ export default {
             @mouseleave="setSelectedId(-1)"
             @click="submitData(suggestion)"
           >
-            <span class="underline">{{ formatString(suggestion).matching }}</span>
+            <span class="underline">{{
+              formatString(suggestion).matching
+            }}</span>
             <span>{{ formatString(suggestion).rest }}</span>
           </button>
         </li>
@@ -212,38 +214,37 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  @use '@/colors.scss';
+@use '@/colors.scss';
 
-    .form-expertises {
-      position: relative;
-      display:flex;
+.form-expertises {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  .input-wrapper {
+    .list {
+      display: flex;
       flex-direction: column;
-      flex:0;
-      .input-wrapper {
-        .list {
-          display:flex;
-          flex-direction: column;
-          max-height: 230px;
-          overflow: auto;
-          button {
-            transition: background .1s ease-in-out;
-            font-weight: 300;
-            margin:0;
-            background: none;
-            text-align: left;
-            cursor: pointer;
-            border-radius: 0;
-            padding:0.3em;
-            outline: none;
-            &:not(:last-child) {
-              border-bottom: 2px solid colors.$gray;
-            }
-            &.selected {
-              background: colors.$background-3;
-            }
-          }
+      max-height: 230px;
+      overflow: auto;
+      button {
+        transition: background 0.1s ease-in-out;
+        font-weight: 300;
+        margin: 0;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        border-radius: 0;
+        padding: 0.3em;
+        outline: none;
+        &:not(:last-child) {
+          border-bottom: 2px solid colors.$gray;
+        }
+        &.selected {
+          background: colors.$background-3;
         }
       }
     }
-
+  }
+}
 </style>

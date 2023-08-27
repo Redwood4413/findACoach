@@ -1,5 +1,4 @@
 <script lang="ts">
-
 export default {
   name: 'CoachRatePoint',
   props: {
@@ -23,7 +22,6 @@ export default {
       return this.isFilled(index) ? 'filled' : '';
     },
   },
-
 };
 </script>
 
@@ -36,12 +34,11 @@ export default {
 
 .point {
   background: colors.$foreground-1;
-  height:13px;
-  width:13px;
+  height: 13px;
+  width: 13px;
   border-radius: 50%;
   &.filled {
     background: colors.$strong-green;
   }
 }
-
 </style>

@@ -29,14 +29,14 @@ export default {
       return this.color === 'orange' ? 'orange' : '';
     },
   },
-
 };
 </script>
 
 <template>
   <RouterLink
     :to="to"
-    :class="`${flatClass} ${roundedClass} ${sharpClass} ${orangeClass}`">
+    :class="`${flatClass} ${roundedClass} ${sharpClass} ${orangeClass}`"
+  >
     <slot />
   </RouterLink>
 </template>
@@ -44,24 +44,24 @@ export default {
 <style lang="scss" scoped>
 @use '@/colors.scss';
 
- a {
+a {
   background: colors.$strong-gray;
   border-radius: 8px;
-  padding:0.5rem 1rem;
-  max-height:50px;
-  transition: filter .1s ease-in-out;
+  padding: 0.5rem 1rem;
+  max-height: 50px;
+  transition: filter 0.1s ease-in-out;
   font-size: small;
   white-space: nowrap;
-  &.flat{
+  &.flat {
     border-radius: 0;
     background: none;
     border: 0;
     font-size: medium;
     text-decoration: underline;
-    padding:0;
+    padding: 0;
   }
   &.rounded {
-    border-radius:5rem;
+    border-radius: 5rem;
   }
 
   &.orange {

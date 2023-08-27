@@ -27,9 +27,11 @@ export default {
     },
     reviewString(): string {
       // eslint-disable-next-line no-nested-ternary
-      return this.reviewsQuantity === 0 ? 'No reviews yet.'
-        : this.reviewsQuantity === 1 ? `Based on ${this.reviewsQuantity} review.`
-          : `Based on ${this.reviewsQuantity} reviews.`;
+      return this.reviewsQuantity === 0
+        ? 'No reviews yet.'
+        : this.reviewsQuantity === 1
+        ? `Based on ${this.reviewsQuantity} review.`
+        : `Based on ${this.reviewsQuantity} reviews.`;
     },
     pointsString(): string {
       return this.reviewsQuantity ? `Rate ${this.rate}/5` : 'No reviews yet.';
@@ -42,7 +44,12 @@ export default {
 <template>
   <div class="coach-rate">
     <div class="rate" :title="pointsString">
-      <CoachRatePoint v-for="(index) in 5" :key="index" :index="index" :rate="rate" />
+      <CoachRatePoint
+        v-for="index in 5"
+        :key="index"
+        :index="index"
+        :rate="rate"
+      />
     </div>
     <span class="stats">{{ reviewString }}</span>
   </div>
@@ -50,18 +57,18 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-  .coach-rate {
-    display:flex;
-    gap:5px;
-    flex-direction: column;
-  .rate{
-    display:flex;
+.coach-rate {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  .rate {
+    display: flex;
     align-items: center;
-    gap:5px;
+    gap: 5px;
   }
   .stats {
     font-size: small;
-    color: colors.$gray
+    color: colors.$gray;
   }
 }
 </style>

@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
 import supabase from '@/lib/supabaseClient';
@@ -100,7 +99,6 @@ export default {
         {{ errorMsg }}
       </BaseError>
     </Transition>
-
   </div>
   <NotFound v-else element="Coach" />
 </template>
@@ -109,7 +107,7 @@ export default {
 @use '@/colors.scss';
 .v-enter-active,
 .v-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .v-enter-from,
@@ -118,6 +116,6 @@ export default {
 }
 .add-review {
   padding: 1.5em;
-  width:100%;
+  width: 100%;
 }
 </style>

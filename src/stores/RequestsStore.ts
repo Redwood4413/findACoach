@@ -21,7 +21,8 @@ export const useRequestsStore = defineStore('requestsStore', () => {
       if (stateMachine.value.matches('loaded')) return;
 
       send('LOAD');
-      const { data, error } = await supabase.from('requests_list_view')
+      const { data, error } = await supabase
+        .from('requests_list_view')
         .select('*')
         .eq('coachId', coachId);
 

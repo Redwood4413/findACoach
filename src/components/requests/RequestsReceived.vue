@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { useRequestsStore } from '@/stores/RequestsStore';
 import RequestsReceivedList from './RequestsReceivedList.vue';
 
@@ -26,7 +25,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  h2 {
-    text-align: left;
-  }
+h2 {
+  text-align: left;
+}
 </style>

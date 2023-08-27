@@ -31,19 +31,18 @@ export default {
   <BaseWrapper>
     <CoachRegistrationForm @submit="registerCoach" />
   </BaseWrapper>
-
 </template>
 
 <style lang="scss" scoped>
-  @use '@/colors.scss';
-  .header-wrapper {
-    text-align: left;
-    margin:0 0 1em 0;
-    h3 {
-      font-family: 'Open Sans';
-      font-weight: 400;
-      font-style: italic;
-      color: colors.$foreground-1;
-    }
+@use '@/colors.scss';
+.header-wrapper {
+  text-align: left;
+  margin: 0 0 1em 0;
+  h3 {
+    font-family: 'Open Sans';
+    font-weight: 400;
+    font-style: italic;
+    color: colors.$foreground-1;
   }
+}
 </style>

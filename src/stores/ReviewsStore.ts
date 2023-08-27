@@ -15,10 +15,19 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
   const getReviews = computed(() => state.value.reviews);
 
   const getAuthorReviews = computed(() => (authorId: string): Review[] => {
-    const reviews = state.value.reviews.filter((review) => review.authorId === authorId);
+    const reviews = state.value.reviews.filter(
+      (review) => review.authorId === authorId,
+    );
 
     return reviews;
   });
+
+  const reviewIsFound = computed(
+    () => (authorId: string) =>
+      !!state.value.reviews.find(
+        (review: Review) => review.authorId === authorId,
+      ),
+  );
 
   const getRate = computed(() => {
     let total = 0;
@@ -41,26 +50,6 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
   function assignNewCoachId(coachId: string) {
     state.value.lastCoachId = coachId;
   }
-  async function deleteReview(reviewId: string) {
-    const authStore = useAuthStore();
-
-    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
-    if (authStore.getUserId !== found?.authorId) return;
-
-    try {
-      const { error } = await supabase
-        .from('reviews')
-        .delete()
-        .eq('reviewId', reviewId);
-
-      reloadReviews();
-      if (error) {
-        throw new Error(`Failed! ${error.message}`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const shouldFetchNewData = computed(() => (currentCoachId: string) => {
     if (state.value.lastCoachId !== currentCoachId) {
@@ -71,12 +60,22 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
   });
 
   const getAuthorFullName = computed(() => (reviewId: string) => {
-    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
+    const found = state.value.reviews.find(
+      (review) => review.reviewId === reviewId,
+    );
     return `${found?.firstName} ${found?.lastName}`;
   });
+  const reviewIdByAuthor = computed(() => (authorId: string) => {
+    const review = state.value.reviews.find(
+      (review) => review.authorId === authorId,
+    );
 
+    return review?.reviewId;
+  });
   const getReviewById = computed(() => (reviewId: string) => {
-    const found = state.value.reviews.find((review) => review.reviewId === reviewId);
+    const found = state.value.reviews.find(
+      (review) => review.reviewId === reviewId,
+    );
     return found;
   });
   async function fetchReviews(coachId: string) {
@@ -87,7 +86,10 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     if (stateMachine.value.matches('loaded')) return;
     try {
       send('LOAD');
-      const { data: reviews, error } = await supabase.from('reviews_list_view').select('*').eq('userId', coachId);
+      const { data: reviews, error } = await supabase
+        .from('reviews_list_view')
+        .select('*')
+        .eq('userId', coachId);
 
       if (error) {
         send('ERROR');
@@ -108,6 +110,28 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     clearReviews();
     fetchReviews(state.value.lastCoachId);
   }
+  async function deleteReview(reviewId: string) {
+    const authStore = useAuthStore();
+
+    const found = state.value.reviews.find(
+      (review) => review.reviewId === reviewId,
+    );
+    if (authStore.getUserId !== found?.authorId) return;
+
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .delete()
+        .eq('reviewId', reviewId);
+
+      reloadReviews();
+      if (error) {
+        throw new Error(`Failed! ${error.message}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return {
     getAuthorReviews,
     getAuthorFullName,
@@ -115,9 +139,11 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     getReviews,
     fetchReviews,
     setReview,
+    reviewIsFound,
     getReviewById,
     reloadReviews,
     stateMachine,
     deleteReview,
+    reviewIdByAuthor,
   };
 });

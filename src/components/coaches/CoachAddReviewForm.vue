@@ -1,7 +1,7 @@
 <script lang="ts">
-
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { PropType } from 'vue';
+import { StateValue } from 'xstate';
 import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
 import CoachAddReviewFormRate from './CoachAddReviewFormRate.vue';
 
@@ -14,9 +14,18 @@ export default {
   },
   props: {
     state: {
-      type: String as PropType<SendEvents>,
+      type: String as PropType<StateValue>,
       required: true,
     },
+    review: {
+      type: Object as PropType<Review>,
+      default() {
+        return null;
+      },
+    },
+  },
+  mounted() {
+    console.log(this.review);
   },
   data: () => ({
     description: {
@@ -91,29 +100,25 @@ export default {
     },
   },
   components: {
-    BaseSubmitButton, CoachAddReviewFormRate,
+    BaseSubmitButton,
+    CoachAddReviewFormRate,
   },
 };
 </script>
 
 <template>
-  <form
-    class="form"
-    @submit.prevent="submitData"
-    novalidate
-  >
+  <form class="form" @submit.prevent="submitData" novalidate>
     <span class="section-title">description:</span>
     <div class="input-wrapper">
-      <textarea
-        id="description"
-        v-model="description.data"
-        rows="3"
-        required
-      />
+      <textarea id="description" v-model="description.data" rows="3" required />
       <label type="text" for="description">Description<sup>*</sup></label>
       <div class="validation">
-        <span class="invalid" v-if="!description.isValid">{{ description.errorMsg }}</span>
-        <span class="counter">{{ description.data.length }}/{{ description.maxLen }}</span>
+        <span class="invalid" v-if="!description.isValid">{{
+          description.errorMsg
+        }}</span>
+        <span class="counter"
+          >{{ description.data.length }}/{{ description.maxLen }}</span
+        >
       </div>
     </div>
     <div class="input-wrapper">
@@ -128,9 +133,7 @@ export default {
     </div>
 
     <div class="buttons">
-      <BaseSubmitButton
-        :isValid="formIsValid"
-      />
+      <BaseSubmitButton :isValid="formIsValid" />
     </div>
   </form>
 </template>
@@ -139,23 +142,24 @@ export default {
 @use '@/colors.scss';
 
 .form {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:1.5em;
+  gap: 1.5em;
   justify-content: center;
-  text-align:left;
+  text-align: left;
   .input-wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    position:relative;
+    position: relative;
     textarea {
       background: none;
       border: 0;
       border-bottom: 2px solid colors.$foreground-2;
-      &:focus-within, &:valid {
-        outline:none;
+      &:focus-within,
+      &:valid {
+        outline: none;
         & + label {
-          top:-2em;
+          top: -2em;
           font-size: small;
         }
       }
@@ -164,30 +168,31 @@ export default {
       }
     }
     label {
-      top:0;
+      top: 0;
       transition-property: top, font-size;
-      transition-duration: .2s;
+      transition-duration: 0.2s;
       transition-timing-function: ease-in-out;
       pointer-events: none;
       user-select: none;
-      position:absolute;
+      position: absolute;
       color: colors.$foreground-2;
       font-weight: 400;
       sup {
-        color:colors.$red;
+        color: colors.$red;
         font-weight: 800;
       }
     }
-    label, textarea {
-      padding:0.3em;
+    label,
+    textarea {
+      padding: 0.3em;
       font-weight: 400;
     }
     textarea {
-      resize:vertical;
-      min-height:100px;
+      resize: vertical;
+      min-height: 100px;
     }
     .validation {
-      display:flex;
+      display: flex;
       font-size: small;
       height: 1rem;
       .invalid {
@@ -196,12 +201,12 @@ export default {
       }
       .counter {
         font-weight: 300;
-        margin-left:auto;
+        margin-left: auto;
       }
     }
   }
   .buttons {
-    display:flex;
+    display: flex;
     justify-content: flex-end;
   }
 }

@@ -6,16 +6,13 @@ module.exports = {
   extends: [
     'plugin:vue/vue3-essential',
     '@vue/eslint-config-airbnb-with-typescript',
+    '@vue/eslint-config-prettier',
   ],
-  overrides: [
-  ],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'vue',
-  ],
-  rules: {
-  },
+  plugins: ['vue'],
+  rules: {},
 };

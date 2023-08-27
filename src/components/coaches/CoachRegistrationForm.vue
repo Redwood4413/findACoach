@@ -157,27 +157,27 @@ export default {
   <form @submit.prevent="submit" class="form" novalidate>
     <div class="basic">
       <div class="input-wrapper">
-        <input
-          type="text"
-          id="first"
-          v-model.trim="firstName.data"
-          required>
+        <input type="text" id="first" v-model.trim="firstName.data" required />
         <label for="first">First name<sup>*</sup></label>
         <div class="validation">
-          <span class="invalid" v-if="!firstName.isValid">Your first name is invalid!</span>
-          <span class="counter">{{ firstName.data.length }} / {{ firstName.maxLen }}</span>
+          <span class="invalid" v-if="!firstName.isValid"
+            >Your first name is invalid!</span
+          >
+          <span class="counter"
+            >{{ firstName.data.length }} / {{ firstName.maxLen }}</span
+          >
         </div>
       </div>
       <div class="input-wrapper">
-        <input
-          type="text"
-          id="last"
-          v-model.trim="lastName.data"
-          required>
+        <input type="text" id="last" v-model.trim="lastName.data" required />
         <label for="last">Last name<sup>*</sup></label>
         <div class="validation">
-          <span class="invalid" v-if="!lastName.isValid">Your last name is invalid!</span>
-          <span class="counter">{{ lastName.data.length }} / {{ lastName.maxLen }}</span>
+          <span class="invalid" v-if="!lastName.isValid"
+            >Your last name is invalid!</span
+          >
+          <span class="counter"
+            >{{ lastName.data.length }} / {{ lastName.maxLen }}</span
+          >
         </div>
       </div>
       <div class="input-wrapper">
@@ -187,7 +187,8 @@ export default {
           v-model="cost.data"
           :min="cost.min"
           :max="cost.max"
-          required>
+          required
+        />
         <label for="cost">Cost (rate)<sup>*</sup></label>
         <div class="validation">
           <span class="invalid" v-if="!cost.isValid">{{ cost.errorMsg }}</span>
@@ -202,11 +203,16 @@ export default {
           type="text"
           rows="5"
           v-model.trim="description.data"
-          required />
+          required
+        />
         <label for="description">Introduce yourself<sup>*</sup></label>
         <div class="validation">
-          <span class="invalid" v-if="!description.isValid">Your message is invalid!</span>
-          <span class="counter">{{ description.data.length }} / {{ description.maxLen }}</span>
+          <span class="invalid" v-if="!description.isValid"
+            >Your message is invalid!</span
+          >
+          <span class="counter"
+            >{{ description.data.length }} / {{ description.maxLen }}</span
+          >
         </div>
       </div>
     </div>
@@ -218,11 +224,7 @@ export default {
       <vSelect :options="coachesStore.getUniqueAreas" />
       <div class="expertises-wrapper">
         <span class="section-title">your expertises:<sup>*</sup></span>
-        <TransitionGroup
-          tag="ul"
-          class="expertise-list"
-          name="expertise"
-        >
+        <TransitionGroup tag="ul" class="expertise-list" name="expertise">
           <template v-if="expertises.data.length > 0">
             <CoachRegistrationFormExpertiseBadge
               v-for="(expertise, index) in expertises.data"
@@ -241,8 +243,12 @@ export default {
           <span v-else class="empty">Empty</span>
         </TransitionGroup>
         <div class="validation">
-          <span class="invalid" v-if="!expertises.isValid">Your expertises are invalid!</span>
-          <span class="counter">{{ expertises.data.length }} / {{ expertises.maxLen }}</span>
+          <span class="invalid" v-if="!expertises.isValid"
+            >Your expertises are invalid!</span
+          >
+          <span class="counter"
+            >{{ expertises.data.length }} / {{ expertises.maxLen }}</span
+          >
         </div>
       </div>
     </div>
@@ -254,50 +260,57 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-.expertise-enter-from, .expertise-leave-to {
+.expertise-enter-from,
+.expertise-leave-to {
   opacity: 0;
   transform: translateY(30px);
 }
-.expertise-enter-active, .expertise-leave-active, .expertise-move {
-  transition: all .3s ease-in-out;
+.expertise-enter-active,
+.expertise-leave-active,
+.expertise-move {
+  transition: all 0.3s ease-in-out;
 }
 
 sup {
-  color:colors.$red;
+  color: colors.$red;
   font-weight: 800;
 }
 .form {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:2em;
+  gap: 2em;
   justify-content: center;
-  text-align:left;
+  text-align: left;
   .expertises {
     justify-content: center;
     align-items: center;
     .v-select {
-      flex-shrink:1;
+      flex-shrink: 1;
     }
   }
-  & > *, :deep(> *) {
-    display:flex;
-    gap:1em;
+  & > *,
+  :deep(> *) {
+    display: flex;
+    gap: 1em;
     place-content: center;
 
-    .input-wrapper, .expertises-wrapper {
-      display:flex;
+    .input-wrapper,
+    .expertises-wrapper {
+      display: flex;
       flex-direction: column;
-      position:relative;
-      width:100%;
+      position: relative;
+      width: 100%;
 
-      input, textarea {
+      input,
+      textarea {
         background: none;
         border: 0;
         border-bottom: 2px solid colors.$foreground-2;
-        &:focus-within, &:valid {
-          outline:none;
+        &:focus-within,
+        &:valid {
+          outline: none;
           & + label {
-            top:-2em;
+            top: -2em;
             font-size: small;
           }
         }
@@ -306,53 +319,55 @@ sup {
         }
       }
       label {
-        top:0;
+        top: 0;
         transition-property: top, font-size;
-        transition-duration: .2s;
+        transition-duration: 0.2s;
         transition-timing-function: ease-in-out;
         pointer-events: none;
         user-select: none;
-        position:absolute;
+        position: absolute;
         color: colors.$foreground-2;
         font-weight: 400;
       }
-      input, label, textarea {
-        padding:0.3em;
+      input,
+      label,
+      textarea {
+        padding: 0.3em;
         font-weight: 400;
       }
       textarea {
-        resize:vertical;
-        min-height:100px;
+        resize: vertical;
+        min-height: 100px;
       }
 
       .expertise-list {
-        position:relative;
+        position: relative;
         display: flex;
         align-items: flex-start;
-        padding:0;
-        margin:0;
-        gap:0.5em;
-        min-height:100px;
-        padding:0.5em;
+        padding: 0;
+        margin: 0;
+        gap: 0.5em;
+        min-height: 100px;
+        padding: 0.5em;
         border: 2px solid colors.$foreground-4;
         border-radius: 1em;
         flex-wrap: wrap;
         .empty {
           position: absolute;
-          top:50%;
-          left:50%;
+          top: 50%;
+          left: 50%;
           transform: translate(-50%, -50%);
           font-weight: 200;
           user-select: none;
-          color: colors.$foreground-4
+          color: colors.$foreground-4;
         }
         svg {
-          width:1.5em;
-          height:1.5em;
+          width: 1.5em;
+          height: 1.5em;
         }
       }
       .validation {
-        display:flex;
+        display: flex;
         font-size: small;
         .invalid {
           color: colors.$red;
@@ -360,20 +375,20 @@ sup {
         }
         .counter {
           font-weight: 300;
-          margin-left:auto;
+          margin-left: auto;
         }
       }
     }
   }
   .expertises {
-      align-items: flex-start;
-    }
-
-    .buttons {
-      display:flex;
-      justify-content: flex-end;
-    }
+    align-items: flex-start;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
 @media (width <= 500px) {
   .form {
     .basic {

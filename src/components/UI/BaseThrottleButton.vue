@@ -20,19 +20,14 @@ export default {
 </script>
 
 <template>
-  <BaseButton
-    type="button"
-    :disabled="!isAbleToReload"
-    @click="throttleCall"
-  >
+  <BaseButton type="button" :disabled="!isAbleToReload" @click="throttleCall">
     <slot />
   </BaseButton>
 </template>
 
 <style lang="scss" scoped>
-
-  button:disabled {
-    cursor: not-allowed;
-    opacity: .5;
-  }
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 </style>

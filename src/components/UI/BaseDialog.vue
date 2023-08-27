@@ -26,10 +26,11 @@ export default {
     backdropClick(e: MouseEvent) {
       const dialogDimensions = this.dialog.getBoundingClientRect();
       if (
-        e.clientX < dialogDimensions.left
-        || e.clientX > dialogDimensions.right
-        || e.clientY < dialogDimensions.top
-        || e.clientY > dialogDimensions.bottom) {
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+      ) {
         this.hideDialog();
       }
       // console.log(this.$route);
@@ -77,10 +78,18 @@ export default {
   <Teleport to="body">
     <dialog ref="dialog" class="base-dialog">
       <div class="nav">
-        <BaseButton v-if="closeIcon" mode="flat rounded square" @click="hideDialog">
+        <BaseButton
+          v-if="closeIcon"
+          mode="flat rounded square"
+          @click="hideDialog"
+        >
           <CloseIcon />
         </BaseButton>
-        <BaseButton v-else-if="returnIcon" mode="flat rounded square" @click="historyBack">
+        <BaseButton
+          v-else-if="returnIcon"
+          mode="flat rounded square"
+          @click="historyBack"
+        >
           <MaterialSymbolsReturn />
         </BaseButton>
       </div>
@@ -93,39 +102,39 @@ export default {
 @use '@/colors.scss';
 .nav {
   position: absolute;
-  top:0;
-  left:0;
-  padding:0.5rem;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
   svg {
-    stroke: #FBF1C7
+    stroke: #fbf1c7;
   }
 }
+.base-dialog {
+  display: flex;
+  justify-content: center;
+  min-height: 400px;
+  max-height: 90vh;
+  width: 600px;
+  background: colors.$background-3;
+  color: colors.$foreground-0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+  overflow-y: auto;
+  -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
+  -moz-box-shadow: 5px 5px 0px 0px colors.$background-0;
+  box-shadow: 5px 5px 0px 0px colors.$background-0;
+  &::backdrop {
+    background-color: #1d202170;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    cursor: pointer;
+  }
+}
+@media (width <= 600px) {
   .base-dialog {
-    display:flex;
-    justify-content: center;
-    min-height: 400px;
-    max-height: 90vh;
-    width: 600px;
-    background: colors.$background-3;
-    color: colors.$foreground-0;
-    padding:0;
-    border:0;
-    outline: 0;
-    border-radius: 5px;
-    overflow-y:auto;
-    -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
-    -moz-box-shadow: 5px 5px 0px 0px colors.$background-0;
-    box-shadow: 5px 5px 0px 0px colors.$background-0;
-    &::backdrop {
-      background-color: #1D202170;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      cursor: pointer;
-    }
+    min-width: 100vw;
   }
-  @media (width <= 600px) {
-    .base-dialog {
-      min-width:100vw;
-    }
-  }
+}
 </style>

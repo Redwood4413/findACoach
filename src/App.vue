@@ -30,7 +30,8 @@ export default {
   background-color: colors.$background-0;
   color: colors.$foreground-0;
 }
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   background: rgb(77, 152, 196);
 }
 
@@ -48,7 +49,7 @@ body {
 }
 .section-title {
   color: colors.$foreground-4;
-  padding:0.5rem 0;
+  padding: 0.5rem 0;
   font-size: x-small;
   font-weight: 600;
   text-transform: uppercase;
@@ -62,7 +63,6 @@ body {
 *::-webkit-scrollbar {
   width: variables.$scrollbar-width;
   height: variables.$scrollbar-width;
-
 }
 
 *::-webkit-scrollbar-track {
@@ -81,21 +81,26 @@ a {
   text-decoration: inherit;
 }
 
-input, textarea, button, select {
+input,
+textarea,
+button,
+select {
   font: inherit;
   color: inherit;
 }
 
-img, svg, video, picture {
+img,
+svg,
+video,
+picture {
   max-width: 100%;
-  display:block;
+  display: block;
 }
 #app {
   width: 100%;
   margin: 0 auto;
   min-height: 2000px;
   text-align: center;
-
 }
 
 .underline {

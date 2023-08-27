@@ -21,10 +21,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  .info {
-    padding:1em;
-    display:flex;
-    flex-direction: column;
-    place-items: center;
-  }
+.info {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
 </style>

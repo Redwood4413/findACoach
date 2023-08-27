@@ -41,9 +41,7 @@ export default {
           <span class="user-name">
             {{ fullName }}
           </span>
-          <a
-            class="user-email"
-            :href="formattedEmail">
+          <a class="user-email" :href="formattedEmail">
             {{ request.email }}
           </a>
         </div>
@@ -64,45 +62,45 @@ export default {
 @use '@/colors.scss';
 
 .coach-review {
-    display:flex;
-    text-align: left;
-    flex:1;
-    flex-direction: column;
-    padding:1em 0;
-    border-bottom: colors.$strong-gray 1px solid;
-    .header{
-      display:flex;
-      .user-wrapper {
-        display:flex;
-        gap:1em;
-        .user-info {
-          display:flex;
-          justify-content: center;
-          flex-direction: column;
-          .user-name, .user-email {
-            font-weight: 400;
-          }
-          .user-email {
-            font-size: smaller;
-
-          }
+  display: flex;
+  text-align: left;
+  flex: 1;
+  flex-direction: column;
+  padding: 1em 0;
+  border-bottom: colors.$strong-gray 1px solid;
+  .header {
+    display: flex;
+    .user-wrapper {
+      display: flex;
+      gap: 1em;
+      .user-info {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .user-name,
+        .user-email {
+          font-weight: 400;
+        }
+        .user-email {
+          font-size: smaller;
         }
       }
-      .sent-about {
-        color: colors.$foreground-2;
-        font-size: smaller;
-        margin-left: auto;
-        font-style: italic;
-        text-align: right;
-        font-family: 'Open Sans';
-      }
     }
-
-    .message {
-      display:flex;
-      flex-direction: column;
-      font-weight: 300;
-      font-size: 0.9em;
+    .sent-about {
+      color: colors.$foreground-2;
+      font-size: smaller;
+      margin-left: auto;
+      font-style: italic;
+      text-align: right;
+      font-family: 'Open Sans';
     }
   }
+
+  .message {
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    font-size: 0.9em;
+  }
+}
 </style>

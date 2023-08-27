@@ -63,10 +63,7 @@ export default {
         <input type="checkbox" id="ruleALl" v-model="isAllChecked" />
         <label for="ruleAll" @click="switchAll" @keydown="switchAll">All</label>
       </div>
-      <div
-        class="option"
-        v-for="(area, index) in areas"
-        :key="index">
+      <div class="option" v-for="(area, index) in areas" :key="index">
         <input
           type="checkbox"
           :id="area"
@@ -87,24 +84,24 @@ export default {
 }
 .section-title {
   color: colors.$foreground-4;
-  padding:0.5rem 0;
+  padding: 0.5rem 0;
   font-size: x-small;
   text-transform: uppercase;
 }
 .input-wrapper {
   user-select: none;
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
-  gap:5px;
+  gap: 5px;
 
   .option {
-    display:flex;
+    display: flex;
     label {
       cursor: pointer;
       border-radius: 5rem;
-      padding:0.3rem 0.8rem;
+      padding: 0.3rem 0.8rem;
       text-transform: capitalize;
-      transition: background .1s ease-in-out;
+      transition: background 0.1s ease-in-out;
       border: 2px solid colors.$strong-green;
       font-size: small;
       &:hover {
@@ -112,7 +109,7 @@ export default {
       }
     }
     input {
-      display:none;
+      display: none;
     }
     input:checked + label {
       background: colors.$strong-green;

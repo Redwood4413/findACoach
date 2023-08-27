@@ -9,7 +9,7 @@ export const useCoachesStore = defineStore('coachesStore', () => {
   const { state: stateMachine, send } = useMachine(loadingMachine);
 
   const state = ref({
-    coaches: [] as CoachList[],
+    coaches: [] as Coach[],
     filterArray: [] as string[],
     errorMsg: '',
   });
@@ -18,7 +18,9 @@ export const useCoachesStore = defineStore('coachesStore', () => {
     const { filterArray } = state.value;
 
     // eslint-disable-next-line vue/max-len
-    return state.value.coaches.filter((coach) => coach.areas.some((area: string) => filterArray.includes(area)));
+    return state.value.coaches.filter((coach) =>
+      coach.areas.some((area: string) => filterArray.includes(area)),
+    );
   });
   const getCoaches = computed(() => state.value.coaches);
   const getUniqueAreas = computed(() => {
@@ -39,9 +41,11 @@ export const useCoachesStore = defineStore('coachesStore', () => {
   function setFilter(checked: string[]) {
     state.value.filterArray = checked;
   }
-  const getErrorMsg = computed(() => state.value.errorMsg || 'Something went wrong, please again later.');
+  const getErrorMsg = computed(
+    () => state.value.errorMsg || 'Something went wrong, please again later.',
+  );
 
-  function setCoach(coach: CoachList) {
+  function setCoach(coach: Coach) {
     state.value.coaches.push(coach);
   }
   async function fetchCoaches() {
@@ -49,7 +53,8 @@ export const useCoachesStore = defineStore('coachesStore', () => {
     send('LOAD');
 
     try {
-      const { data: coaches, error } = await supabase.from('coaches_view')
+      const { data: coaches, error } = await supabase
+        .from('coaches_view')
         .select('*');
 
       if (error) throw new Error(error.code);

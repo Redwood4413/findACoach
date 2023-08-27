@@ -42,7 +42,10 @@ export default {
     },
   },
   components: {
-    CoachRatePoint, UserAvatar, BaseRouterLink, BaseButton,
+    CoachRatePoint,
+    UserAvatar,
+    BaseRouterLink,
+    BaseButton,
   },
 };
 </script>
@@ -66,7 +69,7 @@ export default {
         </div>
         <div class="rate-wrapper">
           <CoachRatePoint
-            v-for="(index) in 5"
+            v-for="index in 5"
             :key="index"
             :rate="reviewRate"
             :index="index"
@@ -81,8 +84,16 @@ export default {
 
     <div class="bottom">
       <div class="controls" v-if="review.authorId === authStore.getUserId">
-        <BaseRouterLink class="rounded" :to="{ name: 'edit-review', params: { reviewId: review.reviewId } }">Edit</BaseRouterLink>
-        <BaseButton @click="reviewsStore.deleteReview(review.reviewId)" class="rounded red">Delete</BaseButton>
+        <BaseRouterLink
+          class="rounded"
+          :to="{ name: 'edit-review', params: { reviewId: review.reviewId } }"
+          >Edit</BaseRouterLink
+        >
+        <BaseButton
+          @click="reviewsStore.deleteReview(review.reviewId)"
+          class="rounded red"
+          >Delete</BaseButton
+        >
       </div>
       <div class="time-added">
         <div class="section-title">Added:</div>
@@ -90,85 +101,84 @@ export default {
       </div>
     </div>
   </li>
-
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
 
-  .coach-review {
-    display:flex;
-    flex:1;
-    word-break: break-all;
-    flex-direction: column;
-    padding:1em 0;
-    gap:1em;
-    border-bottom: colors.$strong-gray 1px solid;
-    .header{
-      display:flex;
-      .user-wrapper {
-        display:flex;
-        gap:1em;
-        .user-info {
-          display:flex;
-          justify-content: center;
-          flex-direction: column;
-          .user-name {
-            font-weight: 400;
-          }
-          .quantity {
-            font-size: x-small;
-            color: colors.$foreground-3;
-          }
-        }
-      }
-      .rate {
-        display:flex;
-        text-align: end;
+.coach-review {
+  display: flex;
+  flex: 1;
+  word-break: break-all;
+  flex-direction: column;
+  padding: 1em 0;
+  gap: 1em;
+  border-bottom: colors.$strong-gray 1px solid;
+  .header {
+    display: flex;
+    .user-wrapper {
+      display: flex;
+      gap: 1em;
+      .user-info {
+        display: flex;
+        justify-content: center;
         flex-direction: column;
-        margin-left:auto;
-        .header {
-          display:flex;
-          justify-content: space-between;
+        .user-name {
+          font-weight: 400;
         }
-        .rate-wrapper {
-          display:flex;
-          gap:0.5em;
+        .quantity {
+          font-size: x-small;
+          color: colors.$foreground-3;
         }
       }
     }
-
-    .description {
-      display:flex;
-      flex-wrap:wrap;
+    .rate {
+      display: flex;
+      text-align: end;
       flex-direction: column;
-      font-weight: 300;
-      font-size: 0.9em;
-    }
-    .bottom {
-      display:flex;
-      .controls {
-        display:flex;
-        gap:0.5em;
-        align-items: center;
+      margin-left: auto;
+      .header {
+        display: flex;
+        justify-content: space-between;
       }
-      .time-added {
-        color: colors.$foreground-2;
-        font-size: smaller;
-        margin-left: auto;
-        font-style: italic;
-        text-align: right;
-        font-family: 'Open Sans';
+      .rate-wrapper {
+        display: flex;
+        gap: 0.5em;
       }
     }
   }
-    // .controls {
-    //   display:flex;
-    //   flex-direction: column;
-    //   .controls-wrapper {
-    //     display:flex;
-    //     flex-wrap: wrap;
-    //     gap: 5px;
-    //   }
-    // }
+
+  .description {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    font-weight: 300;
+    font-size: 0.9em;
+  }
+  .bottom {
+    display: flex;
+    .controls {
+      display: flex;
+      gap: 0.5em;
+      align-items: center;
+    }
+    .time-added {
+      color: colors.$foreground-2;
+      font-size: smaller;
+      margin-left: auto;
+      font-style: italic;
+      text-align: right;
+      font-family: 'Open Sans';
+    }
+  }
+}
+// .controls {
+//   display:flex;
+//   flex-direction: column;
+//   .controls-wrapper {
+//     display:flex;
+//     flex-wrap: wrap;
+//     gap: 5px;
+//   }
+// }
 </style>

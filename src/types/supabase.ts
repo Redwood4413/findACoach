@@ -12,156 +12,156 @@ export interface Database {
     Tables: {
       coaches: {
         Row: {
-          areas: string[]
-          description: string
-          hourlyRate: number
-          userId: string
-        }
+          areas: string[];
+          description: string;
+          hourlyRate: number;
+          userId: string;
+        };
         Insert: {
-          areas?: string[]
-          description: string
-          hourlyRate: number
-          userId: string
-        }
+          areas?: string[];
+          description: string;
+          hourlyRate: number;
+          userId: string;
+        };
         Update: {
-          areas?: string[]
-          description?: string
-          hourlyRate?: number
-          userId?: string
-        }
+          areas?: string[];
+          description?: string;
+          hourlyRate?: number;
+          userId?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: 'coaches_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'users'
-            referencedColumns: ['userId']
+            foreignKeyName: 'coaches_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'users';
+            referencedColumns: ['userId'];
           },
-        ]
-      }
+        ];
+      };
       reviews: {
         Row: {
-          authorId: string
-          createdAt: number
-          description: string
-          rate: number
-          reviewId: string
-          userId: string
-        }
+          authorId: string;
+          createdAt: number;
+          description: string;
+          rate: number;
+          reviewId: string;
+          userId: string;
+        };
         Insert: {
-          authorId: string
-          createdAt?: number
-          description: string
-          rate?: number
-          reviewId?: string
-          userId: string
-        }
+          authorId: string;
+          createdAt?: number;
+          description: string;
+          rate?: number;
+          reviewId?: string;
+          userId: string;
+        };
         Update: {
-          authorId?: string
-          createdAt?: number
-          description?: string
-          rate?: number
-          reviewId?: string
-          userId?: string
-        }
+          authorId?: string;
+          createdAt?: number;
+          description?: string;
+          rate?: number;
+          reviewId?: string;
+          userId?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: 'reviews_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'coaches'
-            referencedColumns: ['userId']
+            foreignKeyName: 'reviews_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'coaches';
+            referencedColumns: ['userId'];
           },
           {
-            foreignKeyName: 'reviews_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'coaches_view'
-            referencedColumns: ['userId']
+            foreignKeyName: 'reviews_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'coaches_view';
+            referencedColumns: ['userId'];
           },
-        ]
-      }
+        ];
+      };
       users: {
         Row: {
-          age: number | null
-          firstName: string
-          isAdmin: boolean
-          isCoach: boolean
-          lastName: string
-          registerDate: number
-          userId: string
-        }
+          age: number | null;
+          firstName: string;
+          isAdmin: boolean;
+          isCoach: boolean;
+          lastName: string;
+          registerDate: number;
+          userId: string;
+        };
         Insert: {
-          age?: number | null
-          firstName: string
-          isAdmin: boolean
-          isCoach?: boolean
-          lastName: string
-          registerDate?: number
-          userId: string
-        }
+          age?: number | null;
+          firstName: string;
+          isAdmin: boolean;
+          isCoach?: boolean;
+          lastName: string;
+          registerDate?: number;
+          userId: string;
+        };
         Update: {
-          age?: number | null
-          firstName?: string
-          isAdmin?: boolean
-          isCoach?: boolean
-          lastName?: string
-          registerDate?: number
-          userId?: string
-        }
-        Relationships: []
-      }
-    }
+          age?: number | null;
+          firstName?: string;
+          isAdmin?: boolean;
+          isCoach?: boolean;
+          lastName?: string;
+          registerDate?: number;
+          userId?: string;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
       coaches_view: {
         Row: {
-          areas: string[] | null
-          description: string | null
-          firstName: string | null
-          hourlyRate: number | null
-          lastName: string | null
-          userId: string | null
-        }
+          areas: string[] | null;
+          description: string | null;
+          firstName: string | null;
+          hourlyRate: number | null;
+          lastName: string | null;
+          userId: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: 'coaches_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'users'
-            referencedColumns: ['userId']
+            foreignKeyName: 'coaches_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'users';
+            referencedColumns: ['userId'];
           },
-        ]
-      }
+        ];
+      };
       reviews_list_view: {
         Row: {
-          createdAt: number | null
-          description: string | null
-          firstName: string | null
-          lastName: string | null
-          rate: number | null
-          reviewId: string | null
-          userId: string | null
-        }
+          createdAt: number | null;
+          description: string | null;
+          firstName: string | null;
+          lastName: string | null;
+          rate: number | null;
+          reviewId: string | null;
+          userId: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: 'reviews_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'coaches'
-            referencedColumns: ['userId']
+            foreignKeyName: 'reviews_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'coaches';
+            referencedColumns: ['userId'];
           },
           {
-            foreignKeyName: 'reviews_userId_fkey'
-            columns: ['userId']
-            referencedRelation: 'coaches_view'
-            referencedColumns: ['userId']
+            foreignKeyName: 'reviews_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'coaches_view';
+            referencedColumns: ['userId'];
           },
-        ]
-      }
-    }
+        ];
+      };
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }

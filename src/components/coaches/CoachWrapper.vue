@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { RouteRecordName, RouterView } from 'vue-router';
 import BaseDialog from '../UI/BaseDialog.vue';
 

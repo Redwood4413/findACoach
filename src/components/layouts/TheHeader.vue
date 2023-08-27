@@ -59,21 +59,12 @@ export default {
     <RouterLink :to="{ name: 'home' }">
       <h2>Find a Coach</h2>
     </RouterLink>
-    <TheHeaderLinks
-      :expanded="false"
-      v-if="screen.width > 500"
-    />
-    <BaseButton
-      mode="flat"
-      v-if="screen.width <= 500"
-      @click="expandMenu"
-    >
+    <TheHeaderLinks :expanded="false" v-if="screen.width > 500" />
+    <BaseButton mode="flat" v-if="screen.width <= 500" @click="expandMenu">
       <HamburgerIcon />
     </BaseButton>
     <Transition>
-      <BaseDropdownMenu
-        v-if="isExpanded && screen.width <= 500"
-      >
+      <BaseDropdownMenu v-if="isExpanded && screen.width <= 500">
         <div class="links-wrapper">
           <TheHeaderLinks :expanded="isExpanded" />
         </div>
@@ -86,33 +77,35 @@ export default {
 @use '@/colors.scss';
 @import '@/variables.scss';
 
-  .header {
-    width:100%;
-    display:flex;
-    position: fixed;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    border-bottom: 2px solid colors.$gray;
-    background: colors.$background-1;
-    backdrop-filter: blur(3px);
-    transition: all .3s ease-in-out;
-    z-index: map-get($header-map, zIndex);
-    &.small {
-      font-size: small;
-      padding:0 1rem;
-    }
-    h2 {
-      white-space: nowrap;
-    }
+.header {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 2px solid colors.$gray;
+  background: colors.$background-1;
+  backdrop-filter: blur(3px);
+  transition: all 0.3s ease-in-out;
+  z-index: map-get($header-map, zIndex);
+  &.small {
+    font-size: small;
+    padding: 0 1rem;
   }
-  .v-enter-active, .v-leave-active {
-  transition: opacity .3s ease;
+  h2 {
+    white-space: nowrap;
+  }
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
 }
 .links-wrapper {
-  padding:1em;
+  padding: 1em;
 }
-.v-enter-to, .v-leave-from {
+.v-enter-to,
+.v-leave-from {
   opacity: 1;
 }
 .v-enter-from,

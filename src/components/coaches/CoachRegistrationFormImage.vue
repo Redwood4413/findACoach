@@ -1,5 +1,4 @@
 <script lang="ts">
-
 export default {
   name: 'CoachRegistrationFormImage',
   data: () => ({
@@ -35,8 +34,8 @@ export default {
       id="image"
       @change="fileUpload"
       accept="image/jpeg, image/png"
-    >
+    />
     <label for="image">E-mail</label>
   </div>
-  <img :src="image">
+  <img :src="image" />
 </template>

@@ -1,6 +1,4 @@
-import {
-  createWebHistory, createRouter, RouteRecordRaw,
-} from 'vue-router';
+import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
 import CoachDetails from './components/coaches/CoachDetails.vue';
 import CoachList from './components/coaches/CoachList.vue';
 import CoachRegistration from './components/coaches/CoachRegistration.vue';
@@ -26,93 +24,86 @@ const routes: RouteRecordRaw[] = [
     name: 'coaches',
     path: '/coaches',
     component: CoachList,
-    children: [{
-      name: 'coach',
-      path: '/coach',
-      redirect: '/coaches',
-      component: CoachWrapper,
-      beforeEnter: (
-        to,
-        _,
-        next,
-      ) => {
-        const reviewsStore = useReviewsStore();
-        reviewsStore.fetchReviews(to.params.id as string);
-
-        next();
-      },
-      children: [{
-        name: 'details',
-        path: ':id',
-        component: CoachDetails,
-        props: true,
-        meta: { transition: 'slide' },
-      },
+    children: [
       {
-        name: 'contact',
-        path: ':id/contact',
-        component: CoachContact,
-        props: true,
-        meta: { transition: 'slide' },
-      },
-      {
-        name: 'reviews',
-        path: ':id/reviews',
-        component: CoachReviews,
-        props: true,
-      },
-      {
-        name: 'edit-review',
-        path: ':id/reviews/edit-review/:reviewId',
-        component: CoachEditReview,
-        props: true,
-        beforeEnter: async (
-          to,
-          _,
-          next,
-        ) => {
+        name: 'coach',
+        path: '/coach',
+        redirect: '/coaches',
+        component: CoachWrapper,
+        beforeEnter: (to, _, next) => {
           const reviewsStore = useReviewsStore();
-          const authStore = useAuthStore();
+          reviewsStore.fetchReviews(to.params.id as string);
 
-          await reviewsStore.fetchReviews(to.params.id as string);
-          const review = reviewsStore.getReviewById(to.params.reviewId as string);
-
-          if (!review) {
-            next({ name: 'not-found' });
-            return;
-          }
-
-          if (review.authorId === authStore.getUserId) {
-            next();
-          } else {
-            next({ name: 'no-permissions' });
-          }
-        },
-      },
-      {
-        name: 'add-review',
-        path: ':id/add-review',
-        component: CoachAddReview,
-        props: true,
-        beforeEnter: async (
-          to,
-          _,
-          next,
-        ) => {
-          const reviewsStore = useReviewsStore();
-          const authStore = useAuthStore();
-
-          await reviewsStore.fetchReviews(to.params.id as string);
-          const isFound = reviewsStore.reviewIsFound(authStore.getUserId);
-
-          if (isFound) {
-            next({ name: 'no-permissions' });
-            return;
-          }
           next();
         },
-      }],
-    },
+        children: [
+          {
+            name: 'details',
+            path: ':id',
+            component: CoachDetails,
+            props: true,
+            meta: { transition: 'slide' },
+          },
+          {
+            name: 'contact',
+            path: ':id/contact',
+            component: CoachContact,
+            props: true,
+            meta: { transition: 'slide' },
+          },
+          {
+            name: 'reviews',
+            path: ':id/reviews',
+            component: CoachReviews,
+            props: true,
+          },
+          {
+            name: 'edit-review',
+            path: ':id/reviews/edit-review/:reviewId',
+            component: CoachEditReview,
+            props: true,
+            beforeEnter: async (to, _, next) => {
+              const reviewsStore = useReviewsStore();
+              const authStore = useAuthStore();
+
+              await reviewsStore.fetchReviews(to.params.id as string);
+              const review = reviewsStore.getReviewById(
+                to.params.reviewId as string,
+              );
+
+              if (!review) {
+                next({ name: 'not-found' });
+                return;
+              }
+
+              if (review.authorId === authStore.getUserId) {
+                next();
+              } else {
+                next({ name: 'no-permissions' });
+              }
+            },
+          },
+          {
+            name: 'add-review',
+            path: ':id/add-review',
+            component: CoachAddReview,
+            props: true,
+            beforeEnter: async (to, _, next) => {
+              const reviewsStore = useReviewsStore();
+              const authStore = useAuthStore();
+
+              await reviewsStore.fetchReviews(to.params.id as string);
+              const isFound = reviewsStore.reviewIsFound(authStore.getUserId);
+
+              if (isFound) {
+                next({ name: 'no-permissions' });
+                return;
+              }
+              next();
+            },
+          },
+        ],
+      },
     ],
   },
 
@@ -125,11 +116,7 @@ const routes: RouteRecordRaw[] = [
     name: 'requests',
     path: '/requests',
     component: RequestsReceived,
-    beforeEnter: (
-      to,
-      from,
-      next,
-    ) => {
+    beforeEnter: (to, from, next) => {
       const requestsStore = useRequestsStore();
       const authStore = useAuthStore();
 
@@ -160,7 +147,6 @@ const router = createRouter({
   //     behavior: 'smooth',
   //   };
   // },
-
 });
 
 export default router;

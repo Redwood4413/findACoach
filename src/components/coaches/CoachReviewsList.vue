@@ -1,5 +1,4 @@
 <script lang="ts">
-
 import { useReviewsStore } from '@/stores/ReviewsStore';
 import CoachReviewsListItem from './CoachReviewsListItem.vue';
 
@@ -48,7 +47,9 @@ export default {
         :quantity="userReviewsQuantity(review.authorId)"
       />
     </ul>
-    <CoachReviewsListLoading v-else-if="reviewsStore.stateMachine.matches('loading')" />
+    <CoachReviewsListLoading
+      v-else-if="reviewsStore.stateMachine.matches('loading')"
+    />
     <NotFound element="Reviews" v-else />
   </Transition>
 </template>
@@ -57,7 +58,7 @@ export default {
 @use '@/colors.scss';
 .v-enter-active,
 .v-leave-active {
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .v-enter-from,
@@ -66,9 +67,9 @@ export default {
 }
 
 .reviews-list {
-  display:flex;
-  padding:0;
-  gap:1.5em;
+  display: flex;
+  padding: 0;
+  gap: 1.5em;
   flex-direction: column;
 }
 </style>

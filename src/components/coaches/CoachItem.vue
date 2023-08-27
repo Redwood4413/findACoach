@@ -29,7 +29,6 @@ export default {
 </script>
 
 <template>
-
   <li class="coach-item">
     <div class="header">
       <h3>
@@ -51,68 +50,70 @@ export default {
         <BaseRouterLink
           :to="{ name: 'details', params: { id: coach.userId } }"
           mode="rounded"
-          color="orange">View Details</BaseRouterLink>
+          color="orange"
+          >View Details</BaseRouterLink
+        >
         <BaseRouterLink
           mode="rounded"
-          :to="{ name: 'contact', params: { id: coach.userId } }">Contact</BaseRouterLink>
+          :to="{ name: 'contact', params: { id: coach.userId } }"
+          >Contact</BaseRouterLink
+        >
       </div>
     </div>
   </li>
-
 </template>
 
 <style lang="scss" scoped>
 @use '@/colors.scss';
-  .coach-item {
-    display:flex;
-    gap:1.5em;
-    padding:0.7em;
-    flex-direction: column;
-    border-bottom: colors.$strong-gray 1px solid;
-    text-align: left;
-    .header {
-      display:flex;
-      width:100%;
-      align-items: center;
-      justify-content: center;
-      position:relative;
-      h3 {
-        margin:0.5rem;
-        flex:1;
-        text-align: center;
-      }
-      .rate {
-        font-size: smaller;
-      }
+.coach-item {
+  display: flex;
+  gap: 1.5em;
+  padding: 0.7em;
+  flex-direction: column;
+  border-bottom: colors.$strong-gray 1px solid;
+  text-align: left;
+  .header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    h3 {
+      margin: 0.5rem;
+      flex: 1;
+      text-align: center;
     }
-
-    .details {
-      display:grid;
-      grid-template-columns: 1fr 3fr 1fr;
-      gap:2em;
-      .description {
-        display:flex;
-        flex-direction: column;
-        font-weight: 400;
-      }
-
+    .rate {
+      font-size: smaller;
     }
-    .controls {
-      display:flex;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 2em;
+    .description {
+      display: flex;
       flex-direction: column;
-      .controls-wrapper {
-        display:flex;
-        flex-wrap: wrap;
-        gap: 5px;
-      }
+      font-weight: 400;
     }
   }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    .controls-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+  }
+}
 
-  @media (width <= 650px) {
-    .coach-item {
-      .details {
-        grid-template-columns: 1fr;
-      }
+@media (width <= 650px) {
+  .coach-item {
+    .details {
+      grid-template-columns: 1fr;
     }
   }
+}
 </style>

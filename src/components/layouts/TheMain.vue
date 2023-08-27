@@ -1,5 +1,4 @@
 <script lang="ts">
-
 export default {
   name: 'TheMain',
 };
@@ -15,11 +14,10 @@ export default {
 @use '@/variables.scss';
 
 main {
-  display:flex;
+  display: flex;
   align-items: center;
   flex-direction: column;
-  gap:2rem;
+  gap: 2rem;
   padding: variables.$main-padding 0 0 0;
 }
-
 </style>
