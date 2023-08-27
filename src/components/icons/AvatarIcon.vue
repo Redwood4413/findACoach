@@ -23,8 +23,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 svg {
-  fill: colors.$background-0;
+  fill: $background-0;
 }
 </style>

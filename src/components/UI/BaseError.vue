@@ -16,7 +16,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .base-error {
   display: flex;
   justify-content: center;
@@ -24,7 +23,7 @@ export default {
   flex-direction: column;
   svg {
     width: 100px;
-    fill: colors.$red;
+    fill: $red;
   }
 }
 </style>

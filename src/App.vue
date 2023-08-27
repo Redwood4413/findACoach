@@ -23,12 +23,9 @@ export default {
 </template>
 
 <style lang="scss">
-@use '@/colors.scss';
-@use '@/variables.scss';
-
 :root {
-  background-color: colors.$background-0;
-  color: colors.$foreground-0;
+  background-color: $background-0;
+  color: $foreground-0;
 }
 ::-moz-selection {
   /* Code for Firefox */
@@ -44,11 +41,11 @@ body {
   min-height: 100vh;
   &.hidden-overflow {
     overflow: hidden;
-    margin: 0 variables.$scrollbar-width 0 0;
+    margin: 0 $scrollbar-width 0 0;
   }
 }
 .section-title {
-  color: colors.$foreground-4;
+  color: $foreground-4;
   padding: 0.5rem 0;
   font-size: x-small;
   font-weight: 600;
@@ -61,23 +58,23 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: variables.$scrollbar-width;
-  height: variables.$scrollbar-width;
+  width: $scrollbar-width;
+  height: $scrollbar-width;
 }
 
 *::-webkit-scrollbar-track {
-  background: colors.$background-soft;
+  background: $background-soft;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: colors.$yellow;
+  background-color: $yellow;
   border-radius: 20px;
   border: 0px solid #ffffff;
 }
 
 a {
   font-weight: 500;
-  color: colors.$foreground-0;
+  color: $foreground-0;
   text-decoration: inherit;
 }
 
@@ -104,7 +101,6 @@ picture {
 }
 
 .underline {
-  text-decoration: underline colors.$foreground-0;
+  text-decoration: underline $foreground-0;
 }
 </style>
-./stores/CoachesStore

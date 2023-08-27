@@ -151,7 +151,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .form {
   display: flex;
   flex-direction: column;
@@ -166,7 +165,7 @@ export default {
     textarea {
       background: none;
       border: 0;
-      border-bottom: 2px solid colors.$foreground-2;
+      border-bottom: 2px solid $foreground-2;
       &:focus-within,
       &:valid {
         outline: none;
@@ -176,7 +175,7 @@ export default {
         }
       }
       &:focus-within {
-        background: colors.$background-4;
+        background: $background-4;
       }
     }
     label {
@@ -187,10 +186,10 @@ export default {
       pointer-events: none;
       user-select: none;
       position: absolute;
-      color: colors.$foreground-2;
+      color: $foreground-2;
       font-weight: 400;
       sup {
-        color: colors.$red;
+        color: $red;
         font-weight: 800;
       }
     }
@@ -208,7 +207,7 @@ export default {
       display: flex;
       font-size: small;
       .invalid {
-        color: colors.$red;
+        color: $red;
         font-weight: 800;
       }
       .counter {

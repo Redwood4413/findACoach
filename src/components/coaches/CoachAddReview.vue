@@ -104,7 +104,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.3s ease;

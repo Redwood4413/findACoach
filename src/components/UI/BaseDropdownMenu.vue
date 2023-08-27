@@ -11,8 +11,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-@import '@/variables.scss';
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -24,8 +22,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   transform: translate(-50%, 5%);
-  border: 2px solid colors.$gray;
+  border: 2px solid $gray;
   border-radius: 10px;
-  background: colors.$background-1;
+  background: $background-1;
 }
 </style>

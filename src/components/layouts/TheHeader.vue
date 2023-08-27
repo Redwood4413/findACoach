@@ -74,9 +74,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-@import '@/variables.scss';
-
 .header {
   width: 100%;
   display: flex;
@@ -84,8 +81,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  border-bottom: 2px solid colors.$gray;
-  background: colors.$background-1;
+  border-bottom: 2px solid $gray;
+  background: $background-1;
   backdrop-filter: blur(3px);
   transition: all 0.3s ease-in-out;
   z-index: map-get($header-map, zIndex);

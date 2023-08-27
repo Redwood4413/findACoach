@@ -34,10 +34,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 button {
-  background: colors.$strong-gray;
+  background: $strong-gray;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +52,7 @@ button {
     }
   }
   &.red {
-    background: colors.$strong-red;
+    background: $strong-red;
   }
   &.rounded {
     border-radius: 5rem;

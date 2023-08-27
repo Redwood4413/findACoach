@@ -78,12 +78,11 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .base-wrapper {
   text-align: left;
 }
 .section-title {
-  color: colors.$foreground-4;
+  color: $foreground-4;
   padding: 0.5rem 0;
   font-size: x-small;
   text-transform: uppercase;
@@ -102,17 +101,17 @@ export default {
       padding: 0.3rem 0.8rem;
       text-transform: capitalize;
       transition: background 0.1s ease-in-out;
-      border: 2px solid colors.$strong-green;
+      border: 2px solid $strong-green;
       font-size: small;
       &:hover {
-        background: colors.$background-4;
+        background: $background-4;
       }
     }
     input {
       display: none;
     }
     input:checked + label {
-      background: colors.$strong-green;
+      background: $strong-green;
     }
   }
 }

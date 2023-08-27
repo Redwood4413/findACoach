@@ -99,7 +99,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .nav {
   position: absolute;
   top: 0;
@@ -115,16 +114,16 @@ export default {
   min-height: 400px;
   max-height: 90vh;
   width: 600px;
-  background: colors.$background-3;
-  color: colors.$foreground-0;
+  background: $background-3;
+  color: $foreground-0;
   padding: 0;
   border: 0;
   outline: 0;
   border-radius: 5px;
   overflow-y: auto;
-  -webkit-box-shadow: 5px 5px 0px 0px colors.$background-0;
-  -moz-box-shadow: 5px 5px 0px 0px colors.$background-0;
-  box-shadow: 5px 5px 0px 0px colors.$background-0;
+  -webkit-box-shadow: 5px 5px 0px 0px $background-0;
+  -moz-box-shadow: 5px 5px 0px 0px $background-0;
+  box-shadow: 5px 5px 0px 0px $background-0;
   &::backdrop {
     background-color: #1d202170;
     backdrop-filter: blur(5px);

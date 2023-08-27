@@ -104,8 +104,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 .coach-review {
   display: flex;
   flex: 1;
@@ -113,7 +111,7 @@ export default {
   flex-direction: column;
   padding: 1em 0;
   gap: 1em;
-  border-bottom: colors.$strong-gray 1px solid;
+  border-bottom: $strong-gray 1px solid;
   .header {
     display: flex;
     .user-wrapper {
@@ -128,7 +126,7 @@ export default {
         }
         .quantity {
           font-size: x-small;
-          color: colors.$foreground-3;
+          color: $foreground-3;
         }
       }
     }
@@ -163,7 +161,7 @@ export default {
       align-items: center;
     }
     .time-added {
-      color: colors.$foreground-2;
+      color: $foreground-2;
       font-size: smaller;
       margin-left: auto;
       font-style: italic;

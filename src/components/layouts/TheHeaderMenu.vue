@@ -24,7 +24,3 @@ export default {
     <TheHeaderLinks :expanded="expanded" />
   </BaseDropdownMenu>
 </template>
-
-<style lang="scss" scoped>
-@use '@/colors.scss';
-</style>

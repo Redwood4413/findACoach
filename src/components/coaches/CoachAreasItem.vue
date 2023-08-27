@@ -17,10 +17,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .badge {
   display: flex;
-  background: colors.$strong-blue;
+  background: $strong-blue;
   padding: 0 0.5rem;
   border-radius: 5rem;
   text-transform: capitalize;

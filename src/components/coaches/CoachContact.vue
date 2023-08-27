@@ -55,7 +55,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .coach-contact {
   padding: 1.5em;
   width: 100%;

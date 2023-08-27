@@ -259,7 +259,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .expertise-enter-from,
 .expertise-leave-to {
   opacity: 0;
@@ -272,7 +271,7 @@ export default {
 }
 
 sup {
-  color: colors.$red;
+  color: $red;
   font-weight: 800;
 }
 .form {
@@ -305,7 +304,7 @@ sup {
       textarea {
         background: none;
         border: 0;
-        border-bottom: 2px solid colors.$foreground-2;
+        border-bottom: 2px solid $foreground-2;
         &:focus-within,
         &:valid {
           outline: none;
@@ -315,7 +314,7 @@ sup {
           }
         }
         &:focus-within {
-          background: colors.$background-4;
+          background: $background-4;
         }
       }
       label {
@@ -326,7 +325,7 @@ sup {
         pointer-events: none;
         user-select: none;
         position: absolute;
-        color: colors.$foreground-2;
+        color: $foreground-2;
         font-weight: 400;
       }
       input,
@@ -349,7 +348,7 @@ sup {
         gap: 0.5em;
         min-height: 100px;
         padding: 0.5em;
-        border: 2px solid colors.$foreground-4;
+        border: 2px solid $foreground-4;
         border-radius: 1em;
         flex-wrap: wrap;
         .empty {
@@ -359,7 +358,7 @@ sup {
           transform: translate(-50%, -50%);
           font-weight: 200;
           user-select: none;
-          color: colors.$foreground-4;
+          color: $foreground-4;
         }
         svg {
           width: 1.5em;
@@ -370,7 +369,7 @@ sup {
         display: flex;
         font-size: small;
         .invalid {
-          color: colors.$red;
+          color: $red;
           font-weight: 800;
         }
         .counter {

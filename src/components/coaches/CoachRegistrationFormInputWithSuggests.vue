@@ -214,8 +214,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 .form-expertises {
   position: relative;
   display: flex;
@@ -238,10 +236,10 @@ export default {
         padding: 0.3em;
         outline: none;
         &:not(:last-child) {
-          border-bottom: 2px solid colors.$gray;
+          border-bottom: 2px solid $gray;
         }
         &.selected {
-          background: colors.$background-3;
+          background: $background-3;
         }
       }
     }

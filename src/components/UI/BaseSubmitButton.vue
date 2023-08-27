@@ -56,7 +56,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .submit {
   display: flex;
   justify-content: center;
@@ -66,21 +65,13 @@ export default {
   border-radius: 5em;
   padding: 0.5em 1em;
   background: rgb(207, 111, 30);
-  background: -moz-linear-gradient(
-    145deg,
-    colors.$strong-orange 0%,
-    colors.$strong-red 100%
-  );
+  background: -moz-linear-gradient(145deg, $strong-orange 0%, $strong-red 100%);
   background: -webkit-linear-gradient(
     145deg,
-    colors.$strong-orange 0%,
-    colors.$strong-red 100%
+    $strong-orange 0%,
+    $strong-red 100%
   );
-  background: linear-gradient(
-    145deg,
-    colors.$strong-orange 0%,
-    colors.$strong-red 100%
-  );
+  background: linear-gradient(145deg, $strong-orange 0%, $strong-red 100%);
   &.shake {
     animation: jump-shaking ease-in-out;
   }

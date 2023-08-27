@@ -42,10 +42,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 a {
-  background: colors.$strong-gray;
+  background: $strong-gray;
   border-radius: 8px;
   padding: 0.5rem 1rem;
   max-height: 50px;
@@ -65,7 +63,7 @@ a {
   }
 
   &.orange {
-    background: colors.$orange;
+    background: $orange;
   }
   &:hover {
     filter: brightness(90%);

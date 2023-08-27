@@ -11,13 +11,11 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/variables.scss';
-
 main {
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 2rem;
-  padding: variables.$main-padding 0 0 0;
+  padding: $main-padding 0 0 0;
 }
 </style>

@@ -26,7 +26,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .buttons {
   display: flex;
   height: 100%;
@@ -42,10 +41,10 @@ export default {
     background: none;
     transition: background 0.1s ease-in-out;
     &:hover:not(.router-link-exact-active) {
-      background: colors.$background-4;
+      background: $background-4;
     }
     &.router-link-active {
-      background: colors.$blue;
+      background: $blue;
     }
   }
 }

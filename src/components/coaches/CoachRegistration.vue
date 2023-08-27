@@ -34,7 +34,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .header-wrapper {
   text-align: left;
   margin: 0 0 1em 0;
@@ -42,7 +41,7 @@ export default {
     font-family: 'Open Sans';
     font-weight: 400;
     font-style: italic;
-    color: colors.$foreground-1;
+    color: $foreground-1;
   }
 }
 </style>

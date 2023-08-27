@@ -45,7 +45,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .rate {
   display: flex;
   flex-direction: column;
@@ -74,9 +73,9 @@ export default {
         border-radius: 50%;
         padding: 0.6em;
         outline-offset: 0.3em;
-        background: colors.$foreground-1;
+        background: $foreground-1;
         &.filled {
-          background: colors.$strong-green;
+          background: $strong-green;
         }
       }
     }

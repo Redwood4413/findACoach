@@ -25,10 +25,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
-$green: rgb(49, 139, 52);
-$soft-green: rgb(70, 209, 75);
+$success-green: rgb(49, 139, 52);
+$success-soft-green: rgb(70, 209, 75);
 .success-animation {
   display: flex;
   justify-content: center;
@@ -41,9 +39,9 @@ $soft-green: rgb(70, 209, 75);
   width: 100px;
   border-radius: 50%;
   stroke-width: 2;
-  stroke: $green;
+  stroke: $success-green;
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px $green;
+  box-shadow: inset 0px 0px 0px $success-green;
   animation:
     fill 0.4s ease-in-out 0.4s forwards,
     scale 0.3s ease-in-out 0.9s both;
@@ -53,9 +51,9 @@ $soft-green: rgb(70, 209, 75);
   stroke-dasharray: 166;
   stroke-dashoffset: 166;
   stroke-width: 2;
-  stroke: $green;
+  stroke: $success-green;
   stroke-miterlimit: 10;
-  fill: $soft-green;
+  fill: $success-soft-green;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
@@ -85,7 +83,7 @@ $soft-green: rgb(70, 209, 75);
 
 @keyframes fill {
   100% {
-    box-shadow: inset 0px 0px 0px 30px $green;
+    box-shadow: inset 0px 0px 0px 30px $success-green;
   }
 }
 </style>

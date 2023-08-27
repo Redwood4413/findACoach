@@ -59,15 +59,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 .coach-review {
   display: flex;
   text-align: left;
   flex: 1;
   flex-direction: column;
   padding: 1em 0;
-  border-bottom: colors.$strong-gray 1px solid;
+  border-bottom: $strong-gray 1px solid;
   .header {
     display: flex;
     .user-wrapper {
@@ -87,7 +85,7 @@ export default {
       }
     }
     .sent-about {
-      color: colors.$foreground-2;
+      color: $foreground-2;
       font-size: smaller;
       margin-left: auto;
       font-style: italic;

@@ -34,14 +34,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .coach-header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1em;
   padding: 0 0 1em 0;
-  border-bottom: 2px solid colors.$background-4;
+  border-bottom: 2px solid $background-4;
   .name {
     font-size: large;
     font-weight: 500;

@@ -28,7 +28,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .areas-list {
   display: flex;
   flex-direction: column;

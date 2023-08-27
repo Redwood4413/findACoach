@@ -14,10 +14,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .avatar {
   display: flex;
-  background: colors.$blue;
+  background: $blue;
   padding: 20px;
   height: 80px;
   width: 80px;

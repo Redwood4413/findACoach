@@ -58,9 +58,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 svg {
-  stroke: colors.$foreground-0;
+  stroke: $foreground-0;
 }
 </style>

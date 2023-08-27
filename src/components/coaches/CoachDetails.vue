@@ -124,7 +124,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.2s ease;
@@ -141,11 +140,10 @@ export default {
     align-items: center;
     flex-direction: column;
     height: 250px;
-    background: url(@/assets/coach-backgrounds/swirlbox.jpg),
-      colors.$background-soft;
+    background: url(@/assets/coach-backgrounds/swirlbox.jpg), $background-soft;
     background-size: cover;
     animation: bgAnimation 30s infinite alternate ease-out;
-    border-bottom: 2px solid colors.$gray;
+    border-bottom: 2px solid $gray;
     .coach-header {
       display: flex;
       justify-content: center;

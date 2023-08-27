@@ -30,15 +30,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 .point {
-  background: colors.$foreground-1;
+  background: $foreground-1;
   height: 13px;
   width: 13px;
   border-radius: 50%;
   &.filled {
-    background: colors.$strong-green;
+    background: $strong-green;
   }
 }
 </style>

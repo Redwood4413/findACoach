@@ -78,14 +78,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
-
 .controls {
   display: flex;
   justify-content: flex-end;
   padding: 0 0 10px 0;
   align-items: center;
-  border-bottom: 2px solid colors.$gray;
+  border-bottom: 2px solid $gray;
 }
 .coach-list {
   display: flex;

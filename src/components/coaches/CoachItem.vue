@@ -64,13 +64,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .coach-item {
   display: flex;
   gap: 1.5em;
   padding: 0.7em;
   flex-direction: column;
-  border-bottom: colors.$strong-gray 1px solid;
+  border-bottom: $strong-gray 1px solid;
   text-align: left;
   .header {
     display: flex;

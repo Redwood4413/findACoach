@@ -56,7 +56,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '@/colors.scss';
 .coach-rate {
   display: flex;
   gap: 5px;
@@ -68,7 +67,7 @@ export default {
   }
   .stats {
     font-size: small;
-    color: colors.$gray;
+    color: $gray;
   }
 }
 </style>
