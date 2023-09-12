@@ -239,31 +239,12 @@ export interface Database {
           }
         ]
       }
-      reviews_author_count: {
-        Row: {
-          authorId: string | null
-          reviewsCount: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "reviews_authorId_fkey"
-            columns: ["authorId"]
-            referencedRelation: "users"
-            referencedColumns: ["userId"]
-          },
-          {
-            foreignKeyName: "reviews_authorId_fkey"
-            columns: ["authorId"]
-            referencedRelation: "coaches_list_view"
-            referencedColumns: ["userId"]
-          }
-        ]
-      }
       reviews_list_view: {
         Row: {
           authorId: string | null
           createdAt: number | null
           description: string | null
+          editedAt: number | null
           firstName: string | null
           lastName: string | null
           rate: number | null
