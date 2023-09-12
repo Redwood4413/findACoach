@@ -38,20 +38,19 @@ export default {
     };
   },
   methods: {
-    async sendData(data: Review) {
+    async sendData({ description, rate }: Review) {
       this.send('SEND');
       const review = {
-        description: data.description,
-        rate: data.rate,
+        description,
+        rate,
         editedAt: Date.now(),
       };
       try {
-        const { error, data: dataa } = await supabase
+        const { error } = await supabase
           .from('reviews')
           .update(review)
-          .eq('reviewId', this.reviewId)
-          .select();
-        console.log(dataa);
+          .eq('reviewId', this.reviewId);
+
         if (error) {
           throw new Error(error.message);
         }
@@ -59,7 +58,11 @@ export default {
         await this.reviewsStore.reloadReviews();
         setTimeout(() => {
           if (this.$route.name !== 'edit-review') return;
-          this.$router.replace({ name: 'reviews' });
+
+          this.$router.replace({
+            name: 'reviews',
+            hash: `#${this.review?.reviewId}`,
+          });
         }, this.state.context.timing);
       } catch (error) {
         this.errorMsg = error as string;
@@ -78,6 +81,26 @@ export default {
       return this.reviewsStore.getReviewById(this.reviewId);
     },
   },
+  async beforeRouteEnter(to, _, next) {
+    const reviewsStore = useReviewsStore();
+    const authStore = useAuthStore();
+
+    await reviewsStore.fetchReviews(to.params.id as string);
+    const review = reviewsStore.getReviewById(
+      to.params.reviewId as string,
+    );
+
+    if (!review) {
+      next({ name: 'not-found' });
+      return;
+    }
+
+    if (review.authorId !== authStore.userId) {
+      next({ name: 'no-permissions' });
+      return;
+    }
+    next();
+  },
   components: { CoachWrapperHeader, NotFound, CoachAddReviewForm },
 };
 </script>
@@ -90,8 +113,7 @@ export default {
         :review="review"
         @add-review="sendData"
         v-if="state.matches('empty')"
-        :state="state.value"
-      />
+        :state="state.value" />
       <BaseSuccess v-else-if="state.matches('sent')">
         <h3>Your review has been edited.</h3>
       </BaseSuccess>
