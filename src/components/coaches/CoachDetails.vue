@@ -3,13 +3,6 @@ import { useCoachesStore } from '@/stores/CoachesStore';
 import { useReviewsStore } from '@/stores/ReviewsStore';
 
 import { useAuthStore } from '@/stores/AuthStore';
-import CoachAvatar from './CoachAvatar.vue';
-import NotFound from '../NotFound.vue';
-import BaseRouterLink from '../UI/BaseRouterLink.vue';
-import CoachRate from './CoachRate.vue';
-import CoachAreasList from './CoachAreasList.vue';
-import CoachRateLoading from './CoachRateLoading.vue';
-import CoachDetailsLoading from './CoachDetailsLoading.vue';
 
 export default {
   name: 'CoachDetails',
@@ -19,15 +12,6 @@ export default {
     const authStore = useAuthStore();
 
     return { coachesStore, reviewsStore, authStore };
-  },
-  components: {
-    CoachAvatar,
-    NotFound,
-    BaseRouterLink,
-    CoachRate,
-    CoachAreasList,
-    CoachRateLoading,
-    CoachDetailsLoading,
   },
 
   props: {
@@ -50,7 +34,8 @@ export default {
 </script>
 
 <template>
-  <CoachDetailsLoading v-if="coachesStore.stateMachine.matches('loading')" />
+  <CoachDetailsLoading
+    v-if="coachesStore.stateMachine.matches('loading')" />
   <div class="coach-details" v-else-if="selectedCoach">
     <div class="header">
       <div class="coach-header">
@@ -64,15 +49,21 @@ export default {
     <div class="info">
       <div class="info-header">
         <span class="section-title">description:</span>
-        <span class="rate"> ${{ selectedCoach.hourlyRate }} per hour </span>
+        <span class="rate">
+          ${{ selectedCoach.hourlyRate }} per hour
+        </span>
       </div>
       <div class="description">
         {{ selectedCoach.description }}
         <p>
           If you are intersted, then fell free to
-          <BaseRouterLink :to="{ name: 'contact' }" mode="flat"
+          <BaseRouterLink
+            v-if="authStore.userId !== id"
+            :to="{ name: 'contact' }"
+            mode="flat"
             >contact me.</BaseRouterLink
           >
+          <span v-else>contact me.</span>
         </p>
       </div>
       <CoachAreasList :areas="selectedCoach.areas" />
@@ -82,8 +73,7 @@ export default {
           <Transition mode="out-in">
             <CoachRate
               :id="id"
-              v-if="reviewsStore.stateMachine.matches('loaded')"
-            />
+              v-if="reviewsStore.stateMachine.matches('loaded')" />
             <CoachRateLoading v-else />
           </Transition>
         </div>
@@ -100,20 +90,37 @@ export default {
               mode="rounded"
               :to="{
                 name: 'reviews',
-                hash: `#${reviewsStore.reviewIdByAuthor(authStore.getUserId)}`,
+                hash: `#${reviewsStore.reviewIdByAuthor(
+                  authStore.userId
+                )?.reviewId}`,
               }"
-              v-if="reviewsStore.reviewIsFound(authStore.getUserId)"
-            >
+              v-if="
+                reviewsStore.isReviewFound(authStore.userId) &&
+                reviewsStore.stateMachine.matches('loaded')
+              ">
               View your review
             </BaseRouterLink>
-            <BaseRouterLink mode="rounded" :to="{ name: 'add-review' }" v-else>
+            <BaseRouterLink
+              mode="rounded"
+              :to="{ name: 'add-review' }"
+              v-if="
+                authStore.userId !== id &&
+                !reviewsStore.isReviewFound(authStore.userId)
+              ">
               Make a review
             </BaseRouterLink>
             <BaseRouterLink
               mode="rounded"
               color="orange"
               :to="{ name: 'contact' }"
+              v-if="authStore.userId !== id"
               >Contact</BaseRouterLink
+            >
+            <BaseRouterLink
+              mode="rounded"
+              :to="{ name: 'contact' }"
+              v-if="authStore.userId === id"
+              >Edit Profile</BaseRouterLink
             >
           </div>
         </div>
@@ -140,7 +147,8 @@ export default {
     align-items: center;
     flex-direction: column;
     height: 250px;
-    background: url(@/assets/coach-backgrounds/swirlbox.jpg), $background-soft;
+    background: url(@/assets/coach-backgrounds/swirlbox.jpg),
+      $background-soft;
     background-size: cover;
     animation: bgAnimation 30s infinite alternate ease-out;
     border-bottom: 2px solid $gray;
@@ -171,6 +179,7 @@ export default {
     }
     .description {
       font-weight: 400;
+      text-align: justify;
       p,
       p > a {
         font-weight: 200;
