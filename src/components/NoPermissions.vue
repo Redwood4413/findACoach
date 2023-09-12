@@ -7,7 +7,10 @@ export default {
 <template>
   <BaseWrapper>
     <div class="no-permission">
-      <h2>You have no permissions to view this page.</h2>
+      <material-symbols:sentiment-dissatisfied-rounded
+        height="5em"
+        width="5em" />
+      <h3>You have no permissions to view this page.</h3>
       <BaseRouterLink mode="rounded" :to="{ name: 'home' }"
         >Home</BaseRouterLink
       >
@@ -22,7 +25,8 @@ export default {
   align-items: center;
   flex-direction: column;
   min-height: 300px;
-  height: 100%;
-  width: 100%;
+  h3 {
+    text-wrap: balance;
+  }
 }
 </style>
