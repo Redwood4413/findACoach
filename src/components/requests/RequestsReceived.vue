@@ -1,5 +1,6 @@
 <script lang="ts">
 import { useRequestsStore } from '@/stores/RequestsStore';
+import { useAuthStore } from '@/stores/AuthStore';
 import RequestsReceivedList from './RequestsReceivedList.vue';
 
 export default {
@@ -13,6 +14,18 @@ export default {
     requests() {
       return this.requestsStore.getRequests;
     },
+  },
+  async beforeRouteEnter(_, __, next) {
+    const requestsStore = useRequestsStore();
+    const authStore = useAuthStore();
+
+    if (!authStore.isCoach) {
+      next({ name: 'no-permissions' });
+      return;
+    }
+
+    await requestsStore.fetchRequests(authStore.userId);
+    next();
   },
 };
 </script>
