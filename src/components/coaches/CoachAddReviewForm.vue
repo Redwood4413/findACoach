@@ -25,7 +25,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.review);
+    this.setInputs();
   },
   data: () => ({
     description: {
@@ -54,11 +54,18 @@ export default {
       }
 
       if (!this.formIsValid) return;
+
       const payload = {
         description: description.data,
         rate: rate.data,
       };
       this.$emit('add-review', payload);
+    },
+    setInputs() {
+      const { review } = this;
+      if (!review) return;
+      this.description.data = review.description;
+      this.rate.data = review.rate;
     },
     changeRate(rate: number) {
       this.rate.data = rate;
@@ -110,14 +117,22 @@ export default {
   <form class="form" @submit.prevent="submitData" novalidate>
     <span class="section-title">description:</span>
     <div class="input-wrapper">
-      <textarea id="description" v-model="description.data" rows="3" required />
-      <label type="text" for="description">Description<sup>*</sup></label>
+      <textarea
+        id="description"
+        v-model="description.data"
+        rows="3"
+        required />
+      <label type="text" for="description"
+        >Description<sup>*</sup></label
+      >
       <div class="validation">
         <span class="invalid" v-if="!description.isValid">{{
           description.errorMsg
         }}</span>
         <span class="counter"
-          >{{ description.data.length }}/{{ description.maxLen }}</span
+          >{{ description.data.length }}/{{
+            description.maxLen
+          }}</span
         >
       </div>
     </div>
@@ -125,10 +140,11 @@ export default {
       <CoachAddReviewFormRate
         :rate="rate.data"
         :max="rate.max"
-        @change="changeRate"
-      />
+        @change="changeRate" />
       <div class="validation">
-        <span class="invalid" v-if="!rate.isValid">{{ rate.errorMsg }}</span>
+        <span class="invalid" v-if="!rate.isValid">{{
+          rate.errorMsg
+        }}</span>
       </div>
     </div>
 
@@ -188,6 +204,7 @@ export default {
     textarea {
       resize: vertical;
       min-height: 100px;
+      border: 1px solid $background-4;
     }
     .validation {
       display: flex;
