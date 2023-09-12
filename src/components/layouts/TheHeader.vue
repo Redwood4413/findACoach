@@ -1,7 +1,5 @@
 <script lang="ts">
 import BaseButton from '../UI/BaseButton.vue';
-import TheHeaderMenu from './TheHeaderMenu.vue';
-import HamburgerIcon from '../icons/HamburgerIcon.vue';
 import TheHeaderLinks from './TheHeaderLinks.vue';
 
 import BaseDropdownMenu from '../UI/BaseDropdownMenu.vue';
@@ -10,8 +8,7 @@ export default {
   name: 'TheHeader',
   components: {
     BaseButton,
-    TheHeaderMenu,
-    HamburgerIcon,
+
     TheHeaderLinks,
     BaseDropdownMenu,
   },
@@ -60,8 +57,11 @@ export default {
       <h2>Find a Coach</h2>
     </RouterLink>
     <TheHeaderLinks :expanded="false" v-if="screen.width > 500" />
-    <BaseButton mode="flat" v-if="screen.width <= 500" @click="expandMenu">
-      <HamburgerIcon />
+    <BaseButton
+      mode="flat"
+      v-if="screen.width <= 500"
+      @click="expandMenu">
+      <ic:baseline-menu />
     </BaseButton>
     <Transition>
       <BaseDropdownMenu v-if="isExpanded && screen.width <= 500">
