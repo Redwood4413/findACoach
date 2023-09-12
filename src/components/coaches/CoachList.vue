@@ -1,8 +1,7 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
 import BaseWrapper from '../UI/BaseWrapper.vue';
-import RefreshIcon from '../icons/RefreshIcon.vue';
-import CoachItem from './CoachItem.vue';
+import CoachListItem from './CoachListItem.vue';
 import CoachFilter from './CoachFilter.vue';
 import CoachesListNothingFound from './CoachesListNothingFound.vue';
 import CoachListLoading from './CoachListLoading.vue';
@@ -17,9 +16,8 @@ export default {
     };
   },
   components: {
-    RefreshIcon,
     BaseWrapper,
-    CoachItem,
+    CoachListItem,
     CoachFilter,
     CoachesListNothingFound,
     CoachListLoading,
@@ -40,11 +38,6 @@ export default {
 </script>
 
 <template>
-  <!-- <RouterView v-slot="{ Component, route }">
-    <Transition :name="route.meta.transition || 'fade'">
-      <Component :is="Component" />
-    </Transition>
-  </RouterView> -->
   <RouterView />
   <CoachFilter />
   <BaseWrapper>
@@ -52,24 +45,26 @@ export default {
       <BaseThrottleButton
         title="Reload"
         mode="flat square rounded"
-        @click="coachesStore.reloadCoaches"
-      >
-        <RefreshIcon />
+        @click="coachesStore.reloadCoaches">
+        <ic:sharp-sync height="2em" width="2em" />
       </BaseThrottleButton>
     </div>
     <Transition mode="out-in">
       <CoachListLoading v-if="stateMachine.matches('loading')" />
       <CoachListError
         v-else-if="stateMachine.matches('error')"
-        :errorMsg="coachesStore.getErrorMsg"
-      />
-      <Transition mode="out-in" v-else-if="stateMachine.matches('loaded')">
-        <TransitionGroup tag="ul" class="coach-list" v-if="coaches.length > 0">
-          <CoachItem
+        :errorMsg="coachesStore.getErrorMsg" />
+      <Transition
+        mode="out-in"
+        v-else-if="stateMachine.matches('loaded')">
+        <TransitionGroup
+          tag="ul"
+          class="coach-list"
+          v-if="coaches.length > 0">
+          <CoachListItem
             v-for="coach in coaches"
             :key="coach.userId"
-            :coach="coach"
-          />
+            :coach="coach" />
         </TransitionGroup>
         <CoachesListNothingFound v-else />
       </Transition>
