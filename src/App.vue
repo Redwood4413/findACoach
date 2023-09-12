@@ -1,28 +1,53 @@
 <script lang="ts">
-import TheHeader from './components/layouts/TheHeader.vue';
-import TheMain from './components/layouts/TheMain.vue';
+import { useAuthStore } from './stores/AuthStore';
 import { useCoachesStore } from './stores/CoachesStore';
 import { useRequestsStore } from './stores/RequestsStore';
 import { useReviewsStore } from './stores/ReviewsStore';
 
 export default {
   name: 'App',
-  components: { TheHeader, TheMain },
   setup() {
     const reviewsStore = useReviewsStore();
     const coachesStore = useCoachesStore();
     const requestsStore = useRequestsStore();
-    return { reviewsStore, coachesStore, requestsStore };
+    const authStore = useAuthStore();
+
+    return {
+      reviewsStore,
+      coachesStore,
+      requestsStore,
+      authStore,
+    };
+  },
+  async mounted() {
+    await this.authStore.fetchUser('heheszki');
   },
 };
 </script>
 
 <template>
-  <TheHeader />
-  <TheMain />
+  <Transition mode="out-in" name="component-state">
+    <AppLoading
+      v-if="authStore.stateMachine.matches('loading')"></AppLoading>
+    <div
+      class="app-wrapper"
+      v-else-if="authStore.stateMachine.matches('loaded')">
+      <TheHeader />
+      <TheMain />
+    </div>
+  </Transition>
 </template>
 
 <style lang="scss">
+.component-state-enter-active,
+.component-state-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.component-state-enter-from,
+.component-state-leave-to {
+  opacity: 0;
+}
 :root {
   background-color: $background-0;
   color: $foreground-0;
@@ -51,10 +76,14 @@ body {
   font-weight: 600;
   text-transform: uppercase;
 }
+.header-greetings {
+  background: -webkit-linear-gradient(45deg, $orange, $strong-orange);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 * {
   box-sizing: border-box;
-  scrollbar-width: auto;
-  scrollbar-color: red #ffffff;
 }
 
 *::-webkit-scrollbar {
