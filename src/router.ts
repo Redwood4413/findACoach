@@ -1,18 +1,30 @@
-import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
-import CoachDetails from './components/coaches/CoachDetails.vue';
-import CoachList from './components/coaches/CoachList.vue';
-import CoachRegistration from './components/coaches/CoachRegistration.vue';
-import NotFound from './components/NotFound.vue';
-import NoPermissions from './components/NoPermissions.vue';
-import CoachContact from './components/coaches/CoachContact.vue';
-import CoachReviews from './components/coaches/CoachReviews.vue';
-import RequestsReceived from './components/requests/RequestsReceived.vue';
-import CoachWrapper from './components/coaches/CoachWrapper.vue';
-import CoachAddReview from './components/coaches/CoachAddReview.vue';
-import CoachEditReview from './components/coaches/CoachEditReview.vue';
-import { useReviewsStore } from './stores/ReviewsStore';
-import { useAuthStore } from './stores/AuthStore';
-import { useRequestsStore } from './stores/RequestsStore';
+import {
+  createWebHistory,
+  createRouter,
+  RouteRecordRaw,
+} from 'vue-router';
+
+const CoachDetails = () =>
+  import('./components/coaches/CoachDetails.vue');
+const CoachList = () => import('./components/coaches/CoachList.vue');
+const CoachRegistration = () =>
+  import('./components/coaches/CoachRegistration.vue');
+const NotFound = () => import('./components/NotFound.vue');
+const NoPermissions = () => import('./components/NoPermissions.vue');
+const CoachContact = () =>
+  import('./components/coaches/CoachContact.vue');
+const CoachReviews = () =>
+  import('./components/coaches/CoachReviews.vue');
+const RequestsReceived = () =>
+  import('./components/requests/RequestsReceived.vue');
+const CoachWrapper = () =>
+  import('./components/coaches/CoachWrapper.vue');
+const CoachAddReview = () =>
+  import('./components/coaches/CoachAddReview.vue');
+const CoachEditReview = () =>
+  import('./components/coaches/CoachEditReview.vue');
+const UserEditProfile = () =>
+  import('@/components/user/UserEditProfile.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -29,27 +41,20 @@ const routes: RouteRecordRaw[] = [
         name: 'coach',
         path: '/coach',
         redirect: '/coaches',
+        meta: { isDialog: true },
         component: CoachWrapper,
-        beforeEnter: (to, _, next) => {
-          const reviewsStore = useReviewsStore();
-          reviewsStore.fetchReviews(to.params.id as string);
-
-          next();
-        },
         children: [
           {
             name: 'details',
             path: ':id',
             component: CoachDetails,
             props: true,
-            meta: { transition: 'slide' },
           },
           {
             name: 'contact',
             path: ':id/contact',
             component: CoachContact,
             props: true,
-            meta: { transition: 'slide' },
           },
           {
             name: 'reviews',
@@ -62,45 +67,12 @@ const routes: RouteRecordRaw[] = [
             path: ':id/reviews/edit-review/:reviewId',
             component: CoachEditReview,
             props: true,
-            beforeEnter: async (to, _, next) => {
-              const reviewsStore = useReviewsStore();
-              const authStore = useAuthStore();
-
-              await reviewsStore.fetchReviews(to.params.id as string);
-              const review = reviewsStore.getReviewById(
-                to.params.reviewId as string,
-              );
-
-              if (!review) {
-                next({ name: 'not-found' });
-                return;
-              }
-
-              if (review.authorId === authStore.getUserId) {
-                next();
-              } else {
-                next({ name: 'no-permissions' });
-              }
-            },
           },
           {
             name: 'add-review',
             path: ':id/add-review',
             component: CoachAddReview,
             props: true,
-            beforeEnter: async (to, _, next) => {
-              const reviewsStore = useReviewsStore();
-              const authStore = useAuthStore();
-
-              await reviewsStore.fetchReviews(to.params.id as string);
-              const isFound = reviewsStore.reviewIsFound(authStore.getUserId);
-
-              if (isFound) {
-                next({ name: 'no-permissions' });
-                return;
-              }
-              next();
-            },
           },
         ],
       },
@@ -109,20 +81,24 @@ const routes: RouteRecordRaw[] = [
 
   {
     name: 'register-coach',
-    path: '/register',
+    path: '/become-a-coach',
     component: CoachRegistration,
   },
   {
     name: 'requests',
-    path: '/requests',
+    path: '/your-requests',
     component: RequestsReceived,
-    beforeEnter: (to, from, next) => {
-      const requestsStore = useRequestsStore();
-      const authStore = useAuthStore();
-
-      requestsStore.fetchRequests(authStore.getUserId);
-      next();
-    },
+  },
+  // { name: 'profile',
+  // path: '/my-profile',
+  // component: UserProfile,
+  // children: []
+  // },
+  {
+    // /\
+    name: 'edit-profile',
+    path: '/edit-profile',
+    component: UserEditProfile,
   },
   {
     name: 'no-permissions',
@@ -140,13 +116,6 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory('findACoach'),
   routes,
-  // scrollBehavior(to) {
-
-  //   return {
-  //     top: 0,
-  //     behavior: 'smooth',
-  //   };
-  // },
 });
 
 export default router;
