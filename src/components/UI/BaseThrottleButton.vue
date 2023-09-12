@@ -20,7 +20,10 @@ export default {
 </script>
 
 <template>
-  <BaseButton type="button" :disabled="!isAbleToReload" @click="throttleCall">
+  <BaseButton
+    type="button"
+    :disabled="!isAbleToReload"
+    @click="throttleCall">
     <slot />
   </BaseButton>
 </template>
