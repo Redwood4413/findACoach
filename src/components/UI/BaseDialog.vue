@@ -1,17 +1,10 @@
 <script lang="ts">
 import { PropType } from 'vue';
-import CloseIcon from '../icons/CloseIcon.vue';
-
-import MaterialSymbolsReturn from '../icons/material-symbols/MaterialSymbolsReturn.vue';
 
 type Icon = 'close' | 'return';
 
 export default {
   name: 'BaseDialog',
-  components: {
-    CloseIcon,
-    MaterialSymbolsReturn,
-  },
   props: {
     returnTo: {
       type: [String, Object],
@@ -33,7 +26,6 @@ export default {
       ) {
         this.hideDialog();
       }
-      // console.log(this.$route);
     },
     hideDialog() {
       this.$router.push(this.returnTo);
@@ -81,16 +73,14 @@ export default {
         <BaseButton
           v-if="closeIcon"
           mode="flat rounded square"
-          @click="hideDialog"
-        >
-          <CloseIcon />
+          @click="hideDialog">
+          <material-symbols:close-rounded />
         </BaseButton>
         <BaseButton
           v-else-if="returnIcon"
           mode="flat rounded square"
-          @click="historyBack"
-        >
-          <MaterialSymbolsReturn />
+          @click="historyBack">
+          <material-symbols:arrow-back-ios-new-rounded />
         </BaseButton>
       </div>
       <slot />
@@ -104,15 +94,12 @@ export default {
   top: 0;
   left: 0;
   padding: 0.5rem;
-  svg {
-    stroke: #fbf1c7;
-  }
 }
 .base-dialog {
   display: flex;
   justify-content: center;
   min-height: 400px;
-  max-height: 90vh;
+  max-height: 100svh;
   width: 600px;
   background: $background-3;
   color: $foreground-0;
