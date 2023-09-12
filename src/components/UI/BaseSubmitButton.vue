@@ -1,6 +1,5 @@
 <script lang="ts">
 import { PropType } from 'vue';
-import SendIcon from '../icons/SendIcon.vue';
 import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
 
 export default {
@@ -36,7 +35,7 @@ export default {
       return this.shake ? 'shake' : '';
     },
   },
-  components: { SendIcon, SvgSpinnersRingResize },
+  components: { SvgSpinnersRingResize },
 };
 </script>
 
@@ -45,11 +44,10 @@ export default {
     @click="toggleShake"
     type="submit"
     :class="`submit ${shakeClass}`"
-    :style="{ animationDuration: timing + 'ms' }"
-  >
+    :style="{ animationDuration: timing + 'ms' }">
     <template v-if="state === 'empty'">
       <span>Send</span>
-      <SendIcon />
+      <material-symbols:send-outline-rounded height="1.5em" />
     </template>
     <SvgSpinnersRingResize v-else-if="state === 'sending'" />
   </button>
@@ -65,13 +63,21 @@ export default {
   border-radius: 5em;
   padding: 0.5em 1em;
   background: rgb(207, 111, 30);
-  background: -moz-linear-gradient(145deg, $strong-orange 0%, $strong-red 100%);
+  background: -moz-linear-gradient(
+    145deg,
+    $strong-orange 0%,
+    $strong-red 100%
+  );
   background: -webkit-linear-gradient(
     145deg,
     $strong-orange 0%,
     $strong-red 100%
   );
-  background: linear-gradient(145deg, $strong-orange 0%, $strong-red 100%);
+  background: linear-gradient(
+    145deg,
+    $strong-orange 0%,
+    $strong-red 100%
+  );
   &.shake {
     animation: jump-shaking ease-in-out;
   }
