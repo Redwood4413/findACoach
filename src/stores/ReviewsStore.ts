@@ -14,15 +14,7 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
   });
   const getReviews = computed(() => state.value.reviews);
 
-  const getAuthorReviews = computed(() => (authorId: string): Review[] => {
-    const reviews = state.value.reviews.filter(
-      (review) => review.authorId === authorId,
-    );
-
-    return reviews;
-  });
-
-  const reviewIsFound = computed(
+  const isReviewFound = computed(
     () => (authorId: string) =>
       !!state.value.reviews.find(
         (review: Review) => review.authorId === authorId,
@@ -51,13 +43,15 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     state.value.lastCoachId = coachId;
   }
 
-  const shouldFetchNewData = computed(() => (currentCoachId: string) => {
-    if (state.value.lastCoachId !== currentCoachId) {
-      assignNewCoachId(currentCoachId);
-      return true;
-    }
-    return false;
-  });
+  const shouldFetchNewData = computed(
+    () => (currentCoachId: string) => {
+      if (state.value.lastCoachId !== currentCoachId) {
+        assignNewCoachId(currentCoachId);
+        return true;
+      }
+      return false;
+    },
+  );
 
   const getAuthorFullName = computed(() => (reviewId: string) => {
     const found = state.value.reviews.find(
@@ -66,11 +60,18 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     return `${found?.firstName} ${found?.lastName}`;
   });
   const reviewIdByAuthor = computed(() => (authorId: string) => {
-    const review = state.value.reviews.find(
-      (review) => review.authorId === authorId,
+    return state.value.reviews.find((review) => {
+      if (review.authorId === authorId) {
+        return review.reviewId;
+      }
+      return null;
+    });
+  });
+  const userReviewsCount = computed(() => (reviewId: string) => {
+    const found = state.value.reviews.find(
+      (review) => review.reviewId === reviewId,
     );
-
-    return review?.reviewId;
+    return found?.reviewsCount || 0;
   });
   const getReviewById = computed(() => (reviewId: string) => {
     const found = state.value.reviews.find(
@@ -96,8 +97,8 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
         throw new Error('Error');
       }
 
-      reviews.forEach((review: Review) => {
-        setReview(review);
+      reviews.forEach((review) => {
+        setReview(review as Review);
       });
 
       send('SUCCESS');
@@ -116,7 +117,7 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     const found = state.value.reviews.find(
       (review) => review.reviewId === reviewId,
     );
-    if (authStore.getUserId !== found?.authorId) return;
+    if (authStore.userId !== found?.authorId) return;
 
     try {
       const { error } = await supabase
@@ -133,13 +134,13 @@ export const useReviewsStore = defineStore('reviewsStore', () => {
     }
   }
   return {
-    getAuthorReviews,
     getAuthorFullName,
     getRate,
     getReviews,
+    userReviewsCount,
     fetchReviews,
     setReview,
-    reviewIsFound,
+    isReviewFound,
     getReviewById,
     reloadReviews,
     stateMachine,
