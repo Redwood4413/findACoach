@@ -1,6 +1,13 @@
 <script lang="ts">
+import { useAuthStore } from '@/stores/AuthStore';
+
 export default {
   name: 'TheHeaderLinks',
+  setup() {
+    const authStore = useAuthStore();
+
+    return { authStore };
+  },
   props: {
     expanded: {
       type: Boolean,
@@ -18,8 +25,12 @@ export default {
 <template>
   <div :class="`buttons ${expandedClass}`">
     <BaseRouterLink :to="{ name: 'coaches' }">Coaches</BaseRouterLink>
-    <BaseRouterLink :to="{ name: 'requests' }">Requests</BaseRouterLink>
-    <BaseRouterLink :to="{ name: 'register-coach' }"
+    <BaseRouterLink
+      :to="{ name: 'requests' }"
+      v-if="authStore.isCoach">
+      Requests
+    </BaseRouterLink>
+    <BaseRouterLink :to="{ name: 'register-coach' }" v-else
       >Become a coach</BaseRouterLink
     >
   </div>
