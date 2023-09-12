@@ -1,0 +1,1 @@
+import{a as e,o,c as t}from"./index-42d548a4.js";const s={name:"UserEditProfile"},r={class:"edit-profile"};function c(a,n,i,_,d,f){return o(),t("div",r)}const l=e(s,[["render",c]]);export{l as default};
