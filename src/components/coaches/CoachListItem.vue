@@ -1,14 +1,15 @@
 <script lang="ts">
 import { useReviewsStore } from '@/stores/ReviewsStore';
+import { useAuthStore } from '@/stores/AuthStore';
 import CoachAreasList from './CoachAreasList.vue';
 import CoachAvatar from './CoachAvatar.vue';
 
 export default {
-  name: 'CoachItem',
+  name: 'CoachListItem',
   setup() {
     const reviewsStore = useReviewsStore();
-
-    return { reviewsStore };
+    const authStore = useAuthStore();
+    return { reviewsStore, authStore };
   },
   components: {
     CoachAvatar,
@@ -55,8 +56,15 @@ export default {
         >
         <BaseRouterLink
           mode="rounded"
+          v-if="authStore.userId !== coach.userId"
           :to="{ name: 'contact', params: { id: coach.userId } }"
           >Contact</BaseRouterLink
+        >
+        <BaseRouterLink
+          mode="rounded"
+          v-else
+          :to="{ name: 'edit-profile' }"
+          >Edit Profile</BaseRouterLink
         >
       </div>
     </div>
@@ -94,6 +102,7 @@ export default {
     .description {
       display: flex;
       flex-direction: column;
+      text-align: justify;
       font-weight: 400;
     }
   }
