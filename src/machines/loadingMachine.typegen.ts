@@ -1,21 +1,32 @@
+
 // This file was automatically generated. Edits will be overwritten
 
 export interface Typegen0 {
   '@@xstate/typegen': true;
   internalEvents: {
-    'xstate.init': { type: 'xstate.init' };
+    "xstate.init": { type: "xstate.init" };
   };
-  invokeSrcNameMap: {};
+  invokeSrcNameMap: {
+
+  };
   missingImplementations: {
     actions: never;
     delays: never;
     guards: never;
     services: never;
   };
-  eventsCausingActions: {};
-  eventsCausingDelays: {};
-  eventsCausingGuards: {};
-  eventsCausingServices: {};
-  matchesStates: 'empty' | 'error' | 'loaded' | 'loading';
+  eventsCausingActions: {
+
+  };
+  eventsCausingDelays: {
+
+  };
+  eventsCausingGuards: {
+
+  };
+  eventsCausingServices: {
+
+  };
+  matchesStates: "empty" | "error" | "loaded" | "loading";
   tags: never;
 }
