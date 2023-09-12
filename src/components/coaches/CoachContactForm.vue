@@ -115,22 +115,36 @@ export default {
       <input id="name" v-model="name.data" required />
       <label type="text" for="name">Your name<sup>*</sup></label>
       <div class="validation">
-        <span class="invalid" v-if="!name.isValid">Your name is invalid!</span>
-        <span class="counter">{{ name.data.length }}/{{ name.maxLen }}</span>
+        <span class="invalid" v-if="!name.isValid"
+          >Your name is invalid!</span
+        >
+        <span class="counter"
+          >{{ name.data.length }}/{{ name.maxLen }}</span
+        >
       </div>
     </div>
     <div class="input-wrapper">
-      <input id="email" v-model="email.data" @blur="emailValidation" required />
+      <input
+        id="email"
+        v-model="email.data"
+        @blur="emailValidation"
+        required />
       <label type="email" for="email">E-mail<sup>*</sup></label>
       <div class="validation">
         <span class="invalid" v-if="!email.isValid"
           >Your e-mail is invalid!</span
         >
-        <span class="counter">{{ email.data.length }}/{{ email.maxLen }}</span>
+        <span class="counter"
+          >{{ email.data.length }}/{{ email.maxLen }}</span
+        >
       </div>
     </div>
     <div class="input-wrapper">
-      <textarea id="message" v-model="message.data" rows="3" required />
+      <textarea
+        id="message"
+        v-model="message.data"
+        rows="3"
+        required />
       <label type="text" for="message">Message</label>
       <div class="validation">
         <span class="invalid" v-if="!message.isValid"
@@ -202,6 +216,7 @@ export default {
     textarea {
       resize: vertical;
       min-height: 100px;
+      border: 1px solid $background-4;
     }
     .validation {
       display: flex;
