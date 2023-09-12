@@ -41,13 +41,13 @@ export default {
   </div>
   <NotFound
     element="Coach"
-    v-else-if="coachesStore.stateMachine.matches('loaded') && !isFound"
-  />
+    v-else-if="
+      coachesStore.stateMachine.matches('loaded') && !isFound
+    " />
 </template>
 
 <style lang="scss" scoped>
 .coach-reviews {
-  padding: 1.5em;
   width: 100%;
   min-height: inherit;
 }

@@ -8,17 +8,18 @@ import BaseRouterLink from '../UI/BaseRouterLink.vue';
 import BaseButton from '../UI/BaseButton.vue';
 
 export default {
-  name: 'CoachReviewsItem',
+  name: 'CoachReviewsListItem',
   props: {
     review: {
       type: Object as PropType<Review>,
       required: true,
     },
-    quantity: {
-      type: Number,
-      required: true,
+    highlight: {
+      type: Boolean,
+      default: () => false,
     },
   },
+  // TODO: become-a-coach input validation, become-a-coach route guard
   setup() {
     const reviewsStore = useReviewsStore();
     const authStore = useAuthStore();
@@ -28,17 +29,26 @@ export default {
     reviewRate() {
       return this.review.rate;
     },
-    fullName(): string {
-      return this.reviewsStore.getAuthorFullName(this.review.reviewId);
+    fullName() {
+      return this.reviewsStore.getAuthorFullName(
+        this.review.reviewId,
+      );
     },
-    createdAt(): string {
+    reviewsQuantity() {
+      return this.reviewsStore.userReviewsCount(this.review.reviewId);
+    },
+    highlightClass() {
+      return this.highlight ? 'highlighted' : '';
+    },
+  },
+  methods: {
+    formatTime(date: EpochTimeStamp) {
       const options: Intl.DateTimeFormatOptions = {
         dateStyle: 'short',
         timeStyle: 'short',
       };
-
       const formatter = new Intl.DateTimeFormat(undefined, options);
-      return formatter.format(this.review.createdAt);
+      return formatter.format(date);
     },
   },
   components: {
@@ -51,7 +61,7 @@ export default {
 </script>
 
 <template>
-  <li class="coach-review">
+  <li :class="`coach-review ${highlightClass}`">
     <div class="header">
       <div class="user-wrapper">
         <UserAvatar class="small" />
@@ -59,7 +69,7 @@ export default {
           <span class="user-name">
             {{ fullName }}
           </span>
-          <div class="quantity">Reviews: ({{ quantity }})</div>
+          <div class="quantity">Reviews: ({{ reviewsQuantity }})</div>
         </div>
       </div>
       <div class="rate">
@@ -72,8 +82,7 @@ export default {
             v-for="index in 5"
             :key="index"
             :rate="reviewRate"
-            :index="index"
-          />
+            :index="index" />
         </div>
       </div>
     </div>
@@ -83,10 +92,15 @@ export default {
     </div>
 
     <div class="bottom">
-      <div class="controls" v-if="review.authorId === authStore.getUserId">
+      <div
+        class="controls"
+        v-if="review.authorId === authStore.userId">
         <BaseRouterLink
           class="rounded"
-          :to="{ name: 'edit-review', params: { reviewId: review.reviewId } }"
+          :to="{
+            name: 'edit-review',
+            params: { reviewId: review.reviewId },
+          }"
           >Edit</BaseRouterLink
         >
         <BaseButton
@@ -95,9 +109,13 @@ export default {
           >Delete</BaseButton
         >
       </div>
-      <div class="time-added">
+      <div class="time-edited" v-if="review.editedAt">
+        <div class="section-title">Edited:</div>
+        <span>{{ formatTime(review.editedAt) }}</span>
+      </div>
+      <div class="time-added" v-else>
         <div class="section-title">Added:</div>
-        <span>{{ createdAt }}</span>
+        <span>{{ formatTime(review.createdAt) }}</span>
       </div>
     </div>
   </li>
@@ -109,9 +127,13 @@ export default {
   flex: 1;
   word-break: break-all;
   flex-direction: column;
-  padding: 1em 0;
+  padding: 1.5em;
   gap: 1em;
   border-bottom: $strong-gray 1px solid;
+  &.highlighted {
+    animation: highlight 0.3s ease 2;
+    animation-delay: 0.5s;
+  }
   .header {
     display: flex;
     .user-wrapper {
@@ -160,6 +182,7 @@ export default {
       gap: 0.5em;
       align-items: center;
     }
+    .time-edited,
     .time-added {
       color: $foreground-2;
       font-size: smaller;
@@ -170,13 +193,13 @@ export default {
     }
   }
 }
-// .controls {
-//   display:flex;
-//   flex-direction: column;
-//   .controls-wrapper {
-//     display:flex;
-//     flex-wrap: wrap;
-//     gap: 5px;
-//   }
-// }
+@keyframes highlight {
+  0%,
+  100% {
+    background: inherit;
+  }
+  50% {
+    background: $background-4;
+  }
+}
 </style>

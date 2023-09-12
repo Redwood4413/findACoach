@@ -13,6 +13,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    matchingEl: null,
+  }),
   setup() {
     const reviewsStore = useReviewsStore();
     return { reviewsStore };
@@ -26,11 +29,27 @@ export default {
     },
   },
   methods: {
-    userReviewsQuantity(authorId: string) {
-      return this.reviewsStore.getAuthorReviews(authorId).length;
+    scrollToReview() {
+      const { hash } = this.$route;
+      if (!hash) return;
+
+      const element = this.matchingEl as HTMLLIElement | null;
+      if (!element) return;
+
+      element.scrollIntoView({ behavior: 'smooth' });
+    },
+    isHighlighted(reviewId: string) {
+      return this.$route.hash === `#${reviewId}`;
     },
   },
-  components: { CoachReviewsListItem, NotFound, CoachReviewsListLoading },
+  mounted() {
+    this.scrollToReview();
+  },
+  components: {
+    CoachReviewsListItem,
+    NotFound,
+    CoachReviewsListLoading,
+  },
 };
 </script>
 
@@ -38,18 +57,26 @@ export default {
   <Transition mode="out-in">
     <ul
       class="reviews-list"
-      v-if="reviewsQuantity && reviewsStore.stateMachine.matches('loaded')"
-    >
+      v-if="
+        reviewsQuantity && reviewsStore.stateMachine.matches('loaded')
+      ">
       <CoachReviewsListItem
         v-for="(review, index) in reviews"
         :key="index"
-        :review="review"
-        :quantity="userReviewsQuantity(review.authorId)"
-      />
+        :highlight="isHighlighted(review.reviewId)"
+        :ref="
+          (el: Element) => {
+            if (`#${review.reviewId}` === $route.hash) {
+              matchingEl = el?.$el;
+              return;
+            }
+            return null;
+          }
+        "
+        :review="review" />
     </ul>
     <CoachReviewsListLoading
-      v-else-if="reviewsStore.stateMachine.matches('loading')"
-    />
+      v-else-if="reviewsStore.stateMachine.matches('loading')" />
     <NotFound element="Reviews" v-else />
   </Transition>
 </template>
