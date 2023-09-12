@@ -43,14 +43,16 @@ export default {
       const review: Review = {
         reviewId: uid(),
         userId: this.id,
-        authorId: this.authStore.getUserId,
+        authorId: this.authStore.userId,
         description: data.description,
         rate: data.rate,
         createdAt: Date.now(),
       };
 
       try {
-        const { error } = await supabase.from('reviews').insert(review);
+        const { error } = await supabase
+          .from('reviews')
+          .insert(review);
         if (error) {
           throw new Error(error.message);
         }
@@ -58,8 +60,11 @@ export default {
         await this.reviewsStore.reloadReviews();
 
         setTimeout(() => {
-          if (this.$route.name !== 'reviews') return;
-          this.$router.replace({ name: 'reviews' });
+          if (this.$route.name !== 'add-review') return;
+          this.$router.replace({
+            name: 'reviews',
+            hash: review.reviewId,
+          });
         }, this.state.context.timing);
       } catch (error) {
         this.errorMsg = error as string;
@@ -74,6 +79,22 @@ export default {
     isFound() {
       return !!this.coach;
     },
+  },
+  async beforeRouteEnter(to, _, next) {
+    const reviewsStore = useReviewsStore();
+    const authStore = useAuthStore();
+
+    await reviewsStore.fetchReviews(to.params.id as string);
+
+    if (authStore.userId === to.params.id) {
+      next({ name: 'no-permissions' });
+      return;
+    }
+    if (reviewsStore.isReviewFound(authStore.userId)) {
+      next({ name: 'no-permissions' });
+      return;
+    }
+    next();
   },
   components: {
     CoachWrapperHeader,
@@ -90,8 +111,7 @@ export default {
       <CoachAddReviewForm
         @add-review="sendData"
         :state="state.value"
-        v-if="state.matches('empty')"
-      />
+        v-if="state.matches('empty')" />
       <BaseSuccess v-else-if="state.matches('sent')">
         <h3>Your review has been added.</h3>
       </BaseSuccess>
