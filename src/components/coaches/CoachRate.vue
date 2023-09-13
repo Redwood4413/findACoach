@@ -1,8 +1,6 @@
 <script lang="ts">
 import { useReviewsStore } from '@/stores/ReviewsStore';
 
-import CoachRatePoint from './CoachRatePoint.vue';
-
 export default {
   name: 'CoachRate',
   setup() {
@@ -34,10 +32,11 @@ export default {
         : `Based on ${this.reviewsQuantity} reviews.`;
     },
     pointsString(): string {
-      return this.reviewsQuantity ? `Rate ${this.rate}/5` : 'No reviews yet.';
+      return this.reviewsQuantity
+        ? `Rate ${this.rate}/5`
+        : 'No reviews yet.';
     },
   },
-  components: { CoachRatePoint },
 };
 </script>
 
@@ -48,8 +47,7 @@ export default {
         v-for="index in 5"
         :key="index"
         :index="index"
-        :rate="rate"
-      />
+        :rate="rate" />
     </div>
     <span class="stats">{{ reviewString }}</span>
   </div>

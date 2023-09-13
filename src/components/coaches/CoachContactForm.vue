@@ -1,7 +1,4 @@
 <script lang="ts">
-import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
-import SendIcon from '../icons/SendIcon.vue';
-
 export default {
   name: 'CoachContactForm',
   emits: ['send'],
@@ -104,7 +101,6 @@ export default {
       this.messageValidation();
     },
   },
-  components: { BaseSubmitButton, SendIcon },
 };
 </script>
 
@@ -156,10 +152,7 @@ export default {
       </div>
     </div>
     <div class="buttons">
-      <BaseSubmitButton :isValid="formIsValid">
-        <span>Send</span>
-        <SendIcon />
-      </BaseSubmitButton>
+      <BaseSubmitButton :isValid="formIsValid" />
     </div>
   </form>
 </template>

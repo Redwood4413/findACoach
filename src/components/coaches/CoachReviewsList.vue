@@ -1,9 +1,5 @@
 <script lang="ts">
 import { useReviewsStore } from '@/stores/ReviewsStore';
-import CoachReviewsListItem from './CoachReviewsListItem.vue';
-
-import NotFound from '../NotFound.vue';
-import CoachReviewsListLoading from './CoachReviewsListLoading.vue';
 
 export default {
   name: 'CoachReviewsList',
@@ -44,11 +40,6 @@ export default {
   },
   mounted() {
     this.scrollToReview();
-  },
-  components: {
-    CoachReviewsListItem,
-    NotFound,
-    CoachReviewsListLoading,
   },
 };
 </script>

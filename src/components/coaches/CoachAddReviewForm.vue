@@ -2,8 +2,6 @@
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { PropType } from 'vue';
 import { StateValue } from 'xstate';
-import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
-import CoachAddReviewFormRate from './CoachAddReviewFormRate.vue';
 
 export default {
   name: 'CoachAddReviewForm',
@@ -105,10 +103,6 @@ export default {
     'rate.data': function valid() {
       this.rateValidation();
     },
-  },
-  components: {
-    BaseSubmitButton,
-    CoachAddReviewFormRate,
   },
 };
 </script>

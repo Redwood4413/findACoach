@@ -1,6 +1,5 @@
 <script lang="ts">
 import { PropType } from 'vue';
-import CoachAreasItem from './CoachAreasItem.vue';
 
 export default {
   name: 'CoachAreasList',
@@ -10,7 +9,6 @@ export default {
       required: true,
     },
   },
-  components: { CoachAreasItem },
 };
 </script>
 
@@ -21,8 +19,7 @@ export default {
       <CoachAreasItem
         v-for="(area, index) in areas"
         :key="index"
-        :area="area"
-      />
+        :area="area" />
     </div>
   </ul>
 </template>

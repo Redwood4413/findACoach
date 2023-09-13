@@ -2,10 +2,6 @@
 import { PropType } from 'vue';
 import { useReviewsStore } from '@/stores/ReviewsStore';
 import { useAuthStore } from '@/stores/AuthStore';
-import CoachRatePoint from './CoachRatePoint.vue';
-import UserAvatar from '../users/UserAvatar.vue';
-import BaseRouterLink from '../UI/BaseRouterLink.vue';
-import BaseButton from '../UI/BaseButton.vue';
 
 export default {
   name: 'CoachReviewsListItem',
@@ -19,7 +15,6 @@ export default {
       default: () => false,
     },
   },
-  // TODO: become-a-coach input validation, become-a-coach route guard
   setup() {
     const reviewsStore = useReviewsStore();
     const authStore = useAuthStore();
@@ -50,12 +45,6 @@ export default {
       const formatter = new Intl.DateTimeFormat(undefined, options);
       return formatter.format(date);
     },
-  },
-  components: {
-    CoachRatePoint,
-    UserAvatar,
-    BaseRouterLink,
-    BaseButton,
   },
 };
 </script>

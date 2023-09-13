@@ -1,15 +1,12 @@
 <script lang="ts">
-import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
-
 export default {
   name: 'CoachReviewsListLoading',
-  components: { SvgSpinnersRingResize },
 };
 </script>
 
 <template>
   <div class="loading">
-    <SvgSpinnersRingResize class="big" />
+    <svg-spinners-ring-resize />
   </div>
 </template>
 

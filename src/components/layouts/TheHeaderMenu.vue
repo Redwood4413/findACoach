@@ -1,7 +1,4 @@
 <script lang="ts">
-import TheHeaderLinks from './TheHeaderLinks.vue';
-import BaseDropdownMenu from '../UI/BaseDropdownMenu.vue';
-
 export default {
   name: 'TheHeaderMenu',
   props: {
@@ -15,7 +12,6 @@ export default {
       return this.expanded ? 'expanded' : '';
     },
   },
-  components: { TheHeaderLinks, BaseDropdownMenu },
 };
 </script>
 

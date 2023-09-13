@@ -1,8 +1,6 @@
 <script lang="ts">
 import { PropType } from 'vue';
 
-import UserAvatar from '../users/UserAvatar.vue';
-
 export default {
   name: 'RequestsReceivedListItem',
   props: {
@@ -28,7 +26,6 @@ export default {
       return `${this.request.firstName} ${this.request.lastName}`;
     },
   },
-  components: { UserAvatar },
 };
 </script>
 

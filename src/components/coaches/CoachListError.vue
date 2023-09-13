@@ -1,6 +1,4 @@
 <script lang="ts">
-import MaterialSymbolsErrorCircleRounded from '../icons/material-symbols/MaterialSymbolsErrorCircleRounded.vue';
-
 export default {
   name: 'CoachListError',
   props: {
@@ -9,13 +7,12 @@ export default {
       required: true,
     },
   },
-  components: { MaterialSymbolsErrorCircleRounded },
 };
 </script>
 
 <template>
   <div class="info">
-    <MaterialSymbolsErrorCircleRounded />
+    <material-symbols:error-circle-rounded />
     <h3>{{ errorMsg }}</h3>
   </div>
 </template>

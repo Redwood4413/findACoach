@@ -1,11 +1,5 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
-import BaseWrapper from '../UI/BaseWrapper.vue';
-import CoachListItem from './CoachListItem.vue';
-import CoachFilter from './CoachFilter.vue';
-import CoachesListNothingFound from './CoachesListNothingFound.vue';
-import CoachListLoading from './CoachListLoading.vue';
-import CoachListError from './CoachListError.vue';
 
 export default {
   name: 'CoachList',
@@ -14,14 +8,6 @@ export default {
     return {
       coachesStore,
     };
-  },
-  components: {
-    BaseWrapper,
-    CoachListItem,
-    CoachFilter,
-    CoachesListNothingFound,
-    CoachListLoading,
-    CoachListError,
   },
   computed: {
     coaches() {

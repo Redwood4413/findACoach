@@ -1,8 +1,6 @@
 <script lang="ts">
 import { useReviewsStore } from '@/stores/ReviewsStore';
 import { useAuthStore } from '@/stores/AuthStore';
-import CoachAreasList from './CoachAreasList.vue';
-import CoachAvatar from './CoachAvatar.vue';
 
 export default {
   name: 'CoachListItem',
@@ -10,10 +8,6 @@ export default {
     const reviewsStore = useReviewsStore();
     const authStore = useAuthStore();
     return { reviewsStore, authStore };
-  },
-  components: {
-    CoachAvatar,
-    CoachAreasList,
   },
   props: {
     coach: {

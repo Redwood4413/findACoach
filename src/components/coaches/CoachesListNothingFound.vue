@@ -1,9 +1,6 @@
 <script lang="ts">
-import ThinkingEmoji from '../icons/ThinkingEmoji.vue';
-
 export default {
   name: 'CoachesListNothingFound',
-  components: { ThinkingEmoji },
 };
 </script>
 

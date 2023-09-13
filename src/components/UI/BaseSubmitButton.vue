@@ -1,6 +1,5 @@
 <script lang="ts">
 import { PropType } from 'vue';
-import SvgSpinnersRingResize from '../icons/animated/SvgSpinnersRingResize.vue';
 
 export default {
   name: 'BaseSubmitButton',
@@ -35,7 +34,6 @@ export default {
       return this.shake ? 'shake' : '';
     },
   },
-  components: { SvgSpinnersRingResize },
 };
 </script>
 

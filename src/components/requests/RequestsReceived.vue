@@ -1,11 +1,9 @@
 <script lang="ts">
 import { useRequestsStore } from '@/stores/RequestsStore';
 import { useAuthStore } from '@/stores/AuthStore';
-import RequestsReceivedList from './RequestsReceivedList.vue';
 
 export default {
   name: 'RequestsReceived',
-  components: { RequestsReceivedList },
   setup() {
     const requestsStore = useRequestsStore();
     return { requestsStore };

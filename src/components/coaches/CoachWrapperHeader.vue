@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
-import CoachAvatar from './CoachAvatar.vue';
 
 export default {
   name: 'CoachWrapperTitle',
@@ -22,7 +21,6 @@ export default {
       return `${this.coach?.firstName} ${this.coach?.lastName}`;
     },
   },
-  components: { CoachAvatar },
 };
 </script>
 

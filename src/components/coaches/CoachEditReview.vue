@@ -5,9 +5,6 @@ import supabase from '@/lib/supabaseClient';
 import { useReviewsStore } from '@/stores/ReviewsStore';
 import { useMachine } from '@xstate/vue';
 import sendingMachine from '@/machines/sendingMachine';
-import CoachWrapperHeader from './CoachWrapperHeader.vue';
-import NotFound from '../NotFound.vue';
-import CoachAddReviewForm from './CoachAddReviewForm.vue';
 
 export default {
   name: 'CoachEditReview',
@@ -101,7 +98,6 @@ export default {
     }
     next();
   },
-  components: { CoachWrapperHeader, NotFound, CoachAddReviewForm },
 };
 </script>
 

@@ -1,9 +1,6 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useAuthStore } from '@/stores/AuthStore';
-// import CoachRegistrationFormInputWithSuggests from './CoachRegistrationFormInputWithSuggests.vue';
-import { RefTypes } from 'vue/macros';
-import BaseSubmitButton from '../UI/BaseSubmitButton.vue';
 import CoachRegistrationFormVueSelect, {
   Expertises,
 } from './CoachRegistrationFormVueSelect.vue';
@@ -122,10 +119,6 @@ export default {
     'cost.data': function valid() {
       this.costValidation();
     },
-  },
-  components: {
-    BaseSubmitButton,
-    CoachRegistrationFormVueSelect,
   },
 };
 </script>

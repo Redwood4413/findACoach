@@ -1,17 +1,6 @@
 <script lang="ts">
-import BaseButton from '../UI/BaseButton.vue';
-import TheHeaderLinks from './TheHeaderLinks.vue';
-
-import BaseDropdownMenu from '../UI/BaseDropdownMenu.vue';
-
 export default {
   name: 'TheHeader',
-  components: {
-    BaseButton,
-
-    TheHeaderLinks,
-    BaseDropdownMenu,
-  },
   data: () => ({
     screen: {
       width: window.innerWidth as number,
@@ -25,6 +14,7 @@ export default {
     },
   },
   methods: {
+    // @ts-ignore
     handleScroll(event) {
       this.screen.scrollY = event.currentTarget.scrollY;
     },

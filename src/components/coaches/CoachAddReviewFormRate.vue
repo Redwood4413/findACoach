@@ -1,6 +1,4 @@
 <script lang="ts">
-import BaseButton from '../UI/BaseButton.vue';
-
 export default {
   name: 'CoachAddReviewFormRate',
   emits: ['change'],
@@ -22,7 +20,6 @@ export default {
       return this.rate > index - 1 ? 'filled' : '';
     },
   },
-  components: { BaseButton },
 };
 </script>
 
@@ -37,8 +34,7 @@ export default {
         <BaseButton
           :title="`${i}/${max}`"
           @click="emitRate(i)"
-          :class="`flat ${filledClass(i)}`"
-        />
+          :class="`flat ${filledClass(i)}`" />
       </li>
     </ul>
   </div>

@@ -1,15 +1,12 @@
 <script lang="ts">
-import AvatarIcon from '../icons/AvatarIcon.vue';
-
 export default {
   name: 'UserAvatar',
-  components: { AvatarIcon },
 };
 </script>
 
 <template>
   <div class="avatar">
-    <AvatarIcon />
+    <ri:user-3-line />
   </div>
 </template>
 

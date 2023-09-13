@@ -4,11 +4,9 @@ import { useMachine } from '@xstate/vue';
 import sendingMachine from '@/machines/sendingMachine';
 import { useAuthStore } from '@/stores/AuthStore';
 import { useCoachesStore } from '@/stores/CoachesStore';
-import CoachRegistrationForm from './CoachRegistrationForm.vue';
 
 export default {
   name: 'CoachRegistration',
-  components: { CoachRegistrationForm },
   setup() {
     const authStore = useAuthStore();
     const coachesStore = useCoachesStore();

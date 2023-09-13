@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
-import BaseWrapper from '../UI/BaseWrapper.vue';
 
 export default {
   name: 'CoachFilter',
@@ -50,7 +49,6 @@ export default {
   mounted() {
     this.checked = this.coachesStore.getFilterArray;
   },
-  components: { BaseWrapper },
 };
 </script>
 
@@ -61,7 +59,9 @@ export default {
     <div class="input-wrapper">
       <div class="option">
         <input type="checkbox" id="ruleALl" v-model="isAllChecked" />
-        <label for="ruleAll" @click="switchAll" @keydown="switchAll">All</label>
+        <label for="ruleAll" @click="switchAll" @keydown="switchAll"
+          >All</label
+        >
       </div>
       <div class="option" v-for="(area, index) in areas" :key="index">
         <input
@@ -69,8 +69,7 @@ export default {
           :id="area"
           :value="area"
           v-model="checked"
-          @change="filterCoaches"
-        />
+          @change="filterCoaches" />
         <label :for="area">{{ area }}</label>
       </div>
     </div>

@@ -6,9 +6,6 @@ import ShortUniqueId from 'short-unique-id';
 import { useReviewsStore } from '@/stores/ReviewsStore';
 import { useMachine } from '@xstate/vue';
 import sendingMachine from '@/machines/sendingMachine';
-import CoachWrapperHeader from './CoachWrapperHeader.vue';
-import NotFound from '../NotFound.vue';
-import CoachAddReviewForm from './CoachAddReviewForm.vue';
 
 export default {
   name: 'CoachAddReview',
@@ -95,11 +92,6 @@ export default {
       return;
     }
     next();
-  },
-  components: {
-    CoachWrapperHeader,
-    NotFound,
-    CoachAddReviewForm,
   },
 };
 </script>

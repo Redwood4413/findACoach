@@ -1,11 +1,9 @@
 <script lang="ts">
-import { RouteRecordName, RouterView } from 'vue-router';
+import { RouteRecordName } from 'vue-router';
 import { useReviewsStore } from '@/stores/ReviewsStore';
-import BaseDialog from '../UI/BaseDialog.vue';
 
 export default {
   name: 'CoachWrapper',
-  components: { BaseDialog, RouterView },
   methods: {
     checkIfAbsolutePath(name: RouteRecordName | null | undefined) {
       if (name === 'details') {

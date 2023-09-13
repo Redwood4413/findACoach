@@ -1,9 +1,5 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
-import NotFound from '../NotFound.vue';
-import CoachReviewsList from './CoachReviewsList.vue';
-
-import CoachWrapperHeader from './CoachWrapperHeader.vue';
 
 export default {
   name: 'CoachReviews',
@@ -25,11 +21,6 @@ export default {
     isFound(): boolean {
       return !!this.coach;
     },
-  },
-  components: {
-    NotFound,
-    CoachReviewsList,
-    CoachWrapperHeader,
   },
 };
 </script>

@@ -1,15 +1,12 @@
 <script lang="ts">
-import AvatarIcon from '../icons/AvatarIcon.vue';
-
 export default {
   name: 'CoachAvatar',
-  components: { AvatarIcon },
 };
 </script>
 
 <template>
   <div class="avatar">
-    <AvatarIcon />
+    <ri:user-3-line />
   </div>
 </template>
 
@@ -20,13 +17,14 @@ export default {
   padding: 20px;
   height: 80px;
   width: 80px;
-  align-self: center;
+  // align-self: center;
   aspect-ratio: 1/1;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   svg {
     height: 80px;
+    color: $background-0;
   }
   &.big {
     width: 130px;
