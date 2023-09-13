@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useCoachesStore } from '@/stores/CoachesStore';
 import { useReviewsStore } from '@/stores/ReviewsStore';
-
 import { useAuthStore } from '@/stores/AuthStore';
 
 export default {
@@ -90,9 +89,10 @@ export default {
               mode="rounded"
               :to="{
                 name: 'reviews',
-                hash: `#${reviewsStore.reviewIdByAuthor(
-                  authStore.userId
-                )?.reviewId}`,
+                hash: `#${
+                  reviewsStore.reviewIdByAuthor(authStore.userId)
+                    ?.reviewId
+                }`,
               }"
               v-if="
                 reviewsStore.isReviewFound(authStore.userId) &&

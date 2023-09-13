@@ -28,7 +28,9 @@ export default {
 </script>
 
 <template>
-  <button type="button" :class="`${flatClass} ${roundedClass} ${squareClass}`">
+  <button
+    type="button"
+    :class="`${flatClass} ${roundedClass} ${squareClass}`">
     <slot />
   </button>
 </template>
